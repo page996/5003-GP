@@ -409,7 +409,6 @@ function build(): void {
     countries,
     topoFeatures: topoFeatures.length,
     topoIds: topoFeatures.filter(item => numericCode(item.id) !== null).length,
-    worldCountryCount: worldCountries.length,
   });
   writeFileSync(PATHS.outputReport, report, 'utf8');
 
@@ -558,11 +557,10 @@ interface ReportInput {
   countries: CountryPathEntry[];
   topoFeatures: number;
   topoIds: number;
-  worldCountryCount: number;
 }
 
 function renderReport(input: ReportInput): string {
-  const { stats, catalog, csvCodes, csvUnknown, labels, jsonBytes, countries, topoFeatures, topoIds, worldCountryCount } = input;
+  const { stats, catalog, csvCodes, csvUnknown, labels, jsonBytes, countries, topoFeatures, topoIds } = input;
   const catalogCount = catalog.length;
   const polygonCount = countries.length;
   const csvCount = csvCodes.length;
@@ -616,6 +614,10 @@ npm run geo:build
 | 目录国家质心数 | ${catalogCount} / ${catalogCount}（全部目录代码） |
 | 标签锚点 | ${labels.length} 个 |
 
+> 结构说明：除约定字段 \`projection / width / height / sphere / graticule / countries / centroids / labels / unmapped\`
+> 外，额外输出 \`equator\` 与 \`primeMeridian\` 两条 path，用于按设计规范把赤道 / 本初子午线画亮一点；
+> 前端可选用，不读取也不影响兼容性。
+
 ## 3. 覆盖统计
 
 | 指标 | 数量 | 说明 |
@@ -635,7 +637,7 @@ npm run geo:build
 
 ${pointOnlyLines}
 
-这些国家/地区在地图上以半径 3.2px 的圆点 + 10px 透明热区渲染，点击仍会打开国家档案；hover 放大 1.5 倍并显示浮层。它们没有独立的多边形，是因为 Natural Earth 1:50m 简化下这些小岛/属地被并入母国要素或直接省略（如法属圭亚那、留尼汪并入法国要素范围外，Bouvet 岛、托克劳等面积过小）。
+这些国家/地区在地图上以投影质心为圆心、半径 3.2px 的圆点 + 10px 透明点击热区渲染，点击仍会打开国家档案；hover 放大 1.5 倍并显示浮层。缺少独立多边形的原因是 Natural Earth 1:50m 的简化：一部分小岛/属地作为母国要素的一部分出现（如法属海外省、斯瓦尔巴与扬马延），另一部分因面积过小被直接省略（如布维岛、托克劳、图瓦卢）。
 
 ### 3.2 重复 ISO2 的 TopoJSON 要素
 
@@ -647,13 +649,14 @@ ${unmappedFeatureLines}
 
 ## 4. 前端阈值（与地图组件对齐）
 
-- **微国家圆点**：无 polygon 的国家 + \`area < 20 px²\` 的多边形国家（如梵蒂冈、摩纳哥、新加坡等）在质心位置额外绘制圆点与热区，避免点击不到；面积单位是 Equal Earth 投影后的 px²。
+- **微国家圆点**：无 polygon 的国家 + \`area < 20 px²\` 的多边形国家（如梵蒂冈、摩纳哥、新加坡等）在质心位置额外绘制圆点 + 10px 透明热区，避免点击不到；面积单位是 Equal Earth 投影后的 px²。圆点屏幕半径恒定为 3.2px（前端用 ResizeObserver 换算，不随舞台宽度伸缩），颜色在 category 模式跟随政策组、在 completeness 模式用薄荷绿强度，无资料国家用天空蓝兜底。
+- **hover / selected**：hover 覆盖层在最后绘制（1.6px 类别色 / 薄荷绿描边 + 外发光 + 上浮），selected 覆盖层为金色 2px 描边 + 发光 + 质心脉冲点；两者都由前端 \`client/features/map/map.css\` 实现，本文件只提供几何与质心。
 - 面积最小的 12 个已映射国家（用于校核阈值）：
 
 ${smallest.map(item => `  - ${item.iso2}：${item.area} px² @ (${item.cx}, ${item.cy})`).join('\n')}
 
-- **selected 聚焦**：以 \`centroids\` 为焦点，缩放约 2.2×。
-- **标签分级**：低缩放显示 rank ≤ 8，继续放大依次显示 rank ≤ 14 / 20 / 24；最多 ${labels.length} 个，避免遮挡。
+- **selected 聚焦**：以 \`centroids\` 为焦点，缩放约 2.2×。质心规则：有 polygon 时取「面积最大的多边形」的球形质心再投影（避免俄罗斯/斐济等跨反经线国家质心落进大西洋），无 polygon 时用 \`world-countries\` 的 \`latlng\` 投影。
+- **标签分级**：低缩放显示 rank ≤ 8（窄舞台自动降到 6），继续放大依次显示 rank ≤ 14 / 20 / 24（窄舞台为 12 / 18 / 24）；中文名字号按屏幕恒定为约 9.6px（非 SVG 用户单位），最多 ${labels.length} 个，避免遮挡。
 
 ## 5. 视觉锚点标签
 

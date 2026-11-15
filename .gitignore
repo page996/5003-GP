@@ -8,6 +8,8 @@ local/
 backups/
 coverage/
 .mysql/
+tmp/
+.esbuild-tmp/
 data/visaatlas.sqlite
 data/visaatlas.sqlite-*
 *.log

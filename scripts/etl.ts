@@ -507,10 +507,12 @@ async function main() {
     completeness = Math.min(completeness, 55);
 
     const typeLabel = typeByCode.get('TOURISM')?.nameZh ?? '旅游观光';
+    // 注意：不把“其他常见签证类型”原文并入旅游签 search_text，否则搜索「商签」会误命中旅游签卡片；
+    // 类型线索由 mentioned_visa_types.raw_text 在 DB 侧按所选签证类型单独匹配。
     const searchText = [
       country.nameZh, country.nameEn, country.iso2, ...country.aliases,
       row.rawCategory, category.nameZh, category.nameEn, groupByCode.get(category.group)?.nameZh ?? '',
-      typeLabel, row.description, row.otherTypes,
+      typeLabel, row.description,
     ].join(' ').toLowerCase();
 
     policies.push({
@@ -654,9 +656,11 @@ async function main() {
 
   /* ---------------- 组装并写出 dataset ---------------- */
   const allPolicies = [...policies, ...demoPolicies];
+  // 内容指纹：同一批数量但字段修订时，datasetVersion 也会变化，便于发现“库没刷新”
+  const contentHash = sha256(JSON.stringify({ countries, policies: allPolicies, mentions, synonyms })).slice(0, 8);
   const dataset: DatasetFile = {
     schemaVersion: '2.0',
-    datasetVersion: `v1.0.0-csv${policies.length}-demo${demoPolicies.length}-syn${synonyms.length}`,
+    datasetVersion: `v1.0.0-csv${policies.length}-demo${demoPolicies.length}-syn${synonyms.length}-${contentHash}`,
     generatedAt: GENERATED_AT,
     source: {
       file: 'data/source/global_249_countries_cn_passport_visa.csv',

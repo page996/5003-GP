@@ -8,9 +8,10 @@ interface ToggleProps {
   hint?: ReactNode;
   className?: string;
   disabled?: boolean;
+  testId?: string;
 }
 
-export function Toggle({ checked, onChange, label, hint, className, disabled }: ToggleProps) {
+export function Toggle({ checked, onChange, label, hint, className, disabled, testId }: ToggleProps) {
   return (
     <button
       type="button"
@@ -19,6 +20,7 @@ export function Toggle({ checked, onChange, label, hint, className, disabled }: 
       className={cx('va-switch', checked && 'is-on', className)}
       onClick={() => onChange(!checked)}
       disabled={disabled}
+      data-testid={testId}
     >
       <span className="va-switch__text">
         <span className="va-switch__label">{label}</span>

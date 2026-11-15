@@ -1,105 +1,198 @@
-# Visa Atlas · 六人共享开发 Base
+# Visa Atlas · 世界签证图谱
 
-桌面 Web 签证资料检索、地图探索及「个人条件＋出行意图」推荐。六人从同一份可运行底座继续开发，不再各写一套项目、接口或数据库。
+> **中国普通护照出境签证查询与地图探索系统**（课程项目）
+> 以小组整理的 **249 个国家/地区旅游签数据** 完成真实落地：自绘世界地图 + 悬停边界高亮 + 点击国家档案 + 服务端多条件检索。
+> 数据为公开信息整理与演示样本，**非官方、不可作为申请依据**。
 
-**交付状态：工程底座，不是已完成的全球签证数据库。**
+![探索页](docs/screenshots/explore.png)
 
-- 250 个国家与地区目录，91 个首批重点候选目的地；全部保留七类用途任务。
-- 真实签证资料目前 **0 条**。`data/policies.json` 是空的真实资料集合。
-- 9 条明确标注为虚构的演示路线，只用于测试资料展示、搜索、推荐与维护流程，不能用于申请。
-- 完整资料字段没有缩减；未知事实允许 `null`。个人条件与意图推荐没有删除。
-- 高德 JS API 加载与点击联动已预留；未提供项目 Key，实际高德服务尚未验收。无 Key 时显示明确标注的坐标示意，不冒充高德底图。
-- 只做桌面浏览器，不要求手机适配、账户系统、自动采集、实时更新或复杂运维平台。
+| 地图悬停 | 国家档案 | 列表模式 |
+|---|---|---|
+| ![地图悬停](docs/screenshots/map-hover.png) | ![国家档案](docs/screenshots/dossier.png) | ![列表模式](docs/screenshots/list-view.png) |
 
-## 1. 先跑起来
+## 1. 项目定位
 
-需要 Node.js 22+、npm。演示模式不需要 MySQL，也不需要高德 Key。
+| | 内容 |
+|---|---|
+| 课程主题 | 数据库全栈开发（关系模型、索引、视图、约束、事务、SQLite/MySQL 双模式、后端 API、前端交互） |
+| 本轮范围 | 249 国旅游签摘要真实数据；地图、搜索、分面筛选、国家档案、数据质量说明全链路 |
+| 不在范围 | 手机端、账户体系、后台管理、自动采集、实时更新、获签概率预测 |
+| 外部服务依赖 | **无**。地图几何在构建期由 `world-atlas` 生成，运行期不联网、不需要任何地图 Key |
+
+## 2. 快速开始
+
+要求：**Node.js 24+**（使用内置 `node:sqlite`）、npm。
 
 ```powershell
-npm ci
-Copy-Item .env.example .env
+npm install
+npm run setup     # ETL 数据 → 地图几何 → 初始化并导入 SQLite
+npm run dev       # API :3001 + Web :5173
+```
+
+打开 <http://127.0.0.1:5173>。首次启动会自动使用 `data/visaatlas.sqlite`；若数据库文件不存在，API 启动时会自动建库并导入 `data/generated/dataset.json`。
+
+生产构建（同源提供页面与 API）：
+
+```powershell
+npm run build
+npm start          # http://127.0.0.1:3001
+```
+
+### MySQL 8（课程数据库路径，可选）
+
+```powershell
+Copy-Item .env.mysql.example .env     # 填入本机 MySQL 账号
+npm run data:build
+npm run db:init:mysql                 # 建表（需 DB_ADMIN_*）
+npm run db:seed:mysql                 # 从 data/generated/dataset.json 幂等导入
 npm run dev
 ```
 
-浏览器打开 <http://127.0.0.1:5173>。API 默认 <http://127.0.0.1:3001>。
-`.env` 的 `PORT` 若改动，需要同步调整 `vite.config.ts` 的开发代理。
+SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mysql.sql`），API 响应完全一致，页面页脚显示当前模式。
 
-构建后以同一服务提供页面和 API：
+## 3. 已实现功能
 
-```powershell
-npm run build
-npm start
-```
+### 3.1 地图探索
 
-打开 <http://127.0.0.1:3001>。所有命令都在仓库根目录执行。不要直接双击 `index.html`。
+- 自绘 **Equal Earth** 投影世界地图：236 个国家级多边形 + 14 个无多边形微国家可点击圆点，覆盖全部 250 个目录国家与地区。
+- 鼠标悬停：国家边界发光、轻微上浮、其余国家变暗，跟随鼠标显示「国家 / 政策组 / 停留期」浮层。
+- 点击国家：地图平滑聚焦到该国，右侧打开**国家档案**（政策结论、停留期、原始条件、资料完整度、类型线索、来源与限制）。
+- 支持拖拽平移、滚轮缩放（0.9–8×）、双击放大、缩放按钮与重置；`/` 聚焦搜索；地图/列表两种浏览模式。
+- 着色模式：按「政策组」或「资料完整度」切换；筛选联动地图：未命中目的地变暗，命中地区可悬停联动高亮。
 
-## 2. 成员阅读顺序
+### 3.2 搜索与筛选（服务端）
 
-1. [六人分工与阶段安排](docs/TEAM.md)：先看自己接手什么、哪些不用重做。
-2. [A：数据采集与建库](docs/roles/A-collection.md)；[B：验证与更新](docs/roles/B-verification.md)。A 文件内直接附完整建表 SQL。
-3. [C：后端整合](docs/roles/C-backend.md)；[D：接线与验收](docs/roles/D-integration.md)。
-4. [E：搜索与推荐界面](docs/roles/E-search.md)；[F：动态地图](docs/roles/F-map.md)。
-5. [数据与维护](docs/DATA.md)、[接口约定](docs/API.md)、[双边交接协议](docs/agreements/README.md)。
-6. [仓库协作与统一验收](docs/CONTRIBUTING.md)、[覆盖推进](docs/COVERAGE.md)、[验证记录及限制](docs/STATUS.md)。
+- 顶部搜索框 + 300ms 联想下拉（国家、别名、政策类别、签证类型、关键词），支持 ↑↓/Enter/Esc 键盘操作。
+- 关键词分词 AND 检索：国家中英文名、ISO2、别名、政策摘要、原始分类、其他类型线索；**351 条同义词**扩展（英国/UK、商签/商务签证、电子签/e-visa…）。
+- 分面筛选：地区、政策组、16 个细分签证类别、12 种签证用途（默认旅游）、6 档停留期、资料状态、91 个重点候选、是否包含演示明细。
+- 分面计数、分页（默认 24，上限 96）、四种排序（相关度/名称/停留期/完整度）全部在后端 SQL 完成；前端不做全量过滤。
+- URL 同步当前筛选与选中目的地，刷新/分享可复现。
 
-## 3. 本地 MySQL
+### 3.3 国家档案
 
-MySQL 8.0.16+，建议 8.0 最新维护版。仅绑定本机，不向公网开放 3306。
-先由本机数据库所有者执行以下示例，替换密码；不要把实际密码写入仓库或 PR：
+- 政策卡：类别徽章、是否需要签证、停留期（含「180 天内累计不超过 90 天」等规则）、入境次数、条件原文引用、来源原始分类。
+- 资料完整度环 + 「费用 / 材料 / 审核时间：待采集」三宫格（真实数据未采集的字段不编造）。
+- 其他常见签证类型线索 chips（点击即以该类型检索；例如「日本 · 商务访问」目前只有线索或被采集为演示明细）。
+- 来源、批次、路线编号、核验状态与免责声明；演示明细单独金色区块持续标注。
 
-```sql
-CREATE DATABASE IF NOT EXISTS visa_atlas
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-CREATE USER 'visa_admin'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_LOCAL_ADMIN_PASSWORD';
-CREATE USER 'visa_reader'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_LOCAL_READER_PASSWORD';
-GRANT ALL PRIVILEGES ON visa_atlas.* TO 'visa_admin'@'127.0.0.1';
-GRANT SELECT ON visa_atlas.* TO 'visa_reader'@'127.0.0.1';
-```
+### 3.4 数据与数据库
 
-若服务器按 `localhost` 匹配本地账户，请按本机设置创建对应账户，不使用 `%` 放开远程访问。`.env` 填入 `DB_ADMIN_*` 和 `DB_USER/DB_PASSWORD`，执行：
+- 真实数据：**249 条旅游签政策**（250 个国家目录中仅 `XK` 未采集），CSV 原始 76 种分类归一化为 16 个可筛选类别 / 5 个政策组。
+- 结构线索：**569 条**「其他国家还有商务/留学/工作等签证」线索，提前支撑未来扩展。
+- 演示明细：**22 条**，覆盖商务/留学/工作/探亲/医疗/居留/数字游民/黄金签证/打工度假/科研 10 类，用于验证未来字段与界面，默认不展示，开启后持续标注「演示」。
+- 数据库：15 张表 + 2 个视图 + 完整外键/CHECK/索引；SQLite（默认，零安装）与 MySQL 8（同构）。
+- 数据链路：`CSV → scripts/etl.ts → data/generated/dataset.json → scripts/db-seed.ts → SQLite/MySQL`，可重放、可校验、可 diff。
 
-```powershell
-npm run db:init
-npm run data:validate -- data/policies.json
-```
+## 4. 数据与来源
 
-这只建立 8 张表和国家／用途字典，不生成真实政策。按照 [维护步骤](docs/DATA.md) 导入已核验批次，再把 `DATA_MODE=mysql` 并重启 API。空库显示待收集是正常行为。MySQL 故障不会悄悄替换成演示资料。
+| 项目 | 说明 |
+|---|---|
+| 真实数据 | `data/source/global_249_countries_cn_passport_visa.csv`（小组整理，249 行） |
+| 来源等级 | `SINGLE_SOURCE`：小组汇总，无逐国官方链接；界面与文档持续提示以官方公告为准 |
+| 当前成熟度 | `SUMMARY_ONLY`：政策类别 + 一句摘要 + 抽取的停留期；费用/材料/审核时间/个人条件规则未采集 |
+| 未采集国家 | `XK`（目录保留，档案显示「尚未纳入本轮采集」） |
+| 演示数据 | `data/source/demo-details.json`（22 条，完全虚构，`is_demo=1`） |
+| 同义词 | `data/source/synonyms.json`（351 条，检索辅助，不含政策事实） |
+| 地图数据 | `world-atlas@2`（Natural Earth 1:50m，公共领域）；国家目录来自 `world-countries`（ODbL-1.0，见 `data/ATTRIBUTION.md`） |
+| 质量报告 | `data/generated/report.md`（分类分布、停留期解析、未识别类型词、名称差异） |
 
-开发者可各有自己的本地数据库；演示用统一库由 B 手动更新，C 维护连接。公开仓库共享的是代码、可公开的资料和版本记录，不是运行中的数据库。
-
-## 4. 地图设置
-
-`VITE_AMAP_KEY` 是浏览器侧 Key，会进入前端构建文件，必须在高德控制台配置对应来源限制。
-`VITE_AMAP_SERVICE_HOST` 指向你们按高德当期官方要求部署的安全代理；**本 base 未实现该代理**。安全密钥只留在服务端，禁止放进 `VITE_*` 或提交到 GitHub。F 与 C 共同完成真实服务设置并验收后，才可宣称高德可用。
-
-官方参考：<https://lbs.amap.com/api/javascript-api-v2/guide/abc/load>。上线时重新核对官方文档、授权、全球地图展示能力及服务条款。只有本地坐标示意可用时，不算完成高德验收。
-
-## 5. 已有工程与检查
-
-```text
-client/features/    地图、搜索、推荐表单、完整资料展示
-server/domain/     数据校验与可解释推荐规则
-server/services/   目录读取、事务式维护
-server/infrastructure/  MySQL 读写
-shared/contracts.ts     前后端共用字段约定
-database/schema.sql     完整建表语句
-data/              地理目录、覆盖任务、资料模板、演示夹具
-scripts/           初始化、校验、导入计划、应用、导出
-tests/             业务、API、真实 MySQL 集成检查
-docs/              分工、双边协议、更新与验收办法
-```
+重新生成与校验：
 
 ```powershell
-npm test
-npm run build
-npm run data:coverage
-npm audit
+npm run data:build     # CSV + 演示 + 同义词 → dataset.json / report.json / report.md
+npm run data:check     # 结构、枚举、外键引用、数量与边界校验
+npm run geo:build      # world-atlas 50m → data/geo/world-paths.json
+npm run db:rebuild     # 重建 SQLite 并幂等导入
 ```
 
-真实 MySQL 集成测试会修改指定测试库，只能按 [验收说明](docs/CONTRIBUTING.md) 在专用测试库运行。不要拿组内正式资料库测试。
+## 5. 数据库设计一览
 
-## 6. 数据与许可
+```
+regions ─< countries ─< visa_policies >─ visa_types
+                │             ├─< policy_documents
+                │             ├─< policy_fees
+                │             ├─< policy_timings
+                │             ├─< policy_rules
+                │             └─> data_sources / data_batches
+                └─< mentioned_visa_types >─ visa_types
+policy_groups ─< visa_categories ─< visa_policies
+search_synonyms / app_meta
+```
 
-国家目录来自 `world-countries@5.1.0` / [mledoze/countries](https://github.com/mledoze/countries)，许可证 ODbL-1.0，详见 [数据署名](data/ATTRIBUTION.md)。地理目录不是签证政策依据。未为项目代码擅自添加开源许可证；仓库公开不等于自动授予任意复制再分发许可，正式发布前由仓库所有者决定。
+- 关键视图：`v_country_map`（地图着色与统计）、`v_policy_cards`（卡片字段统一）。
+- 关键约束：`route_code` 稳定主键；`is_demo`/`data_status` 隔离演示与摘要；`completeness` 0–100；`stay_rule` 支持滚动窗口；金额/币种成对。
+- 完整字段、索引与扩展规则见 [docs/DATA-DICTIONARY.md](docs/DATA-DICTIONARY.md)。
 
-![桌面探索页面](docs/screenshots/explore.png)
+## 6. API
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| GET | `/api/health` | 存活、数据库模式、数据集版本 |
+| GET | `/api/v1/overview` | 元信息 + 统计 + 地图着色 + 字典（首屏一次） |
+| GET | `/api/v1/search` | 关键词 + 地区/政策组/类别/用途/停留期/资料状态/重点候选/演示 + 分面 + 分页 + 排序 |
+| GET | `/api/v1/suggest?q=` | 搜索联想（≤8 条） |
+| GET | `/api/v1/countries/:iso2?demo=1` | 国家档案（真实政策、类型线索、演示明细、来源） |
+| GET | `/api/v1/route/:routeCode` | 单条路线（深链） |
+
+约定：`{data}` / `{error:{code,message,details?}}`；参数校验、参数化 SQL、`no-store`、速率限制（240 次/分钟）。详见 [docs/API.md](docs/API.md)。
+
+## 7. 测试与验收
+
+```powershell
+npm test             # 77 tests / 76 pass / 1 skip（MySQL 用例未启用时跳过）
+npm run test:mysql   # 需要可用 MySQL（读取 .env 或环境变量），5/5 pass
+npm run e2e          # Playwright + 系统 Chrome 浏览器验收（需先 npm run dev）
+npm run screenshots  # 生成 docs/screenshots 截图
+```
+
+浏览器验收覆盖：首屏渲染、搜索、筛选、地图悬停/点击、国家档案、演示开关、空态/错误态、控制台无报错。完整证据见 [docs/VERIFICATION.md](docs/VERIFICATION.md)。
+
+## 8. 项目结构
+
+```
+client/                 React 19 前端
+  features/map/         自绘 SVG 世界地图（几何、悬停、缩放、聚焦）
+  features/search/      全局搜索与联想
+  features/filters/     分面筛选栏
+  features/results/     结果列表/卡片
+  features/details/     国家档案抽屉
+  styles.css            设计令牌与全局样式
+server/                 Fastify API（SQLite / MySQL 仓储、服务层、路由）
+shared/                 前后端共享类型 + ETL 产物类型
+database/               SQLite / MySQL 建表 SQL
+scripts/                etl.ts · check-data.ts · build-geo.ts · db-*.ts
+data/                   source（原始数据）· generated（ETL 产物）· geo（地图几何）
+tests/                  node:test + Playwright 验收
+docs/                   架构、审计、设计规范、API、数据字典；legacy-base 为旧版归档
+```
+
+## 9. 扩展方式（未来采集到更多数据时）
+
+1. 把新批次放进 `data/source/`，在 `scripts/etl.ts` 中合并（字段格式见 `shared/dataset.ts`）。
+2. 真实明细的 `data_status` 从 `SUMMARY_ONLY` 升为 `PARTIAL/DETAILED`，填写 `documents/fees/timings/rules` 与真实 `source_id`。
+3. 运行 `npm run data:build && npm run data:check && npm run db:seed`（MySQL 用 `db:seed:mysql`）。
+4. 前端筛选器、地图、档案会自动使用新类型/新字段，无需改 UI 代码。
+
+`data/source/README.md` 说明了数据来源、字段含义与演示数据边界。
+
+## 10. 已知限制与免责声明
+
+- 本轮真实数据为**摘要级**：没有逐国官方 URL、费用、材料、审核时间与完整个人条件规则；界面用「待采集」呈现，不编造。
+- 政策分类归一化存在解释空间；复合路线（如「落地签/电子签」）按来源顺序归入主类别，次选方式保留原文。
+- 停留期由中文文本规则抽取（132/249 条可解析），可能与最新政策有出入。
+- 演示明细为完全虚构样本，仅用于展示未来类型与字段；开启后界面持续标注，不可用于申请。
+- 自绘地图部分微国家以圆点呈现；不依赖任何地图服务，但也不提供卫星底图/街道级细节。
+- 仅面向桌面 Web（≥1180px）。
+
+> 本项目的签证信息来自公开资料整理与虚构演示样本，未经使领馆逐条确认，不构成签证、法律或出行建议。请以中国领事服务网与目的地使领馆最新公告为准。
+
+## 11. 文档索引
+
+- [docs/AUDIT-BASE.md](docs/AUDIT-BASE.md)：对 base v0.1 的审计与本轮修订决策
+- [docs/VERIFICATION.md](docs/VERIFICATION.md)：测试、构建、浏览器与 MySQL 验收记录
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)：系统架构、数据链路、扩展点
+- [docs/API.md](docs/API.md)：接口约定与检索语义
+- [docs/DATA-DICTIONARY.md](docs/DATA-DICTIONARY.md)：数据库字段、视图、索引、成熟度
+- [docs/DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md)：视觉与交互规范
+- [data/geo/REPORT.md](data/geo/REPORT.md)：地图几何覆盖与生成说明
+- [data/generated/report.md](data/generated/report.md)：ETL 数据质量报告

@@ -1,0 +1,465 @@
+/**
+ * Visa Atlas v1.0 · 地图舞台内部样式
+ *
+ * 只服务 `client/features/map/WorldMap.tsx`，类名统一 `va-map-*`。
+ * 颜色/字体全部引用全局设计令牌 var(--va-*)，并用合理 fallback 兜底，
+ * 不新增全局样式、不修改 client/styles.css。
+ */
+
+/* ------------------------------------------------------------------ */
+/* 容器与 SVG                                                         */
+/* ------------------------------------------------------------------ */
+
+.va-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--va-radius-md, 12px);
+  color: var(--va-text, #edf3f5);
+  font-family: var(--va-font-sans, "Manrope Variable", "PingFang SC", "Microsoft YaHei UI", sans-serif);
+  background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.va-map-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  outline: none;
+  touch-action: none;
+}
+
+.va-map.is-dragging .va-map-svg {
+  cursor: grabbing;
+}
+
+.va-map:focus-visible,
+.va-map-svg:focus-visible {
+  outline: 2px solid var(--va-mint, #74e8c0);
+  outline-offset: -2px;
+  border-radius: var(--va-radius-md, 12px);
+}
+
+.va-map-svg:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* 海洋 / 经纬网底图                                                   */
+/* ------------------------------------------------------------------ */
+
+.va-map-sphere {
+  fill: none;
+  stroke: rgba(140, 180, 200, 0.18);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.va-map-graticule {
+  fill: none;
+  stroke: rgba(140, 180, 200, 0.07);
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.va-map-graticule--major {
+  stroke: rgba(170, 205, 220, 0.15);
+}
+
+/* ------------------------------------------------------------------ */
+/* 国家填充与描边                                                      */
+/* ------------------------------------------------------------------ */
+
+.va-map-country {
+  stroke: rgba(150, 190, 210, 0.22);
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  outline: none;
+  transition:
+    opacity 180ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.va-map[data-color-mode="completeness"] .va-map-country {
+  stroke: rgba(116, 232, 192, 0.16);
+}
+
+/* 检索未命中 / 地区筛选外的国家：变暗但仍可点击 */
+.va-map-country.is-dim {
+  opacity: 0.22;
+}
+
+/* highlightRegion：本地区轻微提亮 */
+.va-map-country.is-spotlight {
+  filter: brightness(1.16) saturate(1.06);
+}
+
+/* hover 任意国家时，其余国家轻微变暗；hover 覆盖层单独绘制在最上方 */
+.va-map.is-hovering .va-map-country {
+  opacity: 0.72;
+}
+
+.va-map.is-hovering .va-map-country.is-dim {
+  opacity: 0.18;
+}
+
+/* ------------------------------------------------------------------ */
+/* hover / selected 覆盖层（最后绘制，避免被邻国遮住）                 */
+/* ------------------------------------------------------------------ */
+
+.va-map-hover-overlay {
+  fill: var(--va-map-hover-color, #74e8c0);
+  fill-opacity: 0.34;
+  stroke: var(--va-map-hover-color, #74e8c0);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px var(--va-map-hover-color, #74e8c0));
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translateY(calc(-1 * var(--va-map-lift, 3px))) scale(1.012);
+}
+
+.va-map-selected-overlay {
+  fill: var(--va-map-selected-fill, rgba(231, 198, 140, 0.28));
+  stroke: var(--va-gold, #e7c68c);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  filter: drop-shadow(0 0 9px rgba(231, 198, 140, 0.7));
+}
+
+.va-map-selected-pulse {
+  fill: var(--va-gold, #e7c68c);
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: va-map-pulse 1.9s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+}
+
+@keyframes va-map-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.95;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 微国家圆点                                                          */
+/* ------------------------------------------------------------------ */
+
+.va-map-dot {
+  cursor: pointer;
+}
+
+.va-map-dot__hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.va-map-dot__body {
+  fill: var(--va-map-dot-fill, var(--va-sky, #8ccbff));
+  fill-opacity: 0.85;
+  stroke: rgba(7, 12, 22, 0.72);
+  stroke-width: 0.8;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    fill-opacity 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 160ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* 无多边形国家：保留 3.2px 圆点与完整可点击性 */
+.va-map-dot--unmapped .va-map-dot__body {
+  fill-opacity: 0.88;
+}
+
+/*
+ * 有极小多边形的小国：默认半径 2.4px、约 0.6 透明度、降低饱和度，避免默认视图变成散点图；
+ * hover / selected 时恢复清晰（命中热区始终 10px，交互不变）。
+ */
+.va-map-dot--tiny .va-map-dot__body {
+  fill-opacity: 0.55;
+  stroke-opacity: 0.42;
+  filter: saturate(0.6) brightness(0.92);
+}
+
+.va-map-dot:hover .va-map-dot__body,
+.va-map-dot:focus-visible .va-map-dot__body {
+  transform: scale(1.5);
+  fill-opacity: 1;
+  stroke-opacity: 0.72;
+  filter: none;
+}
+
+.va-map-dot.is-dim {
+  opacity: 0.22;
+}
+
+.va-map.is-hovering .va-map-dot {
+  opacity: 0.72;
+}
+
+.va-map.is-hovering .va-map-dot.is-dim {
+  opacity: 0.16;
+}
+
+.va-map-dot.is-selected .va-map-dot__body {
+  fill: var(--va-gold, #e7c68c);
+  fill-opacity: 1;
+  stroke: rgba(7, 12, 22, 0.8);
+  filter: none;
+}
+
+.va-map-dot--tiny.is-selected .va-map-dot__body {
+  transform: scale(1.2);
+}
+
+.va-map-dot.is-selected .va-map-dot__hit {
+  stroke: var(--va-gold, #e7c68c);
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* 视觉锚点标签                                                        */
+/* ------------------------------------------------------------------ */
+
+.va-map-label {
+  font-family: var(--va-font-sans, "Manrope Variable", "PingFang SC", "Microsoft YaHei UI", sans-serif);
+  letter-spacing: 0.02em;
+  fill: var(--va-text-2, #a8bcc7);
+  opacity: 0.55;
+  paint-order: stroke;
+  stroke: rgba(7, 12, 22, 0.82);
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* 缩放控件（右下角竖排玻璃按钮）                                      */
+/* ------------------------------------------------------------------ */
+
+.va-map-controls {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.va-map-zoom {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--va-line-strong, rgba(160, 190, 210, 0.26));
+  border-radius: 10px;
+  background: rgba(13, 23, 38, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--va-text-2, #a8bcc7);
+  cursor: pointer;
+  transition:
+    color 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    background 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 120ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.va-map-zoom:hover {
+  color: var(--va-mint, #74e8c0);
+  border-color: rgba(116, 232, 192, 0.5);
+  background: rgba(20, 33, 52, 0.9);
+}
+
+.va-map-zoom:active {
+  transform: translateY(1px);
+}
+
+.va-map-zoom:focus-visible {
+  outline: 2px solid var(--va-mint, #74e8c0);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* 跟随鼠标的玻璃浮层                                                  */
+/* ------------------------------------------------------------------ */
+
+.va-map-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  width: 232px;
+  padding: 11px 13px 10px;
+  border: 1px solid var(--va-line-strong, rgba(160, 190, 210, 0.26));
+  border-radius: var(--va-radius-md, 12px);
+  background: rgba(10, 18, 31, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.46);
+  color: var(--va-text, #edf3f5);
+  pointer-events: none;
+  will-change: transform;
+  font-family: var(--va-font-sans, "Manrope Variable", "PingFang SC", "Microsoft YaHei UI", sans-serif);
+}
+
+.va-map-tooltip__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.va-map-tooltip__zh {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+.va-map-tooltip__en {
+  font-size: 10px;
+  color: var(--va-text-3, #6e8591);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.va-map-tooltip__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin: 8px 0 7px;
+}
+
+.va-map-tooltip__iso {
+  padding: 1px 5px;
+  border: 1px solid var(--va-line, rgba(160, 190, 210, 0.13));
+  border-radius: 4px;
+  font-family: var(--va-font-mono, "JetBrains Mono", "Cascadia Code", Consolas, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--va-text-3, #6e8591);
+}
+
+.va-map-tooltip__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border: 1px solid var(--va-line, rgba(160, 190, 210, 0.13));
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 10px;
+  line-height: 1.3;
+  color: var(--va-text-2, #a8bcc7);
+}
+
+.va-map-tooltip__badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--va-map-badge-color, var(--va-text-3, #6e8591));
+  box-shadow: 0 0 6px var(--va-map-badge-color, transparent);
+}
+
+.va-map-tooltip__badge.is-muted {
+  color: var(--va-text-3, #6e8591);
+}
+
+.va-map-tooltip__badge.is-muted::before {
+  background: transparent;
+  border: 1px dashed var(--va-text-3, #6e8591);
+  box-shadow: none;
+}
+
+.va-map-tooltip__badge.is-priority {
+  border-color: rgba(231, 198, 140, 0.4);
+  color: var(--va-gold, #e7c68c);
+}
+
+.va-map-tooltip__badge.is-priority::before {
+  display: none;
+}
+
+.va-map-tooltip__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--va-text-3, #6e8591);
+}
+
+.va-map-tooltip__row strong {
+  font-weight: 600;
+  color: var(--va-text, #edf3f5);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.va-map-tooltip__status {
+  color: var(--va-text-2, #a8bcc7);
+  font-variant-numeric: tabular-nums;
+}
+
+.va-map-tooltip__cta {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px dashed var(--va-line, rgba(160, 190, 210, 0.13));
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  color: var(--va-mint, #74e8c0);
+}
+
+/* ------------------------------------------------------------------ */
+/* 移动端 / 减少动效                                                   */
+/* ------------------------------------------------------------------ */
+
+/* 地图为桌面 Web 场景（≥1180px），触屏不显示跟随浮层 */
+@media (hover: none) {
+  .va-map-tooltip {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .va-map-country,
+  .va-map-dot__body,
+  .va-map-zoom {
+    transition: none;
+  }
+
+  .va-map-hover-overlay {
+    transform: none;
+  }
+
+  .va-map-selected-pulse {
+    animation: none;
+    opacity: 0.9;
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-15T17:30:15.182Z",
-  "datasetVersion": "v1.0.0-csv249-demo0-syn0",
+  "generatedAt": "2026-11-15T17:41:47.248Z",
+  "datasetVersion": "v1.0.0-csv249-demo22-syn351-f8887472",
   "source": {
     "file": "data/source/global_249_countries_cn_passport_visa.csv",
     "sha256": "ad7416b1d779bcf8",
@@ -9,9 +9,9 @@
   "counts": {
     "countries": 250,
     "realPolicies": 249,
-    "demoPolicies": 0,
+    "demoPolicies": 22,
     "mentions": 569,
-    "synonymTerms": 0,
+    "synonymTerms": 351,
     "byCategory": {
       "EMBASSY_VISA": 36,
       "E_VISA": 36,
@@ -48,17 +48,17 @@
     },
     "byType": {
       "TOURISM": 249,
-      "BUSINESS": 0,
-      "STUDY": 0,
-      "WORK": 0,
-      "FAMILY": 0,
+      "BUSINESS": 5,
+      "STUDY": 5,
+      "WORK": 2,
+      "FAMILY": 2,
       "TRANSIT": 0,
-      "MEDICAL": 0,
-      "RESIDENCE": 0,
-      "DIGITAL_NOMAD": 0,
-      "GOLDEN_VISA": 0,
-      "WORKING_HOLIDAY": 0,
-      "RESEARCH": 0
+      "MEDICAL": 1,
+      "RESIDENCE": 1,
+      "DIGITAL_NOMAD": 1,
+      "GOLDEN_VISA": 2,
+      "WORKING_HOLIDAY": 2,
+      "RESEARCH": 1
     },
     "stayKnown": 132,
     "stayUnknown": 117,
@@ -976,7 +976,18 @@
       "教廷公务许可"
     ],
     "warnings": [],
-    "demoTypes": []
+    "demoTypes": [
+      "BUSINESS",
+      "STUDY",
+      "WORKING_HOLIDAY",
+      "WORK",
+      "RESEARCH",
+      "GOLDEN_VISA",
+      "FAMILY",
+      "DIGITAL_NOMAD",
+      "MEDICAL",
+      "RESIDENCE"
+    ]
   },
   "completeness": {
     "averageReal": 48,

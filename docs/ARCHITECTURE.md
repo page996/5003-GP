@@ -13,7 +13,7 @@
 data/source/global_249_countries_cn_passport_visa.csv   小组整理的 249 个目的地原始 CSV
             │
             ├─ scripts/etl.ts            解析、分类归一化、停留期/入境次数抽取、完整度评分
-            │   data/source/demo-details.json   16 条「演示明细」样本（虚构，标记 is_demo=1）
+            │   data/source/demo-details.json   22 条「演示明细」样本（虚构，标记 is_demo=1）
             │   data/source/synonyms.json       检索同义词（英国/UK、免签/visa free…）
             ▼
 data/generated/dataset.json     单一可审查的中间产物（schema 见 shared/dataset.ts）
@@ -47,7 +47,7 @@ React 19 + Vite 前端：SVG 交互世界地图 + 全局搜索 + 分面筛选 + 
 
 ## 4. 数据库设计
 
-核心实体 11 张表 + 2 个视图，完整字段见 [DATA-DICTIONARY.md](DATA-DICTIONARY.md) 与 `database/schema.sql`。
+核心实体 15 张表 + 2 个视图，完整字段见 [DATA-DICTIONARY.md](DATA-DICTIONARY.md) 与 `database/schema.sql`。
 
 | 表 | 作用 | 关键设计 |
 |---|---|---|
@@ -72,7 +72,7 @@ React 19 + Vite 前端：SVG 交互世界地图 + 全局搜索 + 分面筛选 + 
 
 ## 5. API 设计
 
-详见 [API.md](API.md)。四个读接口：
+详见 [API.md](API.md)。主要读接口（另有 health）：
 
 | 方法 | 路径 | 作用 |
 |---|---|---|

@@ -349,6 +349,16 @@ export interface PolicyTiming {
   comparable: boolean;
 }
 
+/** 可解释的个人条件规则（演示明细中用于展示字段能力） */
+export interface PolicyRule {
+  code: string;
+  fieldName: string;
+  operatorName: 'IN' | 'ANY_OF' | 'GTE' | 'LTE' | 'BETWEEN';
+  /** JSON 字符串，如 ["CN"]、6、[18,30] */
+  expectedValue: string;
+  description: string;
+}
+
 export interface PolicyRecord {
   routeCode: string;
   countryCode: string;
@@ -382,6 +392,7 @@ export interface PolicyRecord {
   documents: PolicyDocument[];
   fees: PolicyFee[];
   timings: PolicyTiming[];
+  rules: PolicyRule[];
 }
 
 export interface MentionInfo {

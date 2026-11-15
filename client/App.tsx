@@ -1,73 +1,542 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, BookOpen, CircleCheck, Compass, Database, Globe2, RefreshCw, Sparkles } from 'lucide-react';
-import type { Catalog, Policy, Recommendation, RecommendationRequest } from '../shared/contracts';
-import { purposeLabels, regionLabels } from '../shared/contracts';
-import { loadCatalog, loadRecommendations } from './api';
-import { countryLabel, filterPolicies, SearchPanel, type Filters } from './features/search/SearchPanel';
-import { MapPanel } from './features/map/MapPanel';
-import { PolicyDetails } from './features/details/PolicyDetails';
-import { RecommendationForm } from './features/recommendation/RecommendationForm';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AlertTriangle, Database, Info, RotateCcw, TriangleAlert, X } from 'lucide-react';
+import {
+  DEFAULT_SEARCH_QUERY,
+  DISCLAIMER,
+} from '../shared/contracts.ts';
+import type {
+  CountryDossier as CountryDossierData,
+  DataStatus,
+  OverviewResponse,
+  PolicyGroup,
+  RegionCode,
+  SearchItem,
+  SearchQuery,
+  SearchResponse,
+  SearchSort,
+} from '../shared/contracts.ts';
+import { fetchCountry, fetchOverview, fetchSearch, isAbortError, toApiError, type ApiError } from './api';
+import { DataNotesModal } from './components/DataNotesModal';
+import { StagePanel, type StageMode } from './components/StagePanel';
+import { cx } from './components/cx';
+import { CountryDossier } from './features/details/CountryDossier';
+import { FilterRail } from './features/filters/FilterRail';
+import type { MapColorMode } from './features/map/WorldMap';
+import { ResultsPanel } from './features/results/ResultsPanel';
+import { GlobalSearch } from './features/search/GlobalSearch';
+import { useDebouncedValue } from './hooks/useDebouncedValue';
+import { parseUrlState, serializeUrlState } from './hooks/useUrlState';
 
-type Tab = 'explore' | 'recommend' | 'coverage';
+type SidePanel = 'results' | 'dossier';
+
+const MAX_RESTORE_PAGE = 99;
+
+function toggleInList<T>(list: T[], value: T): T[] {
+  return list.includes(value) ? list.filter(item => item !== value) : [...list, value];
+}
+
+function mergeItems(current: SearchItem[], next: SearchItem[]): SearchItem[] {
+  if (current.length === 0) return next;
+  const seen = new Set(current.map(item => item.key));
+  return [...current, ...next.filter(item => !seen.has(item.key))];
+}
+
+function countActiveFilters(query: SearchQuery): number {
+  let count =
+    query.regions.length +
+    query.groups.length +
+    query.categories.length +
+    query.stays.length +
+    query.statuses.length;
+  if (query.q.trim()) count += 1;
+  if (query.type && query.type !== DEFAULT_SEARCH_QUERY.type) count += 1;
+  if (query.priorityOnly) count += 1;
+  return count;
+}
+
+function CompassMark() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" className="va-brand__mark">
+      <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" strokeWidth="1.1" opacity="0.5" />
+      <circle cx="16" cy="16" r="8.4" fill="none" stroke="currentColor" strokeWidth="0.9" opacity="0.26" />
+      <path
+        d="M16 5.2 18.3 13.7 26.8 16 18.3 18.3 16 26.8 13.7 18.3 5.2 16 13.7 13.7Z"
+        fill="currentColor"
+        opacity="0.92"
+      />
+      <circle cx="16" cy="16" r="2.1" fill="var(--va-bg-deep)" stroke="currentColor" strokeWidth="1" />
+    </svg>
+  );
+}
+
+function BootScreen() {
+  return (
+    <div className="va-boot">
+      <div className="va-boot__brand">
+        <CompassMark />
+        <div>
+          <strong>VISA ATLAS</strong>
+          <span>世界签证图谱 · CHINA PASSPORT</span>
+        </div>
+      </div>
+      <div className="va-boot__card">
+        <span className="va-eyebrow">LOADING ATLAS</span>
+        <h1>正在载入世界签证图谱…</h1>
+        <p>读取数据集元信息、249 国政策摘要与地图着色数据。</p>
+        <span className="va-boot__bar" aria-hidden="true">
+          <span />
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function FatalError({ error, onRetry }: { error: ApiError | null; onRetry: () => void }) {
+  return (
+    <div className="va-fatal">
+      <div className="va-fatal__card va-panel">
+        <span className="va-eyebrow">DATA UNAVAILABLE</span>
+        <div className="va-fatal__title">
+          <AlertTriangle size={20} aria-hidden="true" />
+          <h1>资料服务未能启动</h1>
+        </div>
+        <p className="va-fatal__message">{error?.message ?? '无法读取数据集，请稍后重试。'}</p>
+        {error?.code ? <code className="va-fatal__code">{error.code}</code> : null}
+        <button type="button" className="va-button va-button--primary" onClick={onRetry} data-testid="retry">
+          <RotateCcw size={14} aria-hidden="true" />
+          重新连接
+        </button>
+        <p className="va-fatal__hint">
+          请确认后端 API 已启动：<code>http://127.0.0.1:3001/api/health</code>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/** Visa Atlas 页面状态编排：overview / search / suggestions / dossier / URL / 键盘 */
 export function App() {
-  const [catalog, setCatalog] = useState<Catalog | null>(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<Tab>('explore');
-  const [filters, setFilters] = useState<Filters>({ query: '', countryCode: null, type: '', region: '' });
-  const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
-  const [recommendations, setRecommendations] = useState<Recommendation[] | null>(null);
-  const [recommending, setRecommending] = useState(false);
-  const [recommendationError, setRecommendationError] = useState('');
-  const requestRef = useRef<AbortController | null>(null);
-  async function refresh(signal?: AbortSignal) {
-    setLoading(true); setError('');
-    try { const next = await loadCatalog(signal); setCatalog(next); setSelectedRoute(null); setRecommendations(null); }
-    catch (failure) { if (!signal?.aborted) setError((failure as Error).message); }
-    finally { if (!signal?.aborted) setLoading(false); }
+  const [initialState] = useState(() => parseUrlState(window.location.search));
+
+  const [overview, setOverview] = useState<OverviewResponse | null>(null);
+  const [overviewError, setOverviewError] = useState<ApiError | null>(null);
+  const [overviewLoading, setOverviewLoading] = useState(true);
+  const [overviewRetry, setOverviewRetry] = useState(0);
+
+  const [searchText, setSearchText] = useState(initialState.query.q);
+  const [query, setQuery] = useState<SearchQuery>(initialState.query);
+  const [searchResponse, setSearchResponse] = useState<SearchResponse | null>(null);
+  const [items, setItems] = useState<SearchItem[]>([]);
+  const [searchLoading, setSearchLoading] = useState(true);
+  const [searchError, setSearchError] = useState<ApiError | null>(null);
+  const [searchRetry, setSearchRetry] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const [selectedIso2, setSelectedIso2] = useState<string | null>(initialState.country);
+  const [dossier, setDossier] = useState<CountryDossierData | null>(null);
+  const [dossierLoading, setDossierLoading] = useState(false);
+  const [dossierError, setDossierError] = useState<ApiError | null>(null);
+  const [dossierRetry, setDossierRetry] = useState(0);
+
+  const [panel, setPanel] = useState<SidePanel>(initialState.country ? 'dossier' : 'results');
+  const [stageMode, setStageMode] = useState<StageMode>('map');
+  const [colorMode, setColorMode] = useState<MapColorMode>('category');
+  const [hoverRegion, setHoverRegion] = useState<RegionCode | null>(null);
+  const [mapResetSignal, setMapResetSignal] = useState(0);
+  const [explanationOpen, setExplanationOpen] = useState(false);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const queryRef = useRef(query);
+  queryRef.current = query;
+  const loadMoreAbortRef = useRef<AbortController | null>(null);
+  /** 首屏若 URL 带 page>1，第一轮成功请求会依次补齐前序页面后恢复 */
+  const restorePageRef = useRef(Math.min(Math.max(initialState.query.page, 1), MAX_RESTORE_PAGE));
+
+  const debouncedSearchText = useDebouncedValue(searchText, 250);
+
+  /* ---------------- 数据集 overview ---------------- */
+  useEffect(() => {
+    const controller = new AbortController();
+    setOverviewLoading(true);
+    setOverviewError(null);
+    fetchOverview(controller.signal)
+      .then(data => {
+        if (controller.signal.aborted) return;
+        setOverview(data);
+        setOverviewLoading(false);
+      })
+      .catch((error: unknown) => {
+        if (controller.signal.aborted || isAbortError(error)) return;
+        setOverviewError(toApiError(error));
+        setOverviewLoading(false);
+      });
+    return () => controller.abort();
+  }, [overviewRetry]);
+
+  /* ---------------- 关键词防抖 → query.q ---------------- */
+  useEffect(() => {
+    const nextText = debouncedSearchText.trim();
+    if (nextText === queryRef.current.q) return;
+    setQuery(prev => ({ ...prev, q: nextText, page: 1 }));
+  }, [debouncedSearchText]);
+
+  /* ---------------- 检索（筛选 / 关键词 / 排序变化时取消旧请求） ---------------- */
+  const filterKey = useMemo(
+    () =>
+      JSON.stringify({
+        q: query.q,
+        type: query.type,
+        regions: query.regions,
+        groups: query.groups,
+        categories: query.categories,
+        stays: query.stays,
+        statuses: query.statuses,
+        priorityOnly: query.priorityOnly,
+        includeDemo: query.includeDemo,
+        sort: query.sort,
+      }),
+    [query],
+  );
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadMoreAbortRef.current?.abort();
+    // 首屏恢复 URL 中的深页码；成功后清空，筛选变化一律回到第 1 页
+    const restoreTarget = restorePageRef.current;
+    setSearchLoading(true);
+    setSearchError(null);
+
+    async function run() {
+      try {
+        const baseQuery = { ...queryRef.current, page: 1 };
+        const first = await fetchSearch(baseQuery, controller.signal);
+        if (controller.signal.aborted) return;
+
+        let merged = first.items;
+        let finalPage = 1;
+        const targetPage = Math.min(Math.max(restoreTarget, 1), Math.max(first.pageCount, 1));
+        for (let page = 2; page <= targetPage; page += 1) {
+          const next = await fetchSearch({ ...queryRef.current, page }, controller.signal);
+          if (controller.signal.aborted) return;
+          merged = mergeItems(merged, next.items);
+          finalPage = page;
+        }
+        restorePageRef.current = 1;
+
+        setSearchResponse({ ...first, items: merged, page: finalPage });
+        setItems(merged);
+        setQuery(prev => (prev.page === finalPage ? prev : { ...prev, page: finalPage }));
+      } catch (error) {
+        if (controller.signal.aborted || isAbortError(error)) return;
+        setSearchError(toApiError(error));
+      } finally {
+        if (!controller.signal.aborted) setSearchLoading(false);
+      }
+    }
+
+    void run();
+    return () => controller.abort();
+  }, [filterKey, searchRetry]);
+
+  /* ---------------- 国家档案 ---------------- */
+  useEffect(() => {
+    if (!selectedIso2) {
+      setDossier(null);
+      setDossierError(null);
+      setDossierLoading(false);
+      return;
+    }
+    const controller = new AbortController();
+    setDossierLoading(true);
+    setDossierError(null);
+    fetchCountry(selectedIso2, query.includeDemo, controller.signal)
+      .then(data => {
+        if (controller.signal.aborted) return;
+        setDossier(data);
+        setDossierLoading(false);
+      })
+      .catch((error: unknown) => {
+        if (controller.signal.aborted || isAbortError(error)) return;
+        setDossierError(toApiError(error));
+        setDossierLoading(false);
+      });
+    return () => controller.abort();
+  }, [selectedIso2, query.includeDemo, dossierRetry]);
+
+  /* ---------------- URL 同步（刷新 / 分享可复现当前筛选与选中） ---------------- */
+  useEffect(() => {
+    const effectiveQuery: SearchQuery = { ...query, page: searchResponse?.page ?? query.page };
+    const params = serializeUrlState(effectiveQuery, selectedIso2);
+    const next = `${window.location.pathname}${params ? `?${params}` : ''}${window.location.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (next !== current) window.history.replaceState(null, '', next);
+  }, [query, selectedIso2, searchResponse?.page]);
+
+  /* ---------------- 键盘：`/` 聚焦搜索；Esc 关闭弹层 / 清空搜索 ---------------- */
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (explanationOpen) return;
+      const target = event.target as HTMLElement | null;
+      const isTyping = Boolean(target?.closest('input, textarea, select, [contenteditable="true"]'));
+      if (event.key === '/' && !isTyping && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+        return;
+      }
+      if (event.key === 'Escape' && searchText) {
+        event.preventDefault();
+        setSearchText('');
+        setQuery(prev => (prev.q === '' ? prev : { ...prev, q: '', page: 1 }));
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [explanationOpen, searchText]);
+
+  /* ---------------- 事件处理器 ---------------- */
+  const patchQuery = useCallback((patch: Partial<SearchQuery>) => {
+    setQuery(prev => ({ ...prev, ...patch, page: 1 }));
+  }, []);
+
+  const handleSubmit = useCallback(
+    (text?: string) => {
+      const nextText = (text ?? searchText).trim();
+      setSearchText(nextText);
+      setQuery(prev => (prev.q === nextText && prev.page === 1 ? prev : { ...prev, q: nextText, page: 1 }));
+    },
+    [searchText],
+  );
+
+  const handleClearFilters = useCallback(() => {
+    setSearchText('');
+    setQuery(prev => ({ ...DEFAULT_SEARCH_QUERY, includeDemo: prev.includeDemo, pageSize: prev.pageSize }));
+  }, []);
+
+  const openCountry = useCallback((iso2: string) => {
+    const code = iso2.toUpperCase();
+    setSelectedIso2(prev => (prev === code ? prev : code));
+    setDossier(prev => (prev && prev.country.iso2 === code ? prev : null));
+    setDossierError(null);
+    setPanel('dossier');
+  }, []);
+
+  const closeDossier = useCallback(() => {
+    setPanel('results');
+    setSelectedIso2(null);
+    setDossier(null);
+    setDossierError(null);
+  }, []);
+
+  const handleSearchType = useCallback(
+    (visaType: string) => {
+      setSearchText('');
+      setQuery(prev => ({ ...prev, q: '', type: visaType, page: 1 }));
+      setPanel('results');
+    },
+    [],
+  );
+
+  const handleLoadMore = useCallback(async () => {
+    if (!searchResponse || loadingMore) return;
+    const nextPage = searchResponse.page + 1;
+    if (nextPage > searchResponse.pageCount) return;
+    loadMoreAbortRef.current?.abort();
+    const controller = new AbortController();
+    loadMoreAbortRef.current = controller;
+    setLoadingMore(true);
+    try {
+      const next = await fetchSearch({ ...queryRef.current, page: nextPage }, controller.signal);
+      if (controller.signal.aborted) return;
+      setItems(prev => mergeItems(prev, next.items));
+      setSearchResponse(prev => (prev ? { ...next, items: mergeItems(prev.items, next.items), page: nextPage } : next));
+      setQuery(prev => ({ ...prev, page: nextPage }));
+    } catch (error) {
+      if (!controller.signal.aborted && !isAbortError(error)) setSearchError(toApiError(error));
+    } finally {
+      if (!controller.signal.aborted) setLoadingMore(false);
+    }
+  }, [loadingMore, searchResponse]);
+
+  const handleResetView = useCallback(() => setMapResetSignal(signal => signal + 1), []);
+
+  const handleMapHover = useCallback((_iso2: string | null) => {
+    // 地图组件内部负责悬停浮层；保留外部联动入口（如未来与结果列表联动）
+  }, []);
+
+  if (!overview) {
+    if (overviewLoading) return <BootScreen />;
+    return <FatalError error={overviewError} onRetry={() => setOverviewRetry(value => value + 1)} />;
   }
-  useEffect(() => { const controller = new AbortController(); void refresh(controller.signal); return () => { controller.abort(); requestRef.current?.abort(); }; }, []);
-  function changeFilters(next: Filters) { setFilters(next); setSelectedRoute(null); }
-  async function submitRecommendation(request: RecommendationRequest) {
-    requestRef.current?.abort(); const controller = new AbortController(); requestRef.current = controller;
-    setRecommending(true); setRecommendationError(''); setRecommendations(null); setSelectedRoute(null);
-    try { const result = await loadRecommendations(request, controller.signal); if (!controller.signal.aborted) setRecommendations(result); }
-    catch (failure) { if (!controller.signal.aborted) setRecommendationError((failure as Error).message); }
-    finally { if (!controller.signal.aborted) setRecommending(false); }
-  }
-  const policy = catalog?.policies.find(item => item.routeCode === selectedRoute) ?? null;
-  const result = recommendations?.find(item => item.policy.routeCode === selectedRoute);
-  const visiblePolicies = catalog ? filterPolicies(catalog, filters) : [];
-  const priorityTargets = catalog?.coverage.filter(item => item.priority).length ?? 0;
-  const verified = catalog?.coverage.filter(item => item.verifiedRoutes > 0).length ?? 0;
-  function routeCard(item: Policy, match?: Recommendation) {
-    return <button key={item.routeCode} className={`route-card ${selectedRoute === item.routeCode ? 'active' : ''}`} onClick={() => setSelectedRoute(item.routeCode)}>
-      <div className="card-top"><span className="country-code">{item.countryCode}</span><span className={item.isDemo ? 'badge demo-badge' : 'badge'}>{item.isDemo ? '虚构演示' : '资料参考'}</span></div>
-      <h3>{countryLabel(catalog!.countries, item.countryCode)} <span> / {purposeLabels[item.visaType]}</span></h3>
-      <p>{item.officialName ?? '路线名称待确认'}</p>
-      {match ? <div className="match-line"><strong>{match.score}<small> 参考分</small></strong><span>{match.status === 'REFERENCE_MATCH' ? '已知条件匹配' : match.status === 'KNOWN_MISMATCH' ? '有已知不符项' : '仍需核实'}</span></div> : <div className="card-bottom"><span>{item.documents.length}项材料 · {item.fees.length}项费用</span><ArrowRight size={17}/></div>}
-    </button>;
-  }
-  return <div className="app-shell">
-    <header className="topbar"><a className="brand" href="#" onClick={event => { event.preventDefault(); setTab('explore'); }}><span className="brand-symbol"><Compass size={25}/></span><span>VISA <strong>ATLAS</strong><small>全球签证探索 · 共享开发基座</small></span></a>
-      <nav aria-label="主导航"><button className={tab === 'explore' ? 'active' : ''} onClick={() => setTab('explore')}><Globe2 size={16}/>探索目的地</button><button className={tab === 'recommend' ? 'active' : ''} onClick={() => setTab('recommend')}><Sparkles size={16}/>个人条件＋意图推荐</button><button className={tab === 'coverage' ? 'active' : ''} onClick={() => setTab('coverage')}><Database size={16}/>全球数据覆盖</button></nav>
-      <button className="refresh-button" disabled={loading} onClick={() => void refresh()} aria-label="重新加载资料"><RefreshCw size={16}/></button>
-    </header>
-    <div className="integrity-banner"><BookOpen size={15}/>{catalog?.mode === 'mysql' ? 'MySQL真实读取模式' : '离线演示模式'} · {catalog?.policies.filter(item => item.isDemo).length ?? 0}条虚构场景 · {catalog?.policies.filter(item => !item.isDemo).length ?? 0}条真实资料 <strong>国家目录 ≠ 政策已收齐；演示内容不可用于申请</strong></div>
-    {loading && !catalog ? <main className="initial-state"><Globe2 size={40}/><h1>正在加载全球目录…</h1></main> : error ? <main className="initial-state"><h1>暂时无法读取资料</h1><p role="alert">{error}</p><button className="primary-button" onClick={() => void refresh()}>重新连接</button></main> : catalog && <>
-      {tab === 'explore' && <main className="explore-layout"><SearchPanel catalog={catalog} filters={filters} onChange={changeFilters}/><div className="explore-main">
-        <div className="page-heading"><span className="eyebrow">DISCOVER YOUR NEXT DESTINATION</span><h1>世界很大，先找到你的方向<span>.</span></h1><p>从全球目录出发，按目的地探索资料，或结合个人条件寻找适合的路线。</p></div>
-        <div className="region-tabs"><button className={!filters.region ? 'active' : ''} onClick={() => changeFilters({ ...filters, region: '', countryCode: null })}>全球</button>{Object.entries(regionLabels).map(([code, label]) => <button className={filters.region === code ? 'active' : ''} key={code} onClick={() => changeFilters({ ...filters, region: code, countryCode: null })}>{label}</button>)}</div>
-        <MapPanel countries={catalog.countries} policies={catalog.policies} selectedCountry={filters.countryCode} onSelect={code => changeFilters({ ...filters, countryCode: code, region: '' })}/>
-        <div className="results-heading"><h2>{filters.countryCode ? countryLabel(catalog.countries, filters.countryCode) : '签证路线'} <span>{visiblePolicies.length}</span></h2><button className="text-button" onClick={() => setTab('recommend')}>加入个人条件 <ArrowRight size={14}/></button></div>
-        <div className="route-grid">{visiblePolicies.map(item => routeCard(item))}</div>{!visiblePolicies.length && <div className="empty-results"><Database size={25}/><h3>该范围的签证资料尚未收集或没有匹配项</h3><p>这不表示目的地没有签证。可以清空筛选，或查看全球数据覆盖任务。</p><button className="text-button" onClick={() => setTab('coverage')}>查看待收集清单</button></div>}
-      </div><PolicyDetails policy={policy}/></main>}
-      {tab === 'recommend' && <main className="recommend-layout"><div><RecommendationForm countries={catalog.countries} busy={recommending} onSubmit={request => void submitRecommendation(request)}/><div className="recommend-results"><div className="results-heading"><h2>推荐与解释 <span>{recommendations?.length ?? '—'}</span></h2><span className="muted">未知条件不会被算成通过</span></div>{recommendationError && <p role="alert" className="error">{recommendationError}</p>}<div className="route-grid">{recommendations?.map(item => routeCard(item.policy, item))}</div>{recommendations?.length === 0 && <p className="empty-small">当前范围尚无可推荐资料；请补充政策数据，不能用空数据判定用户不符合。</p>}{recommendations === null && <p className="empty-small">填写个人条件与出行意图后，系统将逐项比较并解释原因。</p>}</div></div><PolicyDetails policy={policy} recommendation={result}/></main>}
-      {tab === 'coverage' && <main className="coverage-page"><span className="eyebrow">COVERAGE IS EVIDENCE, NOT A COUNTRY COUNT</span><h1>全球覆盖，从真实资料开始</h1><p>目录覆盖国家与地区；重点国家清单是项目候选范围，不代表政策已完成。每个目标均保留七类用途，不用减少字段或国家来制造完成率。</p><div className="metric-grid"><div><Globe2/><strong>{catalog.countries.length}</strong><span>国家与地区目录</span></div><div><Compass/><strong>{priorityTargets}</strong><span>重点覆盖候选目的地</span></div><div><CircleCheck/><strong>{verified}</strong><span>有完整且近期核验路线的目的地</span></div></div>
-        <p className="warning">“目标类型已出现”也不等于所有护照、申请渠道与政策都已穷尽；需要负责人确认覆盖范围与核验标准。当前演示路线完全不计入真实覆盖。</p>
-        <div className="coverage-table-wrap"><table className="coverage-table"><thead><tr><th>国家 / 地区</th><th>区域</th><th>范围</th><th>真实路线</th><th>已核验完整路线</th><th>当前状态</th></tr></thead><tbody>{catalog.coverage.map(item => { const country = catalog.countries.find(row => row.code === item.countryCode)!; return <tr key={item.countryCode}><td><strong>{country.nameZh}</strong><small>{country.nameEn} · {country.code}</small></td><td>{regionLabels[country.region] ?? country.region}</td><td>{item.priority ? '重点候选 · 7类用途' : '全球扩展 · 7类用途'}</td><td>{item.realRoutes}</td><td>{item.verifiedRoutes}</td><td><span className="badge">{{ NOT_COLLECTED: '待采集', IN_PROGRESS: '采集 / 核验中', PARTIAL: '部分目标有资料', TARGET_TYPES_PRESENT: '目标类型已出现' }[item.status]}</span></td></tr>; })}</tbody></table></div>
-      </main>}
-    </>}
-    <footer className="app-footer"><span>VISA ATLAS / BASE 0.1</span><span>资料检索与规则参考 · 不提供获签保证 · 仅桌面 Web</span></footer>
-  </div>;
+
+  const activeCount = countActiveFilters(query);
+  const hasActiveFilters = activeCount > 0;
+  const matched = hasActiveFilters && searchResponse ? new Set(searchResponse.matchedCountries) : null;
+  const matchCount = matched ? matched.size : searchResponse ? searchResponse.total : overview.stats.withPolicy;
+  const showEmpty = !searchLoading && !searchError && searchResponse !== null && searchResponse.total === 0;
+  const dbLabel = `${overview.meta.mode === 'mysql' ? 'MySQL' : 'SQLite'} · ${overview.meta.policyCount} 条政策`;
+  const demoCount = overview.stats.demoDetails;
+
+  return (
+    <div className="va-app">
+      <header className="va-topbar">
+        <div className="va-brand" aria-label="Visa Atlas 世界签证图谱">
+          <span className="va-brand__symbol">
+            <CompassMark />
+          </span>
+          <span className="va-brand__text">
+            <strong>VISA ATLAS</strong>
+            <span>世界签证图谱 · CHINA PASSPORT</span>
+          </span>
+        </div>
+
+        <GlobalSearch
+          value={searchText}
+          onChange={setSearchText}
+          onSubmit={handleSubmit}
+          onPickCountry={openCountry}
+          onPickCategory={code => patchQuery({ categories: [code] })}
+          onPickType={code => patchQuery({ type: code })}
+          inputRef={searchInputRef}
+        />
+
+        <div className="va-topbar__meta">
+          <button
+            type="button"
+            className="va-text-btn va-topbar__notes"
+            onClick={() => setExplanationOpen(true)}
+            data-testid="data-notes"
+          >
+            <Info size={13} aria-hidden="true" />
+            数据说明
+          </button>
+          <button
+            type="button"
+            className="va-db-status"
+            onClick={() => setExplanationOpen(true)}
+            aria-label={`数据状态：${dbLabel}，打开数据说明`}
+          >
+            <span className={cx('va-db-status__dot', overviewError && 'is-error')} aria-hidden="true" />
+            <Database size={12} aria-hidden="true" />
+            <span>{dbLabel}</span>
+          </button>
+        </div>
+      </header>
+
+      {query.includeDemo ? (
+        <div className="va-demo-banner" role="status">
+          <TriangleAlert size={13} aria-hidden="true" />
+          <span>
+            已包含 <strong>{demoCount}</strong> 条演示明细，仅用于展示字段与交互，不可用于申请
+          </span>
+          <button
+            type="button"
+            className="va-demo-banner__close"
+            onClick={() => patchQuery({ includeDemo: false })}
+            aria-label="关闭演示明细"
+          >
+            <X size={12} aria-hidden="true" />
+          </button>
+        </div>
+      ) : null}
+
+      <div className="va-main">
+        <FilterRail
+          query={query}
+          dictionaries={overview.dictionaries}
+          stats={overview.stats}
+          facets={searchResponse?.facets ?? null}
+          activeCount={activeCount}
+          onToggleRegion={region => patchQuery({ regions: toggleInList(query.regions, region) })}
+          onHoverRegion={setHoverRegion}
+          onToggleGroup={group => patchQuery({ groups: toggleInList<PolicyGroup>(query.groups, group) })}
+          onToggleCategory={code => patchQuery({ categories: toggleInList(query.categories, code) })}
+          onToggleStay={code => patchQuery({ stays: toggleInList(query.stays, code) })}
+          onToggleStatus={status => patchQuery({ statuses: toggleInList<DataStatus>(query.statuses, status) })}
+          onTogglePriority={() => patchQuery({ priorityOnly: !query.priorityOnly })}
+          onToggleDemo={() => patchQuery({ includeDemo: !query.includeDemo })}
+          onTypeChange={type => patchQuery({ type })}
+          onClear={handleClearFilters}
+        />
+
+        <StagePanel
+          countries={overview.mapCountries}
+          matched={matched}
+          matchCount={matchCount}
+          selected={selectedIso2}
+          hoverRegion={hoverRegion}
+          colorMode={colorMode}
+          onColorModeChange={setColorMode}
+          resetSignal={mapResetSignal}
+          onResetView={handleResetView}
+          onSelect={openCountry}
+          onHover={handleMapHover}
+          stageMode={stageMode}
+          onStageModeChange={setStageMode}
+          stats={overview.stats}
+          items={items}
+          loading={searchLoading}
+          loadingMore={loadingMore}
+          hasMore={Boolean(searchResponse && searchResponse.page < searchResponse.pageCount)}
+          onLoadMore={() => void handleLoadMore()}
+          onClearFilters={handleClearFilters}
+          showEmpty={showEmpty}
+          filterKey={filterKey}
+        />
+
+        <aside className="va-side va-panel" aria-label={panel === 'results' ? '检索结果面板' : '国家档案面板'}>
+          {panel === 'results' ? (
+            <ResultsPanel
+              response={searchResponse}
+              items={items}
+              loading={searchLoading}
+              loadingMore={loadingMore}
+              error={searchError}
+              selectedIso2={selectedIso2}
+              activeCount={activeCount}
+              sort={query.sort}
+              filterKey={filterKey}
+              queryType={query.type}
+              keyword={query.q}
+              onSelect={openCountry}
+              onLoadMore={() => void handleLoadMore()}
+              onRetry={() => setSearchRetry(value => value + 1)}
+              onClearFilters={handleClearFilters}
+              onSortChange={(sort: SearchSort) => patchQuery({ sort })}
+            />
+          ) : (
+            <CountryDossier
+              iso2={selectedIso2}
+              dossier={dossier}
+              loading={dossierLoading}
+              error={dossierError}
+              includeDemo={query.includeDemo}
+              onBack={closeDossier}
+              onRetry={() => setDossierRetry(value => value + 1)}
+              onSearchType={handleSearchType}
+            />
+          )}
+        </aside>
+      </div>
+
+      <footer className="va-footer">
+        <span className="va-footer__note" title={DISCLAIMER}>
+          {DISCLAIMER}
+        </span>
+        <span className="va-footer__meta">
+          <span className="va-footer__mode">{overview.meta.mode === 'mysql' ? 'MYSQL' : 'SQLITE'}</span>
+          <span className="va-middot" aria-hidden="true">
+            ·
+          </span>
+          <span>{overview.meta.datasetVersion}</span>
+        </span>
+      </footer>
+
+      <DataNotesModal
+        open={explanationOpen}
+        onClose={() => setExplanationOpen(false)}
+        overview={overview}
+        includeDemo={query.includeDemo}
+      />
+    </div>
+  );
 }

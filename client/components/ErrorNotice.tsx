@@ -19,7 +19,7 @@ export function ErrorNotice({ error, onRetry, compact, className }: ErrorNoticeP
         {error.code ? <span className="va-error__code">{error.code}</span> : null}
       </div>
       {onRetry ? (
-        <button type="button" className="va-button va-button--tiny" onClick={onRetry}>
+        <button type="button" className="va-button va-button--tiny" onClick={onRetry} data-testid="retry">
           <RefreshCw size={12} aria-hidden="true" />
           重试
         </button>

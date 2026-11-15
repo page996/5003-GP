@@ -1,0 +1,844 @@
+{
+  "schemaVersion": "2.0",
+  "batchId": "demo-details-1",
+  "generatedAt": "2026-11-16T00:00:00.000Z",
+  "note": "虚构演示明细，仅用于验证字段、界面与检索流程，不代表任何国家真实政策，不可用于申请。",
+  "policies": [
+    {
+      "routeCode": "JP-BUSINESS-DEMO-01",
+      "countryCode": "JP",
+      "visaType": "BUSINESS",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "日本 · 商务访问（演示样本）",
+      "summary": "演示：虚构的日本短期商务访问申请摘要，用于验证商务签证卡片的材料、费用与办理时间展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人持中国普通护照、受日方企业邀请作短期商务洽谈；真实条件请以日本使领馆最新公告为准。",
+      "stayDays": 90,
+      "stayUnit": "DAY",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期 1–3 年多次，单次停留不超过 90 天（虚构示例）。",
+      "applicationChannel": "演示渠道：向日本签证申请中心递交材料并现场采集生物信息。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 86,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需覆盖行程结束后 6 个月，至少 2 页空白签证页。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：近 6 个月内白底彩色证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "APPLICATION_FORM", "name": "签证申请表", "requirement": "演示要求：在线填写后打印并手写签名的申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "INVITATION_LETTER", "name": "邀请函", "requirement": "演示要求：日方邀请单位出具的邀请函，注明访问目的与日程。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "EMPLOYMENT_CERT", "name": "在职证明", "requirement": "演示要求：申请人所在单位出具的英文在职证明并加盖公章。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "ITINERARY", "name": "行程单", "requirement": "演示要求：逐日行程安排与往返机票预订单。", "quantity": 1, "required": false, "condition": "演示：仅当申请多次入境时补交。", "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "3000.00", "amountMax": "3000.00", "currency": "JPY", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "签证中心服务费（演示）", "amountMin": "800.00", "amountMax": "1200.00", "currency": "JPY", "basis": "每人（演示）", "condition": "演示：按递交城市不同。", "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 5, "maxDays": 10, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 2, "maxDays": 7, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": "演示：旺季可能延长。", "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" }
+      ]
+    },
+    {
+      "routeCode": "JP-STUDY-DEMO-01",
+      "countryCode": "JP",
+      "visaType": "STUDY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "日本 · 留学学习（演示样本）",
+      "summary": "演示：虚构的日本留学在留资格申请摘要，用于验证长期留学签证卡片与资金、学历材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获日本院校录取并取得在留资格认定证明书；真实条件以日本入国管理局与使领馆公告为准。",
+      "stayDays": 6,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "SINGLE",
+      "validityNote": "演示：单次入境长期在留，入境后按在留资格期限居留（虚构示例）。",
+      "applicationChannel": "演示渠道：通过日本签证申请中心递交在留资格认定证明书及配套材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 78,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需覆盖预计在留期限。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：白底彩色证件照 2 张，尺寸 4.5cm×3.5cm。", "quantity": 2, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "APPLICATION_FORM", "name": "签证申请表", "requirement": "演示要求：留学签证申请表 1 份并本人签名。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "ACCEPTANCE_LETTER", "name": "录取通知书", "requirement": "演示要求：日本院校录取通知书与在留资格认定证明书复印件。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：能够覆盖学费与生活费的资金证明或担保材料。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "3000.00", "amountMax": "3000.00", "currency": "JPY", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 10, "maxDays": 15, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 3, "maxDays": 14, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" },
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "JP-WORKING_HOLIDAY-DEMO-01",
+      "countryCode": "JP",
+      "visaType": "WORKING_HOLIDAY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "日本 · 打工度假（演示样本）",
+      "summary": "演示：虚构的日本打工度假签证申请摘要，用于验证打工度假类型的年龄规则与资金材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人为 18–30 岁、以度假为主并从事短期补充工作的虚构申请人；真实条件以日本使领馆公告为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期 12 个月，可多次出入境（虚构示例）。",
+      "applicationChannel": "演示渠道：通过日本签证申请中心递交打工度假申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 74,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需覆盖整个打工度假期间。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：白底彩色证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "APPLICATION_FORM", "name": "签证申请表", "requirement": "演示要求：打工度假签证申请表与理由书各 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "CV", "name": "个人简历", "requirement": "演示要求：英文或日文个人简历，含教育与工作经历。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖初期生活费的存款证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "3000.00", "amountMax": "3000.00", "currency": "JPY", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "签证中心服务费（演示）", "amountMin": "1500.00", "amountMax": "1500.00", "currency": "JPY", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 7, "maxDays": 14, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "AGE_RANGE", "fieldName": "age", "operatorName": "BETWEEN", "expectedValue": "[18,30]", "description": "仅演示：申请人年龄在 18–30 岁之间。" },
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" }
+      ]
+    },
+    {
+      "routeCode": "GB-STUDY-DEMO-01",
+      "countryCode": "GB",
+      "visaType": "STUDY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "英国 · 留学学习（演示样本）",
+      "summary": "演示：虚构的英国学生签证申请摘要，用于验证学费资金证明、语言成绩与生物信息采集等字段展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获英国院校无条件录取并持有录取确认函；真实条件以英国内政部与签证申请中心公告为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "SINGLE",
+      "validityNote": "演示：按课程时长签发，入境后按签证条件居留（虚构示例）。",
+      "applicationChannel": "演示渠道：在线填写申请并前往签证申请中心采集生物信息。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 91,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需覆盖整个学习期间。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "在线申请表", "requirement": "演示要求：在英国签证系统在线提交的申请表确认页。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "ACCEPTANCE_LETTER", "name": "录取确认函", "requirement": "演示要求：院校出具的无条件录取确认函（CAS）。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖学费与生活费的存款证明，存期满足演示要求。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "LANGUAGE_SCORE", "name": "语言成绩证明", "requirement": "演示要求：符合院校要求的英语语言考试成绩单。", "quantity": 1, "required": true, "condition": "演示：学位课程或语言豁免情形除外。", "sortOrder": 5 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：符合生物信息采集标准的近期证件照。", "quantity": 2, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "490.00", "amountMax": "490.00", "currency": "GBP", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "BIOMETRIC", "label": "生物信息采集费（演示）", "amountMin": "19.20", "amountMax": "19.20", "currency": "GBP", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 15, "maxDays": 25, "dayType": "WORKING_DAY", "startEvent": "生物信息采集完成后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 3, "maxDays": 10, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" },
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "GB-WORK-DEMO-01",
+      "countryCode": "GB",
+      "visaType": "WORK",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "英国 · 工作就业（演示样本）",
+      "summary": "演示：虚构的英国技术工人签证申请摘要，用于验证雇主担保、工作合同与聘用薪资等字段展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获得英国持牌雇主担保的职位；真实条件以英国内政部雇主担保与薪资门槛公告为准。",
+      "stayDays": 36,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：按工作合同期限签发，最长示例为 36 个月。",
+      "applicationChannel": "演示渠道：在线申请后到签证申请中心采集生物信息。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 88,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需覆盖拟工作时长。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "在线申请表", "requirement": "演示要求：在线申请确认页 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "WORK_CONTRACT", "name": "工作合同", "requirement": "演示要求：英国雇主出具的雇佣合同与担保信息。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "QUALIFICATION_PROOF", "name": "学历与资格证明", "requirement": "演示要求：与职位要求匹配的学历或职业资格证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖初期生活费的存款证明（部分情形可豁免）。", "quantity": 1, "required": false, "condition": "演示：雇主担保满足要求时免交。", "sortOrder": 5 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：近期白底证件照。", "quantity": 2, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "719.00", "amountMax": "719.00", "currency": "GBP", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 10, "maxDays": 20, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "BIOMETRIC", "label": "生物信息采集（演示）", "minDays": 1, "maxDays": 3, "dayType": "CALENDAR_DAY", "startEvent": "预约到访后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "EMPLOYMENT_STATUS", "fieldName": "employment", "operatorName": "IN", "expectedValue": "[\"EMPLOYED\"]", "description": "仅演示：申请人当前为受雇状态（演示用枚举值）。" }
+      ]
+    },
+    {
+      "routeCode": "GB-RESEARCH-DEMO-01",
+      "countryCode": "GB",
+      "visaType": "RESEARCH",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "英国 · 科研访学（演示样本）",
+      "summary": "演示：虚构的英国科研访学签证申请摘要，用于验证研究计划、接待机构协议与资金材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人受英国高校或研究机构邀请从事短期科研合作；真实条件以英国内政部及接收机构规定为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：按邀请期限签发，示例为 12 个月。",
+      "applicationChannel": "演示渠道：在线申请并前往签证申请中心递交支持材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 73,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖访学期。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "在线申请表", "requirement": "演示要求：在线申请确认页。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "HOST_AGREEMENT", "name": "接待协议", "requirement": "演示要求：英国接待机构出具的邀请与接待协议。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "RESEARCH_PLAN", "name": "研究计划", "requirement": "演示要求：英文研究计划，注明合作内容与时间安排。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖访学期间生活费的资助证明或存款证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "CV", "name": "个人简历", "requirement": "演示要求：含科研成果列表的英文简历。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "298.00", "amountMax": "298.00", "currency": "GBP", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "加急服务费（演示）", "amountMin": "100.00", "amountMax": "160.00", "currency": "GBP", "basis": "每人（演示）", "condition": "演示：可选增值服务。", "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 20, "maxDays": 40, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "US-BUSINESS-DEMO-01",
+      "countryCode": "US",
+      "visaType": "BUSINESS",
+      "categoryCode": "US_VISA_ROUTE",
+      "title": "美国 · 商务访问（演示样本）",
+      "summary": "演示：虚构的美国 B-1 商务访问签证申请摘要，用于验证面谈类签证的材料与等待时间展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人赴美从事短期商务洽谈、会议或合同谈判；真实条件以美国国务院与驻华使领馆公告为准。",
+      "stayDays": 180,
+      "stayUnit": "DAY",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：签证有效期示例为 10 年多次，单次停留由入境官员决定。",
+      "applicationChannel": "演示渠道：在线填写 DS-160 并预约使领馆面谈。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 84,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需覆盖在美停留期。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "DS-160 申请表", "requirement": "演示要求：DS-160 确认页 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：符合美签规格的 51mm×51mm 白底照片。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "INVITATION_LETTER", "name": "邀请函", "requirement": "演示要求：美方合作单位邀请函，说明商务目的与行程。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "EMPLOYMENT_CERT", "name": "在职证明", "requirement": "演示要求：申请人单位出具的在职与收入证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证申请费（演示）", "amountMin": "185.00", "amountMax": "185.00", "currency": "USD", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "面谈后审核时间（演示）", "minDays": 5, "maxDays": 30, "dayType": "CALENDAR_DAY", "startEvent": "面谈通过后（演示）", "note": "演示：行政审查情形可能更长。", "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "面谈预约等待（演示）", "minDays": 7, "maxDays": 60, "dayType": "CALENDAR_DAY", "startEvent": "缴费并预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" },
+        { "code": "HELD_US_VISA", "fieldName": "heldVisaCodes", "operatorName": "ANY_OF", "expectedValue": "[\"US\"]", "description": "仅演示：曾持有美国签证的续签申请人可免面谈（演示规则）。" }
+      ]
+    },
+    {
+      "routeCode": "US-STUDY-DEMO-01",
+      "countryCode": "US",
+      "visaType": "STUDY",
+      "categoryCode": "US_VISA_ROUTE",
+      "title": "美国 · 留学学习（演示样本）",
+      "summary": "演示：虚构的美国 F-1 学生签证申请摘要，用于验证 I-20、资金证明与语言成绩等字段展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获美国院校录取并收到 I-20 表格；真实条件以美国国务院与院校国际学生办公室公告为准。",
+      "stayDays": 24,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "SINGLE",
+      "validityNote": "演示：按学业时长签发，示例为 24 个月。",
+      "applicationChannel": "演示渠道：填写 DS-160、缴纳学生与交流访问者信息系统费并预约面谈。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 92,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖预计学业时长。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "DS-160 申请表", "requirement": "演示要求：DS-160 确认页 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "ACCEPTANCE_LETTER", "name": "录取与 I-20 表格", "requirement": "演示要求：院校录取通知书与 I-20 表格原件。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖第一学年学费与生活费的存款或资助证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "LANGUAGE_SCORE", "name": "语言成绩证明", "requirement": "演示要求：托福或雅思成绩单。", "quantity": 1, "required": true, "condition": "演示：语言成绩豁免情形除外。", "sortOrder": 5 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：符合美签规格的近期白底照片。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证申请费（演示）", "amountMin": "185.00", "amountMax": "185.00", "currency": "USD", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "面谈后审核时间（演示）", "minDays": 10, "maxDays": 30, "dayType": "CALENDAR_DAY", "startEvent": "面谈通过后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "面谈预约等待（演示）", "minDays": 7, "maxDays": 45, "dayType": "CALENDAR_DAY", "startEvent": "缴费并预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" },
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "US-GOLDEN_VISA-DEMO-01",
+      "countryCode": "US",
+      "visaType": "GOLDEN_VISA",
+      "categoryCode": "US_VISA_ROUTE",
+      "title": "美国 · 投资 / 黄金签证（演示样本）",
+      "summary": "演示：虚构的美国投资移民申请摘要，用于验证大额费用、投资证明与排期等待等字段展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人以合规投资方式申请美国永久居留，投资金额与就业创造要求均为虚构示例；真实条件以美国移民局公告为准。",
+      "stayDays": 24,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：先签发条件式永久居留，后续转正式永久居留（虚构示例）。",
+      "applicationChannel": "演示渠道：向美国移民局递交投资移民申请，并在使领馆完成面谈。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 70,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖审理与入境阶段。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "移民申请表", "requirement": "演示要求：投资移民申请表及配套声明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "INVESTMENT_PROOF", "name": "投资证明", "requirement": "演示要求：资金来源合法性与投资到位的证明文件。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖投资额与家庭生活费的资产证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "BUSINESS_PLAN", "name": "商业计划书", "requirement": "演示要求：说明投资项目的商业计划与就业创造预估。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "POLICE_CLEARANCE", "name": "无犯罪记录证明", "requirement": "演示要求：申请人及随行家庭成员的无犯罪记录证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "移民申请费（演示）", "amountMin": "3675.00", "amountMax": "3675.00", "currency": "USD", "basis": "每个家庭（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "律师与服务费（演示）", "amountMin": "500.00", "amountMax": "1500.00", "currency": "USD", "basis": "每个家庭（演示）", "condition": "演示：按服务范围浮动。", "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审理时间（演示）", "minDays": 30, "maxDays": 90, "dayType": "CALENDAR_DAY", "startEvent": "优先日排期到达后（演示）", "note": "演示：排期等待未计入本区间。", "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "AGE_MIN", "fieldName": "age", "operatorName": "GTE", "expectedValue": "18", "description": "仅演示：主申请人年满 18 周岁。" },
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "FR-BUSINESS-DEMO-01",
+      "countryCode": "FR",
+      "visaType": "BUSINESS",
+      "categoryCode": "SCHENGEN_VISA",
+      "title": "法国 · 商务访问（演示样本）",
+      "summary": "演示：虚构的法国申根商务签证申请摘要，用于验证 180 天滚动停留规则与保险材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人持中国普通护照赴法短期商务访问；真实条件以法国使领馆与申根签证规则为准。",
+      "stayDays": 90,
+      "stayUnit": "DAY",
+      "stayRule": "ROLLING_WINDOW",
+      "windowDays": 180,
+      "windowMaxDays": 90,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：任意 180 天内累计停留不超过 90 天（虚构示例）。",
+      "applicationChannel": "演示渠道：通过法国签证受理中心预约并递交材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 83,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期需超出预计离境日至少 3 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "申根签证申请表", "requirement": "演示要求：完整填写的申根短期签证申请表。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：符合申根签证规格的近期证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "INVITATION_LETTER", "name": "邀请函", "requirement": "演示要求：法方合作单位邀请函，说明商务目的与行程。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "INSURANCE", "name": "旅行医疗保险", "requirement": "演示要求：覆盖申根区、保额不低于示例标准的医疗保险。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "EMPLOYMENT_CERT", "name": "在职证明", "requirement": "演示要求：单位出具的在职证明、准假证明与营业执照复印件。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证费（演示）", "amountMin": "90.00", "amountMax": "90.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "VISA_CENTER", "label": "签证中心服务费（演示）", "amountMin": "35.00", "amountMax": "35.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 15, "maxDays": 20, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 5, "maxDays": 20, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" },
+        { "code": "RESIDENCE_CN", "fieldName": "residenceCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：在中国境内居住并递交申请。" }
+      ]
+    },
+    {
+      "routeCode": "FR-STUDY-DEMO-01",
+      "countryCode": "FR",
+      "visaType": "STUDY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "法国 · 留学学习（演示样本）",
+      "summary": "演示：虚构的法国长期学生签证申请摘要，用于验证录取、住宿与资金材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获法国院校录取并准备长期学习；真实条件以法国高等教育署与使领馆公告为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：按学业时长签发长期签证，示例为 12 个月。",
+      "applicationChannel": "演示渠道：通过法国高等教育署程序后向签证受理中心递交材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 87,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖整个学习期间。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "长期签证申请表", "requirement": "演示要求：长期学生签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "ACCEPTANCE_LETTER", "name": "录取通知书", "requirement": "演示要求：法国院校录取证明与注册确认。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖每月最低生活费的存款或资助证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "ACCOMMODATION_PROOF", "name": "住宿证明", "requirement": "演示要求：法国境内住宿证明或租房合同。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "INSURANCE", "name": "医疗保险", "requirement": "演示要求：覆盖在法学习期间的医疗保险证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "长期签证费（演示）", "amountMin": "99.00", "amountMax": "99.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 20, "maxDays": 35, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "FR-FAMILY-DEMO-01",
+      "countryCode": "FR",
+      "visaType": "FAMILY",
+      "categoryCode": "SCHENGEN_VISA",
+      "title": "法国 · 探亲访友（演示样本）",
+      "summary": "演示：虚构的法国申根探亲访友签证申请摘要，用于验证亲属关系证明与接待材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人赴法探望亲属或朋友；真实条件以法国使领馆与申根签证规则为准。",
+      "stayDays": 90,
+      "stayUnit": "DAY",
+      "stayRule": "ROLLING_WINDOW",
+      "windowDays": 180,
+      "windowMaxDays": 90,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：任意 180 天内累计停留不超过 90 天（虚构示例）。",
+      "applicationChannel": "演示渠道：通过法国签证受理中心预约并递交材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 72,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期超出预计离境日至少 3 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "申根签证申请表", "requirement": "演示要求：短期申根签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：符合申根规格的证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "RELATIONSHIP_PROOF", "name": "亲属关系证明", "requirement": "演示要求：户口簿、出生证明或结婚证等关系证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "INVITATION_LETTER", "name": "接待证明", "requirement": "演示要求：法方接待人出具的接待证明与身份材料。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证费（演示）", "amountMin": "90.00", "amountMax": "90.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 10, "maxDays": 15, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" }
+      ]
+    },
+    {
+      "routeCode": "DE-WORK-DEMO-01",
+      "countryCode": "DE",
+      "visaType": "WORK",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "德国 · 工作就业（演示样本）",
+      "summary": "演示：虚构的德国工作签证申请摘要，用于验证雇主合同、职业资格与预约等待等字段展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人获德国雇主聘用并符合学历与薪资条件；真实条件以德国使领馆与联邦劳动局公告为准。",
+      "stayDays": 48,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：按工作合同期限签发，示例为 48 个月。",
+      "applicationChannel": "演示渠道：向德国使领馆预约递交长期工作签证申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 90,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖拟工作期限。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "长期签证申请表", "requirement": "演示要求：德国长期签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "WORK_CONTRACT", "name": "工作合同", "requirement": "演示要求：德国雇主出具的工作合同或聘用意向书。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "QUALIFICATION_PROOF", "name": "职业资格证明", "requirement": "演示要求：学历学位、成绩单及职业资格认证材料。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖初期生活费的存款或收入证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：符合德国签证规格的近期证件照。", "quantity": 2, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证费（演示）", "amountMin": "75.00", "amountMax": "75.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 30, "maxDays": 60, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 5, "maxDays": 15, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "EMPLOYMENT_STATUS", "fieldName": "employment", "operatorName": "IN", "expectedValue": "[\"EMPLOYED\"]", "description": "仅演示：申请人已获德国雇主聘用（演示用枚举值）。" },
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "6", "description": "仅演示：护照剩余有效期不少于 6 个月。" }
+      ]
+    },
+    {
+      "routeCode": "DE-DIGITAL_NOMAD-DEMO-01",
+      "countryCode": "DE",
+      "visaType": "DIGITAL_NOMAD",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "德国 · 数字游民（演示样本）",
+      "summary": "演示：虚构的德国数字游民/远程工作居留申请摘要，用于验证远程收入证明与保险材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人为受雇于境外雇主的远程工作者；真实条件以德国使领馆最新居留规定为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：首次签发示例为 12 个月，可申请续期。",
+      "applicationChannel": "演示渠道：向德国使领馆递交远程工作居留签证申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 76,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖拟居留期间。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "长期签证申请表", "requirement": "演示要求：德国长期签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "EMPLOYMENT_CERT", "name": "远程工作证明", "requirement": "演示要求：境外雇主出具的远程工作证明与合同。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "收入证明", "requirement": "演示要求：覆盖最低月收入的远程工作收入证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "INSURANCE", "name": "医疗保险", "requirement": "演示要求：覆盖德国居留期间的医疗保险证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证费（演示）", "amountMin": "100.00", "amountMax": "100.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "材料认证服务费（演示）", "amountMin": "40.00", "amountMax": "40.00", "currency": "EUR", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 20, "maxDays": 40, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "AGE_MIN", "fieldName": "age", "operatorName": "GTE", "expectedValue": "18", "description": "仅演示：申请人年满 18 周岁。" },
+        { "code": "AGE_MAX", "fieldName": "age", "operatorName": "LTE", "expectedValue": "60", "description": "仅演示：申请人年龄不超过 60 周岁。" }
+      ]
+    },
+    {
+      "routeCode": "SG-BUSINESS-DEMO-01",
+      "countryCode": "SG",
+      "visaType": "BUSINESS",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "新加坡 · 商务访问（演示样本）",
+      "summary": "演示：虚构的新加坡商务访问签证申请摘要，用于验证短流程商务签证的轻量明细展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人受新加坡合作方邀请进行短期商务访问；真实条件以新加坡移民与关卡局公告为准。",
+      "stayDays": 30,
+      "stayUnit": "DAY",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 2 年多次，单次停留不超过 30 天。",
+      "applicationChannel": "演示渠道：通过授权签证代理递交商务访问签证申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 85,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期不少于 6 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "签证申请表", "requirement": "演示要求：新加坡签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：近期白底彩色证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "INVITATION_LETTER", "name": "邀请函", "requirement": "演示要求：新加坡邀请方出具的商务邀请函。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "EMPLOYMENT_CERT", "name": "在职证明", "requirement": "演示要求：申请人单位出具的在职证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证费（演示）", "amountMin": "30.00", "amountMax": "30.00", "currency": "SGD", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 3, "maxDays": 5, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "RESIDENCE_CN", "fieldName": "residenceCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：在中国境内居住并递交申请。" }
+      ]
+    },
+    {
+      "routeCode": "SG-FAMILY-DEMO-01",
+      "countryCode": "SG",
+      "visaType": "FAMILY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "新加坡 · 探亲访友（演示样本）",
+      "summary": "演示：虚构的新加坡探亲访友签证申请摘要，用于验证无额外资格规则的轻量明细展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人赴新加坡探望亲友或短期同住；真实条件以新加坡移民与关卡局公告为准。",
+      "stayDays": 30,
+      "stayUnit": "DAY",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 1 年多次，单次停留不超过 30 天。",
+      "applicationChannel": "演示渠道：通过授权签证代理递交探亲访友签证申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 71,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期不少于 6 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "签证申请表", "requirement": "演示要求：新加坡签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：近期白底彩色证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "RELATIONSHIP_PROOF", "name": "亲属关系证明", "requirement": "演示要求：亲属关系证明或邀请方担保材料。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "INVITATION_LETTER", "name": "邀请函", "requirement": "演示要求：新加坡邀请方出具的邀请函与身份证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "签证费（演示）", "amountMin": "30.00", "amountMax": "30.00", "currency": "SGD", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 3, "maxDays": 7, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": []
+    },
+    {
+      "routeCode": "AE-BUSINESS-DEMO-01",
+      "countryCode": "AE",
+      "visaType": "BUSINESS",
+      "categoryCode": "E_VISA",
+      "title": "阿联酋 · 商务访问（演示样本）",
+      "summary": "演示：虚构的阿联酋商务电子签证申请摘要，用于验证电子签渠道、快速出签与费用展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人受阿联酋企业邀请进行短期商务访问；真实条件以阿联酋联邦身份与公民身份管理局公告为准。",
+      "stayDays": 60,
+      "stayUnit": "DAY",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 60 天，可续期一次。",
+      "applicationChannel": "演示渠道：由阿联酋邀请方通过电子签证系统在线申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 82,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期不少于 6 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：白底彩色证件照电子版。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "APPLICATION_FORM", "name": "电子签证申请表", "requirement": "演示要求：在线填写的电子签证申请表。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "INVITATION_LETTER", "name": "邀请函", "requirement": "演示要求：阿联酋邀请方出具的商务邀请函。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "EMPLOYMENT_CERT", "name": "在职证明", "requirement": "演示要求：申请人单位出具的在职证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "电子签证费（演示）", "amountMin": "350.00", "amountMax": "350.00", "currency": "AED", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "代理服务费（演示）", "amountMin": "150.00", "amountMax": "150.00", "currency": "AED", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 3, "maxDays": 7, "dayType": "WORKING_DAY", "startEvent": "在线提交后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "URGENT", "label": "加急处理（演示）", "minDays": 1, "maxDays": 2, "dayType": "WORKING_DAY", "startEvent": "加急申请受理后（演示）", "note": "演示：可选加急。", "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" },
+        { "code": "EMPLOYMENT_STATUS", "fieldName": "employment", "operatorName": "IN", "expectedValue": "[\"EMPLOYED\",\"SELF_EMPLOYED\"]", "description": "仅演示：在职或自雇申请人（演示用枚举值）。" }
+      ]
+    },
+    {
+      "routeCode": "AE-GOLDEN_VISA-DEMO-01",
+      "countryCode": "AE",
+      "visaType": "GOLDEN_VISA",
+      "categoryCode": "TERRITORY_VISA",
+      "title": "阿联酋 · 投资 / 黄金签证（演示样本）",
+      "summary": "演示：虚构的阿联酋黄金签证申请摘要，用于验证长期居留、投资证明与大额费用展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人以合规投资或人才类别申请阿联酋长期居留；真实条件以阿联酋官方公告为准。",
+      "stayDays": 5,
+      "stayUnit": "YEAR",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 5 年长期居留，可续签。",
+      "applicationChannel": "演示渠道：通过阿联酋官方电子平台提交黄金签证申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 95,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期不少于 6 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：白底彩色证件照电子版。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "APPLICATION_FORM", "name": "黄金签证申请表", "requirement": "演示要求：在线填写的黄金签证申请表。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "INVESTMENT_PROOF", "name": "投资证明", "requirement": "演示要求：符合演示门槛的投资证明或资产证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：资金来源合法的银行证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "MEDICAL_EXAM", "name": "体检报告", "requirement": "演示要求：阿联酋认可的体检报告。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "黄金签证申请费（演示）", "amountMin": "4000.00", "amountMax": "4000.00", "currency": "AED", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "体检与制卡费（演示）", "amountMin": "1000.00", "amountMax": "2000.00", "currency": "AED", "basis": "每人（演示）", "condition": "演示：按类别浮动。", "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 10, "maxDays": 30, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "体检预约等待（演示）", "minDays": 5, "maxDays": 20, "dayType": "CALENDAR_DAY", "startEvent": "申请受理后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "AGE_MIN", "fieldName": "age", "operatorName": "GTE", "expectedValue": "18", "description": "仅演示：主申请人年满 18 周岁。" },
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" }
+      ]
+    },
+    {
+      "routeCode": "NZ-WORKING_HOLIDAY-DEMO-01",
+      "countryCode": "NZ",
+      "visaType": "WORKING_HOLIDAY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "新西兰 · 打工度假（演示样本）",
+      "summary": "演示：虚构的新西兰打工度假签证申请摘要，用于验证年龄区间规则、资金与保险材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人为 18–30 岁、以度假为主并从事短期工作的虚构申请人；真实条件以新西兰移民局公告为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 12 个月，可多次出入境。",
+      "applicationChannel": "演示渠道：在线提交打工度假签证申请并上传材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 77,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖打工度假期间。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "在线申请表", "requirement": "演示要求：在线申请确认页 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：近期白底彩色证件照。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖初期生活费的存款证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "QUALIFICATION_PROOF", "name": "学历证明", "requirement": "演示要求：高中及以上学历证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "INSURANCE", "name": "医疗保险", "requirement": "演示要求：覆盖打工度假期间的医疗保险。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "245.00", "amountMax": "245.00", "currency": "NZD", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 15, "maxDays": 30, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 }
+      ],
+      "rules": [
+        { "code": "AGE_RANGE", "fieldName": "age", "operatorName": "BETWEEN", "expectedValue": "[18,30]", "description": "仅演示：申请人年龄在 18–30 岁之间。" },
+        { "code": "PASSPORT_VALIDITY", "fieldName": "passportValidityMonths", "operatorName": "GTE", "expectedValue": "3", "description": "仅演示：护照剩余有效期不少于 3 个月。" }
+      ]
+    },
+    {
+      "routeCode": "NZ-STUDY-DEMO-01",
+      "countryCode": "NZ",
+      "visaType": "STUDY",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "新西兰 · 留学学习（演示样本）",
+      "summary": "演示：虚构的新西兰学生签证申请摘要，用于验证按学业时长签发的居留条件与体检材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获新西兰院校录取并具备足够资金；真实条件以新西兰移民局公告为准。",
+      "stayDays": 12,
+      "stayUnit": "MONTH",
+      "stayRule": "UNSPECIFIED",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "SINGLE",
+      "validityNote": "演示：按课程时长签发，示例为 12 个月。",
+      "applicationChannel": "演示渠道：在线提交学生签证申请并上传材料。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 89,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖学业时长。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "在线申请表", "requirement": "演示要求：在线申请确认页 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "ACCEPTANCE_LETTER", "name": "录取通知书", "requirement": "演示要求：新西兰院校录取通知书与学费缴纳证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：覆盖学费与生活费的存款或资助证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "INSURANCE", "name": "医疗保险", "requirement": "演示要求：覆盖在新西兰学习期间的医疗保险。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "MEDICAL_EXAM", "name": "体检报告", "requirement": "演示要求：符合新西兰移民局要求的体检报告。", "quantity": 1, "required": false, "condition": "演示：计划停留超过 6 个月时补交。", "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "申请费（演示）", "amountMin": "430.00", "amountMax": "430.00", "currency": "NZD", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "签证中心服务费（演示）", "amountMin": "120.00", "amountMax": "120.00", "currency": "NZD", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 20, "maxDays": 40, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 5, "maxDays": 15, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": []
+    },
+    {
+      "routeCode": "TH-MEDICAL-DEMO-01",
+      "countryCode": "TH",
+      "visaType": "MEDICAL",
+      "categoryCode": "E_VISA",
+      "title": "泰国 · 医疗访问（演示样本）",
+      "summary": "演示：虚构的泰国医疗访问电子签证申请摘要，用于验证医院预约确认与病历摘要等医疗类材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人已获泰国医院医疗预约并赴泰接受治疗；真实条件以泰国外交部与医院公告为准。",
+      "stayDays": 90,
+      "stayUnit": "DAY",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 90 天，可申请延期。",
+      "applicationChannel": "演示渠道：通过泰国电子签证系统在线申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 75,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期不少于 6 个月。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：白底彩色证件照电子版。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "APPLICATION_FORM", "name": "电子签证申请表", "requirement": "演示要求：在线填写的医疗签证申请表。", "quantity": 1, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "HOSPITAL_APPOINTMENT", "name": "医院预约确认", "requirement": "演示要求：泰国医院出具的医疗预约与治疗方案确认函。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "MEDICAL_REPORT", "name": "病历摘要", "requirement": "演示要求：中国境内医院出具的病历摘要或诊断证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "电子签证费（演示）", "amountMin": "2000.00", "amountMax": "2000.00", "currency": "THB", "basis": "每人（演示）", "condition": null, "comparable": true }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 5, "maxDays": 10, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "HOSPITAL_CONFIRM", "label": "医院确认等待（演示）", "minDays": 3, "maxDays": 7, "dayType": "CALENDAR_DAY", "startEvent": "医院受理预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": []
+    },
+    {
+      "routeCode": "TH-RESIDENCE-DEMO-01",
+      "countryCode": "TH",
+      "visaType": "RESIDENCE",
+      "categoryCode": "EMBASSY_VISA",
+      "title": "泰国 · 长期居留（演示样本）",
+      "summary": "演示：虚构的泰国长期居留签证申请摘要，用于验证长期停留单位、资金与无犯罪材料展示，不对应任何真实政策。",
+      "conditionsText": "仅演示：假设申请人符合泰国长期居留类别的资金与年龄条件；真实条件以泰国移民局公告为准。",
+      "stayDays": 10,
+      "stayUnit": "YEAR",
+      "stayRule": "PER_ENTRY",
+      "windowDays": null,
+      "windowMaxDays": null,
+      "entryScope": "MULTIPLE",
+      "validityNote": "演示：有效期示例为 10 年长期居留，需定期报到。",
+      "applicationChannel": "演示渠道：通过泰国使领馆递交长期居留签证申请。",
+      "requiresVisa": true,
+      "requiresAuthorization": true,
+      "completeness": 80,
+      "documents": [
+        { "code": "PASSPORT", "name": "护照", "requirement": "演示要求：护照有效期覆盖拟居留期间。", "quantity": 1, "required": true, "condition": null, "sortOrder": 1 },
+        { "code": "APPLICATION_FORM", "name": "长期签证申请表", "requirement": "演示要求：泰国长期居留签证申请表 1 份。", "quantity": 1, "required": true, "condition": null, "sortOrder": 2 },
+        { "code": "PHOTO", "name": "证件照", "requirement": "演示要求：近期白底彩色证件照 2 张。", "quantity": 2, "required": true, "condition": null, "sortOrder": 3 },
+        { "code": "FUNDS_PROOF", "name": "资金证明", "requirement": "演示要求：符合演示门槛的存款或收入证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 4 },
+        { "code": "POLICE_CLEARANCE", "name": "无犯罪记录证明", "requirement": "演示要求：申请人国籍国出具的无犯罪记录证明。", "quantity": 1, "required": true, "condition": null, "sortOrder": 5 },
+        { "code": "ACCOMMODATION_PROOF", "name": "住宿证明", "requirement": "演示要求：泰国境内长期住宿证明或房产材料。", "quantity": 1, "required": true, "condition": null, "sortOrder": 6 }
+      ],
+      "fees": [
+        { "code": "APPLICATION", "label": "长期签证费（演示）", "amountMin": "5000.00", "amountMax": "5000.00", "currency": "THB", "basis": "每人（演示）", "condition": null, "comparable": true },
+        { "code": "SERVICE", "label": "材料审核服务费（演示）", "amountMin": "1000.00", "amountMax": "2000.00", "currency": "THB", "basis": "每人（演示）", "condition": null, "comparable": false }
+      ],
+      "timings": [
+        { "code": "PROCESSING", "label": "审核时间（演示）", "minDays": 30, "maxDays": 45, "dayType": "WORKING_DAY", "startEvent": "材料齐全后（演示）", "note": null, "comparable": true, "sortOrder": 1 },
+        { "code": "APPOINTMENT_WAIT", "label": "预约等待（演示）", "minDays": 7, "maxDays": 30, "dayType": "CALENDAR_DAY", "startEvent": "在线预约后（演示）", "note": null, "comparable": false, "sortOrder": 2 }
+      ],
+      "rules": [
+        { "code": "AGE_MIN_50", "fieldName": "age", "operatorName": "GTE", "expectedValue": "50", "description": "仅演示：申请人年满 50 周岁。" },
+        { "code": "PASSPORT_CN", "fieldName": "passportCountryCode", "operatorName": "IN", "expectedValue": "[\"CN\"]", "description": "仅演示：中国普通护照申请人。" }
+      ]
+    }
+  ]
+}

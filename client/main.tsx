@@ -27,12 +27,12 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
   render() {
     if (this.state.error) {
       return (
-        <div className="va-fatal">
-          <div className="va-fatal__card va-panel">
-            <span className="va-eyebrow">RENDER ERROR</span>
+        <div className="va-boot">
+          <div className="va-boot__card">
+            <span className="va-boot__eyebrow">RENDER ERROR</span>
             <h1>页面渲染遇到问题</h1>
-            <p className="va-fatal__message">{this.state.error.message || '未知渲染错误。'}</p>
-            <button type="button" className="va-button va-button--primary" onClick={() => window.location.reload()}>
+            <p>{this.state.error.message || '未知渲染错误。'}</p>
+            <button type="button" className="va-text-button" onClick={() => window.location.reload()}>
               刷新页面
             </button>
           </div>

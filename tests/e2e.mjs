@@ -1,12 +1,12 @@
 /**
- * Visa Atlas · 浏览器验收（Playwright + 系统 Chrome，不下载浏览器）
+ * Visa Atlas v2 · 浏览器验收（Playwright + 系统 Chrome，不下载浏览器）
  *
  * 前置：另开终端运行 `npm run dev`（API 3001 + Web 5173）。
  * 运行：npm run e2e
  * 环境变量：E2E_BASE_URL（默认 http://127.0.0.1:5173）、CHROME_PATH。
  *
- * 覆盖：首屏渲染、地图国家数、关键词检索、结果卡、国家档案、分面筛选、
- *       地图悬停浮层、列表模式、演示数据开关、控制台/页面错误。
+ * 覆盖：地球渲染、悬停国家浮层、搜索预置词、模糊搜索、搜索结果选择、
+ *       国家抽屉收起/展开、点击地球选国、数据说明弹层、控制台零错误。
  */
 import { chromium } from 'playwright-core';
 
@@ -30,113 +30,133 @@ async function main() {
     reachable = response.ok;
   } catch { reachable = false; }
   if (!reachable) {
-    console.error(`✘ 无法访问 ${BASE}。请先运行 npm run dev（API 3001 + Web 5173），如需自定义地址请设置 E2E_BASE_URL。`);
+    console.error(`✘ 无法访问 ${BASE}。请先运行 npm run dev。`);
     process.exitCode = 1;
     return;
   }
 
-  const browser = await chromium.launch({ executablePath: CHROME, headless: true });
+  const browser = await chromium.launch({
+    executablePath: CHROME,
+    headless: true,
+    args: ['--enable-unsafe-swiftshader', '--use-gl=angle'],
+  });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
   page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
   page.on('pageerror', error => pageErrors.push(String(error)));
 
-  try {
-    /* 1. 首屏 */
-    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('.va-map-country', { timeout: 20000 });
-    await page.waitForSelector('.va-result-card', { timeout: 20000 });
-    const countryPaths = await page.locator('.va-map-country').count();
-    check(countryPaths >= 200, `地图渲染国家多边形 ${countryPaths} 个（≥200）`);
-    const resultCards = await page.locator('.va-result-card').count();
-    check(resultCards > 0, `首屏结果卡 ${resultCards} 张`);
-    const stageText = await page.locator('.va-stage').innerText();
-    check(/249|250/.test(stageText), '舞台显示 249/250 目的地统计');
-
-    /* 2. 关键词检索 */
-    const searchInput = page.locator('[data-testid="search-input"], input[aria-label*="搜索"]').first();
-    await searchInput.click();
-    await searchInput.fill('日本');
+  const searchInput = page.locator('[data-testid="search-input"], .va-search input').first();
+  const closeSheet = async () => {
+    const button = page.locator('[data-testid="sheet-close"]').first();
+    if (await button.count()) await button.click().catch(() => {});
+    else await page.keyboard.press('Escape');
+    await page.waitForTimeout(350);
+  };
+  const openPreset = async label => {
+    const preset = page.locator(`[data-testid="preset-${label}"], .va-presets button`).filter({ hasText: label }).first();
+    await preset.click();
     await page.waitForTimeout(900);
-    const japanCard = page.locator('.va-result-card[data-iso2="JP"]').first();
-    await japanCard.waitFor({ timeout: 8000 });
-    check(await japanCard.isVisible(), '搜索「日本」命中结果卡 JP');
-    check((await page.locator('.va-result-card').count()) < 30, '搜索结果数量已收窄');
-
-    /* 3. 国家档案 */
-    await japanCard.click();
-    const dossier = page.locator('[data-testid="dossier"], .va-dossier').first();
-    await dossier.waitFor({ timeout: 8000 });
-    const dossierText = await dossier.innerText();
-    check(dossierText.includes('日本'), '国家档案显示国家名');
-    check(/待采集|摘要级|资料完整度/.test(dossierText), '档案显示资料成熟度/待采集字段');
-    check(!/undefined|NaN/.test(dossierText), '档案无 undefined/NaN 文本');
-
-    /* 4. 返回 + 清空搜索 */
-    await page.getByRole('button', { name: /返回结果/ }).first().click().catch(() => {});
-    await page.waitForTimeout(300);
-    const clearButton = page.locator('[data-testid="search-input"], input[aria-label*="搜索"]').first();
-    await clearButton.fill('');
-    await page.waitForTimeout(700);
-
-    /* 5. 地图悬停浮层 */
-    // 先重置地图视图，避免上一步日本聚焦导致目标国家跑出可视区
-    await page.locator('.va-map-reset, [aria-label*="重置地图"]').first().click().catch(() => {});
+  };
+  const clearSearch = async () => {
+    await searchInput.click();
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
     await page.waitForTimeout(600);
-    let hovered = false;
-    for (const iso2 of ['BR', 'CN', 'AU', 'CA']) {
-      const target = page.locator(`.va-map-country[data-iso2="${iso2}"]`).first();
-      if (!(await target.count())) continue;
-      const box = await target.boundingBox();
-      if (!box) continue;
-      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  };
+
+  try {
+    /* 1. 首屏地球 */
+    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('.va-globe canvas', { timeout: 25000 });
+    await page.waitForFunction(() => window.__globeReady === true, undefined, { timeout: 25000 });
+    await page.waitForTimeout(800);
+    check(true, '地球 canvas 已渲染并完成加载');
+    check(await searchInput.isVisible(), '顶部搜索框可见');
+    const presetCount = await page.locator('.va-presets button, [data-testid^="preset-"]').count();
+    check(presetCount >= 6, `预置词 ${presetCount} 个（≥6）`);
+    const bodyText = await page.locator('body').innerText();
+    check(!/Filters|筛选栏|检索结果面板/.test(bodyText), '旧三栏 UI 已移除');
+
+    /* 2. 预置词：免签 */
+    await openPreset('免签');
+    const rows = page.locator('[data-testid="result-row"], .va-search-row');
+    const rowCount = await rows.count();
+    check(rowCount > 0, `预置词「免签」返回 ${rowCount} 行结果`);
+    const firstRowText = rowCount ? await rows.first().innerText() : '';
+    check(/免签|签证|停留/.test(firstRowText), '结果行包含类别/停留信息');
+
+    /* 3. hover 结果行 → 固定悬浮卡 */
+    if (rowCount) {
+      await rows.first().hover();
       await page.waitForTimeout(500);
-      const tooltip = page.locator('.va-map-tooltip').first();
-      if (await tooltip.isVisible().catch(() => false)) {
-        const tooltipText = await tooltip.innerText().catch(() => '');
-        if (tooltipText.trim().length > 0) {
-          check(true, `地图悬停出现国家浮层（${iso2}）`);
-          check(tooltipText.length > 3, `浮层显示国家信息：${tooltipText.split('\n')[0]}`);
-          hovered = true;
-          break;
-        }
+      const hoverCard = page.locator('[data-testid="hover-card"], .va-hover-card').first();
+      check(await hoverCard.isVisible().catch(() => false), 'hover 结果行出现固定悬浮卡');
+      const hoverText = await hoverCard.innerText().catch(() => '');
+      check(hoverText.includes('查看档案') || hoverText.includes('点击'), '悬浮卡提供查看档案入口');
+    }
+
+    /* 4. 点击结果行 → 国家抽屉 */
+    if (rowCount) {
+      await rows.first().click();
+      await page.waitForSelector('[data-testid="country-sheet"], .va-sheet', { timeout: 8000 });
+      await page.waitForTimeout(700);
+      const sheet = page.locator('[data-testid="country-sheet"], .va-sheet').first();
+      check(await sheet.isVisible(), '点击结果行打开国家抽屉');
+      const sheetText = await sheet.innerText();
+      check(/停留|入境|完整度/.test(sheetText), '抽屉包含停留/入境/完整度');
+      const expand = page.locator('[data-testid="sheet-expand"]').first();
+      if (await expand.count()) {
+        await expand.click();
+        await page.waitForTimeout(500);
+        const expandedText = await sheet.innerText();
+        check(/待采集|资料|来源/.test(expandedText), '抽屉展开显示待采集/来源信息');
+      } else {
+        check(false, '抽屉提供展开入口');
       }
+      await closeSheet();
     }
-    if (!hovered) check(false, '地图悬停出现国家浮层');
 
-    /* 6. 分面筛选：地区 */
-    const asiaChip = page.locator('.va-rail button').filter({ hasText: '亚洲' }).first();
-    if (await asiaChip.count()) {
-      await asiaChip.click();
+    /* 5. 搜索「日本」 */
+    await clearSearch();
+    await searchInput.fill('日本');
+    await page.waitForTimeout(1000);
+    const japanRow = page.locator('[data-testid="result-row"][data-iso2="JP"], .va-search-row[data-iso2="JP"]').first();
+    check(await japanRow.count() > 0, '搜索「日本」命中 JP 行');
+    if (await japanRow.count()) {
+      await japanRow.click();
       await page.waitForTimeout(900);
-      const totalText = await page.locator('[data-testid="result-total"], .va-results__total, .va-stage__count').first().innerText().catch(() => '');
-      check(/\d+\s*(个目的地|条|目的地)/.test(totalText) || totalText.length > 0, `地区筛选后统计更新：${totalText.replace(/\s+/g, ' ').trim()}`);
-      check((await page.locator('.va-result-card').count()) > 0, '地区筛选后仍有结果');
-      await asiaChip.click().catch(() => {});
-      await page.waitForTimeout(500);
-    } else {
-      check(false, '筛选栏找到「亚洲」chip');
+      const sheet = page.locator('[data-testid="country-sheet"], .va-sheet').first();
+      const text = await sheet.innerText().catch(() => '');
+      check(text.includes('日本'), '日本抽屉显示国家名');
+      check(!/undefined|NaN/.test(text), '抽屉无 undefined/NaN');
+      await closeSheet();
     }
 
-    /* 7. 列表模式 */
-    const listButton = page.locator('[data-testid="stage-toggle"] button').filter({ hasText: '列表' }).first();
-    await listButton.click();
-    await page.waitForTimeout(600);
-    check((await page.locator('.va-stage-grid .va-result-card').count()) > 0, '列表模式渲染结果网格');
-    await page.locator('[data-testid="stage-toggle"] button').filter({ hasText: '地图' }).first().click();
-    await page.waitForTimeout(400);
+    /* 6. 模糊搜索（本地容错） */
+    await clearSearch();
+    await searchInput.fill('Japn');
+    await page.waitForTimeout(700);
+    const fuzzyRow = page.locator('[data-testid="suggestion-row"][data-iso2="JP"], [data-testid="result-row"][data-iso2="JP"]').first();
+    check(await fuzzyRow.count() > 0, '模糊输入「Japn」建议命中 JP');
+    await clearSearch();
 
-    /* 8. 演示明细开关 */
-    const demoSwitch = page.locator('[data-testid="demo-toggle"]').first();
-    if (await demoSwitch.count()) {
-      await demoSwitch.click();
-      await page.waitForTimeout(900);
-      const demoBadge = await page.getByText('演示', { exact: false }).count();
-      check(demoBadge > 0, '开启演示开关后出现演示标注');
+    /* 7. 点击地球中心选国 */
+    const canvasBox = await page.locator('.va-globe canvas').first().boundingBox();
+    if (canvasBox) {
+      await page.mouse.click(canvasBox.x + canvasBox.width / 2, canvasBox.y + canvasBox.height / 2);
+      await page.waitForTimeout(1100);
+      const sheet = page.locator('[data-testid="country-sheet"], .va-sheet').first();
+      check(await sheet.isVisible().catch(() => false), '点击地球国家打开国家抽屉');
+      await closeSheet();
     } else {
-      check(false, '筛选栏存在演示开关');
+      check(false, '拿到地球 canvas 尺寸');
     }
 
-    /* 9. 数据说明弹层 */
+    /* 8. 地区预置：欧洲 */
+    await openPreset('欧洲');
+    const euRows = await page.locator('[data-testid="result-row"], .va-search-row').count();
+    check(euRows > 0, `预置词「欧洲」返回 ${euRows} 行`);
+
+    /* 9. 数据说明 */
     const notes = page.locator('[data-testid="data-notes"]').first();
     if (await notes.count()) {
       await notes.click();

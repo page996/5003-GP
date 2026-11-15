@@ -6,9 +6,11 @@
 
 本项目抽取并转换两位代码、中英文常用名、地理区域、别名及中心点，并按英文常用名排序。派生地理目录的再分发和公开使用应遵守 ODbL 的署名及适用的同方式共享等要求；不要移除原始许可。`coverage-targets.json` 基于该目录代码增加项目采集任务。
 
-## 2. 地图几何
+## 2. 地图几何与渲染
 
-`data/geo/world-paths.json` 由 `world-atlas@2.0.2` 的 `countries-50m.json`（Natural Earth 1:50m）经 TopoJSON → GeoJSON → Equal Earth 投影生成。Natural Earth 数据为 **public domain**（<https://www.naturalearthdata.com/about/terms-of-use/>）。地图几何的国界线仅用于示意性可视化，**不代表本项目对任何边界、主权或领土主张的立场**，也不构成法律/外交结论。
+`public/geo/*.geo.json` 由 `world-atlas@2.0.2` 的 `countries-50m.json`（Natural Earth 1:50m）经 TopoJSON → GeoJSON 生成。Natural Earth 数据为 **public domain**（<https://www.naturalearthdata.com/about/terms-of-use/>）。地图几何的国界线仅用于示意性可视化，**不代表本项目对任何边界、主权或领土主张的立场**，也不构成法律/外交结论。
+
+球体渲染使用 **MapLibre GL JS 5.9**（<https://maplibre.org/>，BSD-3-Clause 许可证）。本项目不加载任何在线瓦片/底图服务。
 
 ## 3. 签证政策数据
 

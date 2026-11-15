@@ -1,160 +1,125 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AlertTriangle, Database, Info, RotateCcw, TriangleAlert, X } from 'lucide-react';
-import {
-  DEFAULT_SEARCH_QUERY,
-  DISCLAIMER,
-} from '../shared/contracts.ts';
+import { Info, RefreshCw } from 'lucide-react';
+import { DEFAULT_SEARCH_QUERY, VISA_TYPES } from '../shared/contracts.ts';
 import type {
-  CountryDossier as CountryDossierData,
-  DataStatus,
+  CountryDossier,
   OverviewResponse,
-  PolicyGroup,
-  RegionCode,
-  SearchItem,
   SearchQuery,
   SearchResponse,
-  SearchSort,
 } from '../shared/contracts.ts';
 import { fetchCountry, fetchOverview, fetchSearch, isAbortError, toApiError, type ApiError } from './api';
-import { DataNotesModal } from './components/DataNotesModal';
-import { StagePanel, type StageMode } from './components/StagePanel';
-import { cx } from './components/cx';
-import { CountryDossier } from './features/details/CountryDossier';
-import { FilterRail } from './features/filters/FilterRail';
-import type { MapColorMode } from './features/map/WorldMap';
-import { ResultsPanel } from './features/results/ResultsPanel';
-import { GlobalSearch } from './features/search/GlobalSearch';
-import { useDebouncedValue } from './hooks/useDebouncedValue';
-import { parseUrlState, serializeUrlState } from './hooks/useUrlState';
+import { DataNotes } from './components/DataNotes';
+import { CountrySheet } from './features/details/CountrySheet';
+import { GlobeMap, type GlobeFocusRequest } from './features/map/GlobeMap';
+import { SearchOverlay, type PresetDefinition } from './features/search/SearchOverlay';
+import { suggestCountries } from './features/search/fuzzy';
 
-type SidePanel = 'results' | 'dossier';
+type PresetId = 'free' | 'arrival' | 'online' | 'schengen' | 'business' | 'japan' | 'usa' | 'europe';
 
-const MAX_RESTORE_PAGE = 99;
-
-function toggleInList<T>(list: T[], value: T): T[] {
-  return list.includes(value) ? list.filter(item => item !== value) : [...list, value];
+interface Preset extends PresetDefinition {
+  id: PresetId;
 }
 
-function mergeItems(current: SearchItem[], next: SearchItem[]): SearchItem[] {
-  if (current.length === 0) return next;
-  const seen = new Set(current.map(item => item.key));
-  return [...current, ...next.filter(item => !seen.has(item.key))];
+const PRESETS: Preset[] = [
+  { id: 'free', label: '免签' },
+  { id: 'arrival', label: '落地签' },
+  { id: 'online', label: '电子签' },
+  { id: 'schengen', label: '申根' },
+  { id: 'business', label: '商务签' },
+  { id: 'japan', label: '日本' },
+  { id: 'usa', label: '美国' },
+  { id: 'europe', label: '欧洲' },
+];
+
+function buildSearchQuery(text: string, preset: PresetId | null, activeType: string | null): SearchQuery {
+  const query: SearchQuery = { ...DEFAULT_SEARCH_QUERY, q: text.trim(), page: 1, pageSize: 24 };
+  switch (preset) {
+    case 'free':
+      query.groups = ['FREE'];
+      break;
+    case 'arrival':
+      query.groups = ['ARRIVAL'];
+      break;
+    case 'online':
+      query.groups = ['ONLINE'];
+      break;
+    case 'schengen':
+      query.categories = ['SCHENGEN_VISA'];
+      break;
+    case 'business':
+      query.type = 'BUSINESS';
+      break;
+    case 'japan':
+      query.q = '日本';
+      break;
+    case 'usa':
+      query.q = '美国';
+      break;
+    case 'europe':
+      query.regions = ['EU'];
+      break;
+    default:
+      break;
+  }
+  if (activeType) query.type = activeType;
+  return query;
 }
 
-function countActiveFilters(query: SearchQuery): number {
-  let count =
-    query.regions.length +
-    query.groups.length +
-    query.categories.length +
-    query.stays.length +
-    query.statuses.length;
-  if (query.q.trim()) count += 1;
-  if (query.type && query.type !== DEFAULT_SEARCH_QUERY.type) count += 1;
-  if (query.priorityOnly) count += 1;
-  return count;
-}
-
-function CompassMark() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" className="va-brand__mark">
-      <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" strokeWidth="1.1" opacity="0.5" />
-      <circle cx="16" cy="16" r="8.4" fill="none" stroke="currentColor" strokeWidth="0.9" opacity="0.26" />
-      <path
-        d="M16 5.2 18.3 13.7 26.8 16 18.3 18.3 16 26.8 13.7 18.3 5.2 16 13.7 13.7Z"
-        fill="currentColor"
-        opacity="0.92"
-      />
-      <circle cx="16" cy="16" r="2.1" fill="var(--va-bg-deep)" stroke="currentColor" strokeWidth="1" />
-    </svg>
+function isQueryActive(query: SearchQuery): boolean {
+  return Boolean(
+    query.q.trim() ||
+      query.regions.length ||
+      query.groups.length ||
+      query.categories.length ||
+      query.stays.length ||
+      query.statuses.length ||
+      query.priorityOnly ||
+      query.type !== DEFAULT_SEARCH_QUERY.type,
   );
 }
 
-function BootScreen() {
-  return (
-    <div className="va-boot">
-      <div className="va-boot__brand">
-        <CompassMark />
-        <div>
-          <strong>VISA ATLAS</strong>
-          <span>世界签证图谱 · CHINA PASSPORT</span>
-        </div>
-      </div>
-      <div className="va-boot__card">
-        <span className="va-eyebrow">LOADING ATLAS</span>
-        <h1>正在载入世界签证图谱…</h1>
-        <p>读取数据集元信息、249 国政策摘要与地图着色数据。</p>
-        <span className="va-boot__bar" aria-hidden="true">
-          <span />
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function FatalError({ error, onRetry }: { error: ApiError | null; onRetry: () => void }) {
-  return (
-    <div className="va-fatal">
-      <div className="va-fatal__card va-panel">
-        <span className="va-eyebrow">DATA UNAVAILABLE</span>
-        <div className="va-fatal__title">
-          <AlertTriangle size={20} aria-hidden="true" />
-          <h1>资料服务未能启动</h1>
-        </div>
-        <p className="va-fatal__message">{error?.message ?? '无法读取数据集，请稍后重试。'}</p>
-        {error?.code ? <code className="va-fatal__code">{error.code}</code> : null}
-        <button type="button" className="va-button va-button--primary" onClick={onRetry} data-testid="retry">
-          <RotateCcw size={14} aria-hidden="true" />
-          重新连接
-        </button>
-        <p className="va-fatal__hint">
-          请确认后端 API 已启动：<code>http://127.0.0.1:3001/api/health</code>
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/** Visa Atlas 页面状态编排：overview / search / suggestions / dossier / URL / 键盘 */
+/** Visa Atlas v2 · 全屏地球 + 顶部搜索胶囊 + 底部国家抽屉 */
 export function App() {
-  const [initialState] = useState(() => parseUrlState(window.location.search));
-
   const [overview, setOverview] = useState<OverviewResponse | null>(null);
-  const [overviewError, setOverviewError] = useState<ApiError | null>(null);
   const [overviewLoading, setOverviewLoading] = useState(true);
+  const [overviewError, setOverviewError] = useState<ApiError | null>(null);
   const [overviewRetry, setOverviewRetry] = useState(0);
 
-  const [searchText, setSearchText] = useState(initialState.query.q);
-  const [query, setQuery] = useState<SearchQuery>(initialState.query);
+  const [searchText, setSearchText] = useState('');
+  const [debouncedText, setDebouncedText] = useState('');
+  const [activePreset, setActivePreset] = useState<PresetId | null>(null);
+  const [activeType, setActiveType] = useState<{ code: string; label: string } | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [searchResponse, setSearchResponse] = useState<SearchResponse | null>(null);
-  const [items, setItems] = useState<SearchItem[]>([]);
-  const [searchLoading, setSearchLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<ApiError | null>(null);
   const [searchRetry, setSearchRetry] = useState(0);
-  const [loadingMore, setLoadingMore] = useState(false);
 
-  const [selectedIso2, setSelectedIso2] = useState<string | null>(initialState.country);
-  const [dossier, setDossier] = useState<CountryDossierData | null>(null);
+  const [hoverIso2, setHoverIso2] = useState<string | null>(null);
+  /** 悬浮卡内容单独延迟更新：鼠标快速穿过多个国家去点卡片时，卡片仍保持原国家，避免点错 */
+  const [hoverCardIso2, setHoverCardIso2] = useState<string | null>(null);
+  const hoverCardRef = useRef(false);
+  const hoverClearTimerRef = useRef<number | null>(null);
+  const hoverDwellTimerRef = useRef<number | null>(null);
+
+  const [selectedIso2, setSelectedIso2] = useState<string | null>(null);
+  const [dossier, setDossier] = useState<CountryDossier | null>(null);
   const [dossierLoading, setDossierLoading] = useState(false);
   const [dossierError, setDossierError] = useState<ApiError | null>(null);
   const [dossierRetry, setDossierRetry] = useState(0);
 
-  const [panel, setPanel] = useState<SidePanel>(initialState.country ? 'dossier' : 'results');
-  const [stageMode, setStageMode] = useState<StageMode>('map');
-  const [colorMode, setColorMode] = useState<MapColorMode>('category');
-  const [hoverRegion, setHoverRegion] = useState<RegionCode | null>(null);
-  const [mapResetSignal, setMapResetSignal] = useState(0);
-  const [explanationOpen, setExplanationOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetExpanded, setSheetExpanded] = useState(false);
+  const [focusRequest, setFocusRequest] = useState<GlobeFocusRequest | null>(null);
+  const focusNonceRef = useRef(0);
+  const [resetSignal, setResetSignal] = useState(0);
+  const [notesOpen, setNotesOpen] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const queryRef = useRef(query);
-  queryRef.current = query;
-  const loadMoreAbortRef = useRef<AbortController | null>(null);
-  /** 首屏若 URL 带 page>1，第一轮成功请求会依次补齐前序页面后恢复 */
-  const restorePageRef = useRef(Math.min(Math.max(initialState.query.page, 1), MAX_RESTORE_PAGE));
+  /** 自动飞行去重：同一次搜索只飞一次，避免重试/重渲染时反复拉镜头 */
+  const autoFocusKeyRef = useRef('');
 
-  const debouncedSearchText = useDebouncedValue(searchText, 250);
-
-  /* ---------------- 数据集 overview ---------------- */
+  /* ---------------- 数据集 ---------------- */
   useEffect(() => {
     const controller = new AbortController();
     setOverviewLoading(true);
@@ -173,83 +138,107 @@ export function App() {
     return () => controller.abort();
   }, [overviewRetry]);
 
-  /* ---------------- 关键词防抖 → query.q ---------------- */
+  /* ---------------- 300ms 防抖文本 → 检索 query ---------------- */
   useEffect(() => {
-    const nextText = debouncedSearchText.trim();
-    if (nextText === queryRef.current.q) return;
-    setQuery(prev => ({ ...prev, q: nextText, page: 1 }));
-  }, [debouncedSearchText]);
+    if (!searchText.trim()) {
+      setDebouncedText('');
+      return;
+    }
+    const timer = window.setTimeout(() => setDebouncedText(searchText.trim()), 300);
+    return () => window.clearTimeout(timer);
+  }, [searchText]);
 
-  /* ---------------- 检索（筛选 / 关键词 / 排序变化时取消旧请求） ---------------- */
-  const filterKey = useMemo(
-    () =>
-      JSON.stringify({
-        q: query.q,
-        type: query.type,
-        regions: query.regions,
-        groups: query.groups,
-        categories: query.categories,
-        stays: query.stays,
-        statuses: query.statuses,
-        priorityOnly: query.priorityOnly,
-        includeDemo: query.includeDemo,
-        sort: query.sort,
-      }),
-    [query],
+  const query = useMemo(
+    () => buildSearchQuery(debouncedText, activePreset, activeType?.code ?? null),
+    [debouncedText, activePreset, activeType],
   );
+  const queryActive = useMemo(() => isQueryActive(query), [query]);
 
+  // 清空搜索/筛选后允许下一次同样的查询再次自动飞行
   useEffect(() => {
+    if (!queryActive) autoFocusKeyRef.current = '';
+  }, [queryActive]);
+
+  /* ---------------- 检索（取消旧请求） ---------------- */
+  useEffect(() => {
+    if (!queryActive) {
+      setSearchResponse(null);
+      setSearchLoading(false);
+      setSearchError(null);
+      return;
+    }
     const controller = new AbortController();
-    loadMoreAbortRef.current?.abort();
-    // 首屏恢复 URL 中的深页码；成功后清空，筛选变化一律回到第 1 页
-    const restoreTarget = restorePageRef.current;
     setSearchLoading(true);
     setSearchError(null);
-
-    async function run() {
-      try {
-        const baseQuery = { ...queryRef.current, page: 1 };
-        const first = await fetchSearch(baseQuery, controller.signal);
+    fetchSearch(query, controller.signal)
+      .then(data => {
         if (controller.signal.aborted) return;
-
-        let merged = first.items;
-        let finalPage = 1;
-        const targetPage = Math.min(Math.max(restoreTarget, 1), Math.max(first.pageCount, 1));
-        for (let page = 2; page <= targetPage; page += 1) {
-          const next = await fetchSearch({ ...queryRef.current, page }, controller.signal);
-          if (controller.signal.aborted) return;
-          merged = mergeItems(merged, next.items);
-          finalPage = page;
-        }
-        restorePageRef.current = 1;
-
-        setSearchResponse({ ...first, items: merged, page: finalPage });
-        setItems(merged);
-        setQuery(prev => (prev.page === finalPage ? prev : { ...prev, page: finalPage }));
-      } catch (error) {
+        setSearchResponse(data);
+        setSearchLoading(false);
+      })
+      .catch((error: unknown) => {
         if (controller.signal.aborted || isAbortError(error)) return;
         setSearchError(toApiError(error));
-      } finally {
-        if (!controller.signal.aborted) setSearchLoading(false);
+        setSearchLoading(false);
+      });
+    return () => controller.abort();
+  }, [query, queryActive, searchRetry]);
+
+  const matched = useMemo<Set<string> | null>(
+    () => (queryActive && searchResponse ? new Set(searchResponse.matchedCountries) : null),
+    [queryActive, searchResponse],
+  );
+
+  /**
+   * 搜索到“明确指向某个国家”时把地球自动飞过去：
+   * - 预置词 日本/美国 → 对应国家；
+   * - 输入文本命中完整国家名/ISO（如「日本」「Japan」「US」）或强模糊建议（如「Japn」）；
+   * - 命中结果 ≤ 3 个时飞向第一个结果。
+   * 其余情况（免签/欧洲等宽筛选）保持全球视角，只做未命中变暗。
+   */
+  useEffect(() => {
+    if (!overview || !queryActive || !searchResponse || sheetOpen) return;
+    const key = `${activePreset ?? ''}|${debouncedText}|${activeType?.code ?? ''}`;
+    if (autoFocusKeyRef.current === key) return;
+    let target: string | null = null;
+    if (activePreset === 'japan') target = 'JP';
+    else if (activePreset === 'usa') target = 'US';
+    if (!target && debouncedText) {
+      const exact = overview.mapCountries.find(
+        country =>
+          country.nameZh === debouncedText ||
+          country.nameEn.toLowerCase() === debouncedText.toLowerCase() ||
+          country.iso2 === debouncedText.toUpperCase(),
+      );
+      if (exact) target = exact.iso2;
+      if (!target) {
+        const suggestion = suggestCountries(overview.mapCountries, debouncedText, 1)[0];
+        if (suggestion && suggestion.score >= 900) target = suggestion.iso2;
       }
     }
-
-    void run();
-    return () => controller.abort();
-  }, [filterKey, searchRetry]);
+    if (!target && searchResponse.total > 0 && searchResponse.total <= 3) {
+      target = searchResponse.items[0]?.iso2 ?? null;
+    }
+    if (!target) return;
+    autoFocusKeyRef.current = key;
+    // 搜索明确指向某国时，把该国作为“搜索焦点”高亮黄色（不打开抽屉，用户可继续点击）
+    setSelectedIso2(target);
+    focusNonceRef.current += 1;
+    setFocusRequest({ iso2: target, nonce: focusNonceRef.current });
+  }, [overview, queryActive, searchResponse, sheetOpen, activePreset, activeType, debouncedText]);
 
   /* ---------------- 国家档案 ---------------- */
   useEffect(() => {
-    if (!selectedIso2) {
+    if (!sheetOpen || !selectedIso2) {
       setDossier(null);
-      setDossierError(null);
       setDossierLoading(false);
+      setDossierError(null);
       return;
     }
     const controller = new AbortController();
     setDossierLoading(true);
     setDossierError(null);
-    fetchCountry(selectedIso2, query.includeDemo, controller.signal)
+    fetchCountry(selectedIso2, true, controller.signal)
       .then(data => {
         if (controller.signal.aborted) return;
         setDossier(data);
@@ -261,282 +250,291 @@ export function App() {
         setDossierLoading(false);
       });
     return () => controller.abort();
-  }, [selectedIso2, query.includeDemo, dossierRetry]);
+  }, [sheetOpen, selectedIso2, dossierRetry]);
 
-  /* ---------------- URL 同步（刷新 / 分享可复现当前筛选与选中） ---------------- */
-  useEffect(() => {
-    const effectiveQuery: SearchQuery = { ...query, page: searchResponse?.page ?? query.page };
-    const params = serializeUrlState(effectiveQuery, selectedIso2);
-    const next = `${window.location.pathname}${params ? `?${params}` : ''}${window.location.hash}`;
-    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-    if (next !== current) window.history.replaceState(null, '', next);
-  }, [query, selectedIso2, searchResponse?.page]);
-
-  /* ---------------- 键盘：`/` 聚焦搜索；Esc 关闭弹层 / 清空搜索 ---------------- */
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (explanationOpen) return;
-      const target = event.target as HTMLElement | null;
-      const isTyping = Boolean(target?.closest('input, textarea, select, [contenteditable="true"]'));
-      if (event.key === '/' && !isTyping && !event.metaKey && !event.ctrlKey && !event.altKey) {
-        event.preventDefault();
-        searchInputRef.current?.focus();
-        return;
-      }
-      if (event.key === 'Escape' && searchText) {
-        event.preventDefault();
-        setSearchText('');
-        setQuery(prev => (prev.q === '' ? prev : { ...prev, q: '', page: 1 }));
-      }
+  /* ---------------- 交互 ---------------- */
+  const clearHoverTimer = useCallback(() => {
+    if (hoverClearTimerRef.current !== null) {
+      window.clearTimeout(hoverClearTimerRef.current);
+      hoverClearTimerRef.current = null;
     }
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [explanationOpen, searchText]);
-
-  /* ---------------- 事件处理器 ---------------- */
-  const patchQuery = useCallback((patch: Partial<SearchQuery>) => {
-    setQuery(prev => ({ ...prev, ...patch, page: 1 }));
+    if (hoverDwellTimerRef.current !== null) {
+      window.clearTimeout(hoverDwellTimerRef.current);
+      hoverDwellTimerRef.current = null;
+    }
   }, []);
 
-  const handleSubmit = useCallback(
-    (text?: string) => {
-      const nextText = (text ?? searchText).trim();
-      setSearchText(nextText);
-      setQuery(prev => (prev.q === nextText && prev.page === 1 ? prev : { ...prev, q: nextText, page: 1 }));
-    },
-    [searchText],
-  );
+  const handleHoverCountry = useCallback((iso2: string | null) => {
+    if (iso2) {
+      clearHoverTimer();
+      setHoverIso2(iso2);
+      // 卡片内容只在同一国家驻留 260ms 后更新；快速划过不改变已有卡片
+      hoverDwellTimerRef.current = window.setTimeout(() => {
+        hoverDwellTimerRef.current = null;
+        if (!hoverCardRef.current) setHoverCardIso2(iso2);
+      }, 260);
+      return;
+    }
+    setHoverIso2(null);
+    if (hoverCardRef.current) return;
+    // 从国家移向底部悬浮卡时留出足够时间（穿过海洋/多国也不应让卡片消失）
+    clearHoverTimer();
+    hoverClearTimerRef.current = window.setTimeout(() => {
+      hoverClearTimerRef.current = null;
+      if (!hoverCardRef.current) setHoverCardIso2(null);
+    }, 2500);
+  }, [clearHoverTimer]);
 
-  const handleClearFilters = useCallback(() => {
-    setSearchText('');
-    setQuery(prev => ({ ...DEFAULT_SEARCH_QUERY, includeDemo: prev.includeDemo, pageSize: prev.pageSize }));
-  }, []);
+  useEffect(() => () => clearHoverTimer(), [clearHoverTimer]);
 
-  const openCountry = useCallback((iso2: string) => {
-    const code = iso2.toUpperCase();
-    setSelectedIso2(prev => (prev === code ? prev : code));
-    setDossier(prev => (prev && prev.country.iso2 === code ? prev : null));
-    setDossierError(null);
-    setPanel('dossier');
-  }, []);
-
-  const closeDossier = useCallback(() => {
-    setPanel('results');
+  const closeSheet = useCallback(() => {
+    setSheetOpen(false);
+    setSheetExpanded(false);
     setSelectedIso2(null);
     setDossier(null);
     setDossierError(null);
   }, []);
 
-  const handleSearchType = useCallback(
-    (visaType: string) => {
-      setSearchText('');
-      setQuery(prev => ({ ...prev, q: '', type: visaType, page: 1 }));
-      setPanel('results');
-    },
-    [],
-  );
+  const openCountry = useCallback((rawIso2: string) => {
+    const iso2 = rawIso2.toUpperCase();
+    clearHoverTimer();
+    hoverCardRef.current = false;
+    setHoverIso2(null);
+    setHoverCardIso2(null);
+    setSelectedIso2(iso2);
+    setDossier(previous => (previous && previous.country.iso2 === iso2 ? previous : null));
+    setDossierError(null);
+    focusNonceRef.current += 1;
+    setFocusRequest({ iso2, nonce: focusNonceRef.current });
+    setSheetOpen(true);
+    setSheetExpanded(false);
+    setSearchOpen(false);
+  }, [clearHoverTimer]);
 
-  const handleLoadMore = useCallback(async () => {
-    if (!searchResponse || loadingMore) return;
-    const nextPage = searchResponse.page + 1;
-    if (nextPage > searchResponse.pageCount) return;
-    loadMoreAbortRef.current?.abort();
-    const controller = new AbortController();
-    loadMoreAbortRef.current = controller;
-    setLoadingMore(true);
-    try {
-      const next = await fetchSearch({ ...queryRef.current, page: nextPage }, controller.signal);
-      if (controller.signal.aborted) return;
-      setItems(prev => mergeItems(prev, next.items));
-      setSearchResponse(prev => (prev ? { ...next, items: mergeItems(prev.items, next.items), page: nextPage } : next));
-      setQuery(prev => ({ ...prev, page: nextPage }));
-    } catch (error) {
-      if (!controller.signal.aborted && !isAbortError(error)) setSearchError(toApiError(error));
-    } finally {
-      if (!controller.signal.aborted) setLoadingMore(false);
-    }
-  }, [loadingMore, searchResponse]);
-
-  const handleResetView = useCallback(() => setMapResetSignal(signal => signal + 1), []);
-
-  const handleMapHover = useCallback((_iso2: string | null) => {
-    // 地图组件内部负责悬停浮层；保留外部联动入口（如未来与结果列表联动）
+  const handleSearchTextChange = useCallback((text: string) => {
+    setSearchText(text);
+    setActivePreset(null);
+    setActiveType(null);
+    setSearchOpen(true);
+    if (!text.trim()) setDebouncedText('');
   }, []);
 
+  const handleTogglePreset = useCallback((presetId: string) => {
+    setActivePreset(previous => (previous === (presetId as PresetId) ? null : (presetId as PresetId)));
+    setActiveType(null);
+    setSearchText('');
+    setDebouncedText('');
+    setSearchOpen(true);
+    window.setTimeout(() => searchInputRef.current?.focus(), 0);
+  }, []);
+
+  const handleSearchType = useCallback(
+    (visaType: string) => {
+      const label = VISA_TYPES.find(type => type.code === visaType)?.nameZh ?? visaType;
+      setActiveType({ code: visaType, label });
+      setActivePreset(null);
+      setSearchText('');
+      setDebouncedText('');
+      setSearchOpen(true);
+      closeSheet();
+    },
+    [closeSheet],
+  );
+
+  const handleBackgroundClick = useCallback(() => {
+    setSearchOpen(false);
+    if (sheetOpen || selectedIso2) closeSheet();
+  }, [sheetOpen, selectedIso2, closeSheet]);
+
+  const handleResetView = useCallback(() => {
+    setResetSignal(signal => signal + 1);
+    setHoverIso2(null);
+  }, []);
+
+  /* ---------------- 键盘：/ 聚焦；Esc 分层关闭 ---------------- */
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.defaultPrevented) return;
+      if (notesOpen) {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setNotesOpen(false);
+        }
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      const typing = Boolean(target?.closest('input, textarea, select, [contenteditable="true"]'));
+      if (event.key === '/' && !typing && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+        return;
+      }
+      if (event.key !== 'Escape') return;
+      if (searchOpen) {
+        setSearchOpen(false);
+        return;
+      }
+      if (sheetExpanded) {
+        setSheetExpanded(false);
+        return;
+      }
+      if (sheetOpen) {
+        closeSheet();
+        return;
+      }
+      if (selectedIso2) setSelectedIso2(null);
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [notesOpen, searchOpen, sheetExpanded, sheetOpen, selectedIso2, closeSheet]);
+
+  /* ---------------- 首屏：载入 / 失败 ---------------- */
   if (!overview) {
-    if (overviewLoading) return <BootScreen />;
-    return <FatalError error={overviewError} onRetry={() => setOverviewRetry(value => value + 1)} />;
+    return (
+      <div className="va-boot">
+        {overviewLoading ? (
+          <div className="va-boot__loading">
+            <span className="va-brand__dot" aria-hidden="true" />
+            <p>正在载入地球…</p>
+          </div>
+        ) : (
+          <div className="va-boot__card">
+            <span className="va-boot__eyebrow">DATA UNAVAILABLE</span>
+            <h1>资料服务未能启动</h1>
+            <p>{overviewError?.message ?? '无法读取数据集，请稍后重试。'}</p>
+            <button
+              type="button"
+              className="va-text-button"
+              data-testid="retry"
+              onClick={() => setOverviewRetry(value => value + 1)}
+            >
+              <RefreshCw size={13} aria-hidden="true" />
+              重新连接
+            </button>
+          </div>
+        )}
+      </div>
+    );
   }
 
-  const activeCount = countActiveFilters(query);
-  const hasActiveFilters = activeCount > 0;
-  const matched = hasActiveFilters && searchResponse ? new Set(searchResponse.matchedCountries) : null;
-  const matchCount = matched ? matched.size : searchResponse ? searchResponse.total : overview.stats.withPolicy;
-  const showEmpty = !searchLoading && !searchError && searchResponse !== null && searchResponse.total === 0;
-  const dbLabel = `${overview.meta.mode === 'mysql' ? 'MySQL' : 'SQLite'} · ${overview.meta.policyCount} 条政策`;
-  const demoCount = overview.stats.demoDetails;
+  const hoverCountry = hoverCardIso2
+    ? overview.mapCountries.find(country => country.iso2 === hoverCardIso2) ?? null
+    : null;
+  const selectedCountry = selectedIso2
+    ? overview.mapCountries.find(country => country.iso2 === selectedIso2) ?? null
+    : null;
+  const dataUpdated = overview.meta.generatedAt ? overview.meta.generatedAt.slice(0, 7) : '—';
 
   return (
     <div className="va-app">
-      <header className="va-topbar">
-        <div className="va-brand" aria-label="Visa Atlas 世界签证图谱">
-          <span className="va-brand__symbol">
-            <CompassMark />
-          </span>
-          <span className="va-brand__text">
-            <strong>VISA ATLAS</strong>
-            <span>世界签证图谱 · CHINA PASSPORT</span>
-          </span>
-        </div>
-
-        <GlobalSearch
-          value={searchText}
-          onChange={setSearchText}
-          onSubmit={handleSubmit}
-          onPickCountry={openCountry}
-          onPickCategory={code => patchQuery({ categories: [code] })}
-          onPickType={code => patchQuery({ type: code })}
-          inputRef={searchInputRef}
-        />
-
-        <div className="va-topbar__meta">
-          <button
-            type="button"
-            className="va-text-btn va-topbar__notes"
-            onClick={() => setExplanationOpen(true)}
-            data-testid="data-notes"
-          >
-            <Info size={13} aria-hidden="true" />
-            数据说明
-          </button>
-          <button
-            type="button"
-            className="va-db-status"
-            onClick={() => setExplanationOpen(true)}
-            aria-label={`数据状态：${dbLabel}，打开数据说明`}
-          >
-            <span className={cx('va-db-status__dot', overviewError && 'is-error')} aria-hidden="true" />
-            <Database size={12} aria-hidden="true" />
-            <span>{dbLabel}</span>
-          </button>
-        </div>
-      </header>
-
-      {query.includeDemo ? (
-        <div className="va-demo-banner" role="status">
-          <TriangleAlert size={13} aria-hidden="true" />
-          <span>
-            已包含 <strong>{demoCount}</strong> 条演示明细，仅用于展示字段与交互，不可用于申请
-          </span>
-          <button
-            type="button"
-            className="va-demo-banner__close"
-            onClick={() => patchQuery({ includeDemo: false })}
-            aria-label="关闭演示明细"
-          >
-            <X size={12} aria-hidden="true" />
-          </button>
-        </div>
-      ) : null}
-
-      <div className="va-main">
-        <FilterRail
-          query={query}
-          dictionaries={overview.dictionaries}
-          stats={overview.stats}
-          facets={searchResponse?.facets ?? null}
-          activeCount={activeCount}
-          onToggleRegion={region => patchQuery({ regions: toggleInList(query.regions, region) })}
-          onHoverRegion={setHoverRegion}
-          onToggleGroup={group => patchQuery({ groups: toggleInList<PolicyGroup>(query.groups, group) })}
-          onToggleCategory={code => patchQuery({ categories: toggleInList(query.categories, code) })}
-          onToggleStay={code => patchQuery({ stays: toggleInList(query.stays, code) })}
-          onToggleStatus={status => patchQuery({ statuses: toggleInList<DataStatus>(query.statuses, status) })}
-          onTogglePriority={() => patchQuery({ priorityOnly: !query.priorityOnly })}
-          onToggleDemo={() => patchQuery({ includeDemo: !query.includeDemo })}
-          onTypeChange={type => patchQuery({ type })}
-          onClear={handleClearFilters}
-        />
-
-        <StagePanel
+      <div className="va-globe-layer">
+        <GlobeMap
           countries={overview.mapCountries}
           matched={matched}
-          matchCount={matchCount}
           selected={selectedIso2}
-          hoverRegion={hoverRegion}
-          colorMode={colorMode}
-          onColorModeChange={setColorMode}
-          resetSignal={mapResetSignal}
-          onResetView={handleResetView}
+          hoverIso2={hoverIso2}
+          focusRequest={focusRequest}
+          resetSignal={resetSignal}
           onSelect={openCountry}
-          onHover={handleMapHover}
-          stageMode={stageMode}
-          onStageModeChange={setStageMode}
-          stats={overview.stats}
-          items={items}
-          loading={searchLoading}
-          loadingMore={loadingMore}
-          hasMore={Boolean(searchResponse && searchResponse.page < searchResponse.pageCount)}
-          onLoadMore={() => void handleLoadMore()}
-          onClearFilters={handleClearFilters}
-          showEmpty={showEmpty}
-          filterKey={filterKey}
+          onHover={handleHoverCountry}
+          onBackgroundClick={handleBackgroundClick}
         />
-
-        <aside className="va-side va-panel" aria-label={panel === 'results' ? '检索结果面板' : '国家档案面板'}>
-          {panel === 'results' ? (
-            <ResultsPanel
-              response={searchResponse}
-              items={items}
-              loading={searchLoading}
-              loadingMore={loadingMore}
-              error={searchError}
-              selectedIso2={selectedIso2}
-              activeCount={activeCount}
-              sort={query.sort}
-              filterKey={filterKey}
-              queryType={query.type}
-              keyword={query.q}
-              onSelect={openCountry}
-              onLoadMore={() => void handleLoadMore()}
-              onRetry={() => setSearchRetry(value => value + 1)}
-              onClearFilters={handleClearFilters}
-              onSortChange={(sort: SearchSort) => patchQuery({ sort })}
-            />
-          ) : (
-            <CountryDossier
-              iso2={selectedIso2}
-              dossier={dossier}
-              loading={dossierLoading}
-              error={dossierError}
-              includeDemo={query.includeDemo}
-              onBack={closeDossier}
-              onRetry={() => setDossierRetry(value => value + 1)}
-              onSearchType={handleSearchType}
-            />
-          )}
-        </aside>
       </div>
 
-      <footer className="va-footer">
-        <span className="va-footer__note" title={DISCLAIMER}>
-          {DISCLAIMER}
-        </span>
-        <span className="va-footer__meta">
-          <span className="va-footer__mode">{overview.meta.mode === 'mysql' ? 'MYSQL' : 'SQLITE'}</span>
-          <span className="va-middot" aria-hidden="true">
-            ·
+      <header className="va-topbar">
+        <button type="button" className="va-brand" onClick={handleResetView} aria-label="重置地球视角">
+          <span className="va-brand__dot" aria-hidden="true" />
+          <span className="va-brand__text">
+            <strong>VISA ATLAS</strong>
+            <small>中国普通护照 · 世界签证图谱</small>
           </span>
-          <span>{overview.meta.datasetVersion}</span>
-        </span>
-      </footer>
+        </button>
+        <button
+          type="button"
+          className="va-info"
+          data-testid="data-notes"
+          onClick={() => setNotesOpen(true)}
+          aria-label="打开数据说明"
+        >
+          <Info size={17} strokeWidth={1.8} aria-hidden="true" />
+        </button>
+      </header>
 
-      <DataNotesModal
-        open={explanationOpen}
-        onClose={() => setExplanationOpen(false)}
-        overview={overview}
-        includeDemo={query.includeDemo}
+      <SearchOverlay
+        countries={overview.mapCountries}
+        presets={PRESETS}
+        searchText={searchText}
+        onSearchTextChange={handleSearchTextChange}
+        activePreset={activePreset}
+        onTogglePreset={handleTogglePreset}
+        activeType={activeType}
+        onClearType={() => setActiveType(null)}
+        searchOpen={searchOpen}
+        onSearchOpenChange={setSearchOpen}
+        searchResponse={searchResponse}
+        searchLoading={searchLoading}
+        searchError={searchError}
+        queryActive={queryActive}
+        onPickCountry={openCountry}
+        onHoverCountry={handleHoverCountry}
+        onRetrySearch={() => setSearchRetry(value => value + 1)}
+        inputRef={searchInputRef}
       />
+
+      <div className="va-hints" aria-hidden="true">
+        <span>拖拽旋转 · 滚轮缩放 · 点击国家</span>
+        <span>
+          {overview.stats.countries} 个目的地 · 数据更新 {dataUpdated}
+        </span>
+      </div>
+
+      {hoverCountry && !sheetOpen ? (
+        <button
+          type="button"
+          className="va-hover-card"
+          data-testid="hover-card"
+          data-iso2={hoverCountry.iso2}
+          onMouseEnter={() => {
+            clearHoverTimer();
+            hoverCardRef.current = true;
+            setHoverIso2(hoverCountry.iso2);
+          }}
+          onMouseLeave={() => {
+            hoverCardRef.current = false;
+            setHoverIso2(null);
+            setHoverCardIso2(null);
+          }}
+          onClick={() => openCountry(hoverCountry.iso2)}
+        >
+          <span className="va-hover-card__name">
+            {hoverCountry.nameZh}
+            <em>{hoverCountry.nameEn}</em>
+            <code>{hoverCountry.iso2}</code>
+          </span>
+          <span className="va-hover-card__meta">
+            {hoverCountry.categoryLabel ?? (hoverCountry.hasData ? '类别待确认' : '待采集')}
+            <span aria-hidden="true">·</span>
+            {hoverCountry.stayLabel ?? '停留期待确认'}
+          </span>
+          <span className="va-hover-card__cta">点击查看档案 →</span>
+        </button>
+      ) : null}
+
+      <CountrySheet
+        open={sheetOpen}
+        iso2={selectedIso2 ?? ''}
+        fallback={selectedCountry}
+        dossier={dossier}
+        loading={dossierLoading}
+        error={dossierError}
+        expanded={sheetExpanded}
+        onClose={closeSheet}
+        onToggleExpanded={() => setSheetExpanded(expanded => !expanded)}
+        onRetry={() => setDossierRetry(value => value + 1)}
+        onSearchType={handleSearchType}
+      />
+
+      <DataNotes open={notesOpen} onClose={() => setNotesOpen(false)} overview={overview} />
     </div>
   );
 }

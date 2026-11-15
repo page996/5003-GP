@@ -1,5 +1,5 @@
 /**
- * Visa Atlas · 截图生成（Playwright + 系统 Chrome）
+ * Visa Atlas v2 · 截图生成（Playwright + 系统 Chrome）
  *
  * 前置：另开终端运行 `npm run dev`。
  * 运行：npm run screenshots
@@ -24,95 +24,75 @@ async function main() {
     return;
   }
 
-  const browser = await chromium.launch({ executablePath: CHROME, headless: true });
+  const browser = await chromium.launch({
+    executablePath: CHROME,
+    headless: true,
+    args: ['--enable-unsafe-swiftshader', '--use-gl=angle'],
+  });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
   const shot = async name => {
-    await page.waitForTimeout(350);
+    await page.waitForTimeout(400);
     await page.screenshot({ path: path.join(OUT, `${name}.png`) });
     console.log(`  saved docs/screenshots/${name}.png`);
+  };
+  const searchInput = page.locator('[data-testid="search-input"], .va-search input').first();
+  const openPreset = async label => {
+    const preset = page.locator(`[data-testid="preset-${label}"], .va-presets button`).filter({ hasText: label }).first();
+    await preset.click();
+    await page.waitForTimeout(900);
   };
 
   try {
     await page.goto(BASE, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('.va-map-country', { timeout: 20000 });
-    await page.waitForSelector('.va-result-card', { timeout: 20000 });
+    await page.waitForSelector('.va-globe canvas', { timeout: 25000 });
+    await page.waitForFunction(() => window.__globeReady === true, undefined, { timeout: 25000 });
     await page.waitForTimeout(1200);
-    await shot('explore');
+    await shot('globe');
 
-    // 悬停地图：先重置视图，选无海外领地的大国，保证浮层稳定
-    await page.locator('.va-map-reset, [aria-label*="重置地图"]').first().click().catch(() => {});
-    await page.waitForTimeout(700);
-    for (const iso2 of ['BR', 'CN', 'AU', 'CA']) {
-      const target = page.locator(`.va-map-country[data-iso2="${iso2}"]`).first();
-      if (!(await target.count())) continue;
-      const box = await target.boundingBox();
-      if (box) {
-        await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    // hover：通过搜索结果行 hover 触发地图高亮 + 固定悬浮卡
+    await openPreset('免签');
+    await shot('search-preset');
+    const rows = page.locator('[data-testid="result-row"], .va-search-row');
+    if (await rows.count()) {
+      await rows.first().hover();
+      await page.waitForTimeout(500);
+      await shot('hover-card');
+      await rows.first().click();
+      await page.waitForTimeout(900);
+      await shot('country-sheet');
+      const expand = page.locator('[data-testid="sheet-expand"]').first();
+      if (await expand.count()) {
+        await expand.click();
         await page.waitForTimeout(600);
-        if (await page.locator('.va-map-tooltip').first().isVisible().catch(() => false)) {
-          await shot('map-hover');
-          break;
-        }
+        await shot('country-sheet-expanded');
       }
+      const close = page.locator('[data-testid="sheet-close"]').first();
+      if (await close.count()) await close.click().catch(() => {});
+      await page.waitForTimeout(400);
     }
 
-    // 搜索
-    const searchInput = page.locator('[data-testid="search-input"], input[aria-label*="搜索"]').first();
+    // 搜索「日本」
     await searchInput.click();
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
     await searchInput.fill('日本');
     await page.waitForTimeout(1000);
-    await shot('search');
+    await shot('search-japan');
 
-    // 国家档案
-    const japanCard = page.locator('.va-result-card[data-iso2="JP"]').first();
-    if (await japanCard.count()) {
-      await japanCard.click();
-      await page.waitForSelector('[data-testid="dossier"], .va-dossier', { timeout: 8000 });
-      await page.waitForTimeout(600);
-      await shot('dossier');
-      await page.getByRole('button', { name: /返回结果/ }).first().click().catch(() => {});
-      await page.waitForTimeout(300);
-      await searchInput.fill('');
-      await page.waitForTimeout(800);
-    }
-
-    // 筛选
-    const asiaChip = page.locator('.va-rail button').filter({ hasText: '亚洲' }).first();
-    if (await asiaChip.count()) {
-      await asiaChip.click();
-      await page.waitForTimeout(900);
-      await shot('filters-asia');
-      await asiaChip.click().catch(() => {});
-      await page.waitForTimeout(500);
-    }
-
-    // 列表模式
-    const listButton = page.locator('[data-testid="stage-toggle"] button').filter({ hasText: '列表' }).first();
-    if (await listButton.count()) {
-      await listButton.click();
-      await page.waitForTimeout(800);
-      await shot('list-view');
-      await page.locator('[data-testid="stage-toggle"] button').filter({ hasText: '地图' }).first().click().catch(() => {});
-      await page.waitForTimeout(500);
-    }
-
-    // 演示明细：开启 demo + 切换商务签
-    const demoSwitch = page.locator('[data-testid="demo-toggle"]').first();
-    if (await demoSwitch.count()) {
-      await demoSwitch.click();
-      await page.waitForTimeout(700);
-      const typeSelect = page.locator('select[aria-label*="签证用途"]').first();
-      if (await typeSelect.count()) {
-        await typeSelect.selectOption('BUSINESS');
-        await page.waitForTimeout(1000);
-        await shot('demo-business');
-      }
-    }
-
-    // 宽屏
-    await page.setViewportSize({ width: 1920, height: 1080 });
+    // 模糊搜索
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
+    await searchInput.fill('Japn');
     await page.waitForTimeout(800);
-    await shot('explore-1920');
+    await shot('search-fuzzy');
+
+    // 宽屏初始状态
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('.va-globe canvas', { timeout: 25000 });
+    await page.waitForFunction(() => window.__globeReady === true, undefined, { timeout: 25000 });
+    await page.waitForTimeout(1500);
+    await shot('globe-1920');
   } catch (error) {
     console.error('✘ 截图失败：', error);
     process.exitCode = 1;

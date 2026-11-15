@@ -1,0 +1,61 @@
+{
+  "name": "visa-atlas",
+  "version": "1.0.0",
+  "description": "Visa Atlas · 中国普通护照出境签证地图检索系统（课程项目，非官方）",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "tsx watch server/main.ts",
+    "dev:web": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "start": "tsx server/main.ts",
+    "test": "tsx --test tests/*.test.ts",
+    "test:mysql": "tsx --test tests/mysql.test.ts",
+    "data:build": "tsx scripts/etl.ts",
+    "data:check": "tsx scripts/check-data.ts",
+    "geo:build": "tsx scripts/build-geo.ts",
+    "db:init": "tsx scripts/db-init.ts",
+    "db:seed": "tsx scripts/db-seed.ts",
+    "db:rebuild": "tsx scripts/db-init.ts --reset && tsx scripts/db-seed.ts",
+    "db:init:mysql": "tsx scripts/db-init-mysql.ts",
+    "db:seed:mysql": "tsx scripts/db-seed-mysql.ts",
+    "db:check:mysql": "tsx scripts/db-check-mysql.ts",
+    "setup": "npm run data:build && npm run geo:build && npm run db:rebuild",
+    "e2e": "node tests/e2e.mjs",
+    "screenshots": "node tests/screenshots.mjs"
+  },
+  "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/static": "^10.1.5",
+    "@fontsource-variable/fraunces": "^5.2.5",
+    "@fontsource-variable/manrope": "^5.2.5",
+    "dotenv": "^16.6.1",
+    "fastify": "^5.6.1",
+    "lucide-react": "^0.468.0",
+    "mysql2": "^3.15.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/d3-geo": "^3.1.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@types/topojson-client": "^3.1.5",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.1",
+    "d3-geo": "^3.1.1",
+    "playwright-core": "^1.49.1",
+    "topojson-client": "^3.1.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^6.3.6",
+    "world-atlas": "^2.0.2",
+    "world-countries": "5.1.0"
+  }
+}

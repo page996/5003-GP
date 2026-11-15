@@ -1,0 +1,989 @@
+{
+  "generatedAt": "2026-11-15T17:30:15.182Z",
+  "datasetVersion": "v1.0.0-csv249-demo0-syn0",
+  "source": {
+    "file": "data/source/global_249_countries_cn_passport_visa.csv",
+    "sha256": "ad7416b1d779bcf8",
+    "rows": 249
+  },
+  "counts": {
+    "countries": 250,
+    "realPolicies": 249,
+    "demoPolicies": 0,
+    "mentions": 569,
+    "synonymTerms": 0,
+    "byCategory": {
+      "EMBASSY_VISA": 36,
+      "E_VISA": 36,
+      "SCHENGEN_VISA": 34,
+      "MUTUAL_FREE": 26,
+      "VISA_ON_ARRIVAL": 26,
+      "CONDITIONAL_FREE": 24,
+      "UNILATERAL_FREE": 22,
+      "TERRITORY_VISA": 20,
+      "SPECIAL_PERMIT": 7,
+      "ETA": 6,
+      "NO_SOVEREIGN": 3,
+      "US_VISA_ROUTE": 3,
+      "REGION_PERMIT": 3,
+      "HOME_REGION": 1,
+      "REFERENCE_POLICY": 1,
+      "FREE_WITH_REGISTRATION": 1
+    },
+    "byGroup": {
+      "FREE": 73,
+      "ARRIVAL": 26,
+      "ONLINE": 42,
+      "PREARRANGED": 73,
+      "SPECIAL": 35
+    },
+    "byRegion": {
+      "EU": 50,
+      "AS": 49,
+      "AF": 61,
+      "NA": 41,
+      "SA": 14,
+      "OC": 27,
+      "AN": 7
+    },
+    "byType": {
+      "TOURISM": 249,
+      "BUSINESS": 0,
+      "STUDY": 0,
+      "WORK": 0,
+      "FAMILY": 0,
+      "TRANSIT": 0,
+      "MEDICAL": 0,
+      "RESIDENCE": 0,
+      "DIGITAL_NOMAD": 0,
+      "GOLDEN_VISA": 0,
+      "WORKING_HOLIDAY": 0,
+      "RESEARCH": 0
+    },
+    "stayKnown": 132,
+    "stayUnknown": 117,
+    "entryKnown": 11,
+    "requiresVisa": {
+      "visaFree": 108,
+      "authorization": 32,
+      "visaRequired": 140
+    },
+    "citedCountryCoverage": 249
+  },
+  "categoryMapping": [
+    {
+      "raw": "预办申根签证",
+      "canonical": "SCHENGEN_VISA",
+      "count": 29
+    },
+    {
+      "raw": "互免签证",
+      "canonical": "MUTUAL_FREE",
+      "count": 23
+    },
+    {
+      "raw": "预办签证",
+      "canonical": "EMBASSY_VISA",
+      "count": 20
+    },
+    {
+      "raw": "单方面免签",
+      "canonical": "UNILATERAL_FREE",
+      "count": 20
+    },
+    {
+      "raw": "电子签证",
+      "canonical": "E_VISA",
+      "count": 16
+    },
+    {
+      "raw": "有条件免签/预办签证",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 11
+    },
+    {
+      "raw": "落地签/电子签",
+      "canonical": "VISA_ON_ARRIVAL",
+      "count": 10
+    },
+    {
+      "raw": "电子签证/落地签",
+      "canonical": "E_VISA",
+      "count": 7
+    },
+    {
+      "raw": "落地签/预办签证",
+      "canonical": "VISA_ON_ARRIVAL",
+      "count": 7
+    },
+    {
+      "raw": "电子签证/预办签证",
+      "canonical": "E_VISA",
+      "count": 7
+    },
+    {
+      "raw": "落地签",
+      "canonical": "VISA_ON_ARRIVAL",
+      "count": 5
+    },
+    {
+      "raw": "有条件免签/荷属签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 4
+    },
+    {
+      "raw": "法属海外领地签证",
+      "canonical": "TERRITORY_VISA",
+      "count": 4
+    },
+    {
+      "raw": "法属海外省签证",
+      "canonical": "TERRITORY_VISA",
+      "count": 4
+    },
+    {
+      "raw": "申根签证通用",
+      "canonical": "SCHENGEN_VISA",
+      "count": 3
+    },
+    {
+      "raw": "澳大利亚签证通用",
+      "canonical": "TERRITORY_VISA",
+      "count": 3
+    },
+    {
+      "raw": "英国签证通用",
+      "canonical": "TERRITORY_VISA",
+      "count": 3
+    },
+    {
+      "raw": "需美国签证",
+      "canonical": "US_VISA_ROUTE",
+      "count": 3
+    },
+    {
+      "raw": "预办签证/电子签",
+      "canonical": "EMBASSY_VISA",
+      "count": 3
+    },
+    {
+      "raw": "有条件免签/电子签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 2
+    },
+    {
+      "raw": "有条件免签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 2
+    },
+    {
+      "raw": "预办签证(十年多次)",
+      "canonical": "EMBASSY_VISA",
+      "count": 2
+    },
+    {
+      "raw": "无人自然保护区",
+      "canonical": "NO_SOVEREIGN",
+      "count": 2
+    },
+    {
+      "raw": "需丹麦另行签注",
+      "canonical": "TERRITORY_VISA",
+      "count": 2
+    },
+    {
+      "raw": "港澳通行证/签注",
+      "canonical": "REGION_PERMIT",
+      "count": 2
+    },
+    {
+      "raw": "电子旅行授权(eTA)",
+      "canonical": "ETA",
+      "count": 2
+    },
+    {
+      "raw": "电子签证/有条件免签",
+      "canonical": "E_VISA",
+      "count": 2
+    },
+    {
+      "raw": "法属海外领地签/免签",
+      "canonical": "TERRITORY_VISA",
+      "count": 2
+    },
+    {
+      "raw": "落地签(免签证费)",
+      "canonical": "VISA_ON_ARRIVAL",
+      "count": 2
+    },
+    {
+      "raw": "需多次申根签证",
+      "canonical": "SCHENGEN_VISA",
+      "count": 1
+    },
+    {
+      "raw": "无主权签证(需过境国签)",
+      "canonical": "NO_SOVEREIGN",
+      "count": 1
+    },
+    {
+      "raw": "电子旅行授权(AVE)/十年签",
+      "canonical": "ETA",
+      "count": 1
+    },
+    {
+      "raw": "需专门入境许可",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "预办电子签证",
+      "canonical": "E_VISA",
+      "count": 1
+    },
+    {
+      "raw": "预办生物识别签证",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "电子签证/预办签",
+      "canonical": "E_VISA",
+      "count": 1
+    },
+    {
+      "raw": "本国/地区",
+      "canonical": "HOME_REGION",
+      "count": 1
+    },
+    {
+      "raw": "落地签(需在线预登记)",
+      "canonical": "VISA_ON_ARRIVAL",
+      "count": 1
+    },
+    {
+      "raw": "预办签证(申根多次免签)",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "预办签证(互免暂行中止)",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "参照摩洛哥入境政策",
+      "canonical": "REFERENCE_POLICY",
+      "count": 1
+    },
+    {
+      "raw": "需专门访客许可",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "有条件免签/英属领地签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "预办签证/落地批文",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "需办理登岛访问许可",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "有条件免签/CA-4签证",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "落地签/电子落地签",
+      "canonical": "VISA_ON_ARRIVAL",
+      "count": 1
+    },
+    {
+      "raw": "预办签证(英爱体系)",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "严格军事管制",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "预办签证(贴纸/电子)",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "预办签证/济州岛免签",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "有条件免签/领地签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "电子旅行授权/免签",
+      "canonical": "ETA",
+      "count": 1
+    },
+    {
+      "raw": "有条件免签/团队免签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "有条件免签(EVATS)/美签",
+      "canonical": "CONDITIONAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "免签(需电子预登记)",
+      "canonical": "FREE_WITH_REGISTRATION",
+      "count": 1
+    },
+    {
+      "raw": "预办签证/落地签(批文)",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "单方面免签/电子签",
+      "canonical": "UNILATERAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "电子旅行授权(ETA)",
+      "canonical": "ETA",
+      "count": 1
+    },
+    {
+      "raw": "单方面免签(14天内)",
+      "canonical": "UNILATERAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "受以/约口岸管制",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "法属海外省签/免签",
+      "canonical": "TERRITORY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "电子签/团队免签/贴纸签",
+      "canonical": "E_VISA",
+      "count": 1
+    },
+    {
+      "raw": "互免签证/旅行授权",
+      "canonical": "MUTUAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "挪威申根多次签证",
+      "canonical": "SCHENGEN_VISA",
+      "count": 1
+    },
+    {
+      "raw": "互免签证(需申根过境)",
+      "canonical": "MUTUAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "电子旅行授权(eTAS)",
+      "canonical": "ETA",
+      "count": 1
+    },
+    {
+      "raw": "互免签证/入境卡",
+      "canonical": "MUTUAL_FREE",
+      "count": 1
+    },
+    {
+      "raw": "需法属南部领地许可",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "需新西兰签及许可",
+      "canonical": "TERRITORY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "预办签证(需邀请函)",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "预办签证/有条件免签",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "大通证及入台证",
+      "canonical": "REGION_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "严格军事/生态管制",
+      "canonical": "SPECIAL_PERMIT",
+      "count": 1
+    },
+    {
+      "raw": "预办面谈签证",
+      "canonical": "EMBASSY_VISA",
+      "count": 1
+    },
+    {
+      "raw": "电子签证/另纸签证",
+      "canonical": "E_VISA",
+      "count": 1
+    }
+  ],
+  "quality": {
+    "priorityTargets": 91,
+    "missingCountries": [
+      "XK"
+    ],
+    "countryNameMismatches": [
+      {
+        "iso2": "AE",
+        "csv": [
+          "阿联酋",
+          "United Arab Emirates"
+        ],
+        "catalog": [
+          "阿拉伯联合酋长国",
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "iso2": "BA",
+        "csv": [
+          "波黑",
+          "Bosnia and Herzegovina"
+        ],
+        "catalog": [
+          "波斯尼亚和黑塞哥维那",
+          "Bosnia and Herzegovina"
+        ]
+      },
+      {
+        "iso2": "BN",
+        "csv": [
+          "文莱",
+          "Brunei Darussalam"
+        ],
+        "catalog": [
+          "文莱",
+          "Brunei"
+        ]
+      },
+      {
+        "iso2": "BO",
+        "csv": [
+          "玻利维亚",
+          "Bolivia, Plurinational State of"
+        ],
+        "catalog": [
+          "玻利维亚",
+          "Bolivia"
+        ]
+      },
+      {
+        "iso2": "BQ",
+        "csv": [
+          "荷兰加勒比区",
+          "Bonaire, Sint Eustatius and Saba"
+        ],
+        "catalog": [
+          "荷蘭加勒比區",
+          "Caribbean Netherlands"
+        ]
+      },
+      {
+        "iso2": "BV",
+        "csv": [
+          "布韦岛",
+          "Bouvet Island"
+        ],
+        "catalog": [
+          "布维岛",
+          "Bouvet Island"
+        ]
+      },
+      {
+        "iso2": "CC",
+        "csv": [
+          "科科斯（基林）群岛",
+          "Cocos (Keeling) Islands"
+        ],
+        "catalog": [
+          "科科斯",
+          "Cocos (Keeling) Islands"
+        ]
+      },
+      {
+        "iso2": "CD",
+        "csv": [
+          "刚果（金）",
+          "Congo, Democratic Republic of the"
+        ],
+        "catalog": [
+          "民主刚果",
+          "DR Congo"
+        ]
+      },
+      {
+        "iso2": "CF",
+        "csv": [
+          "中非",
+          "Central African Republic"
+        ],
+        "catalog": [
+          "中非共和国",
+          "Central African Republic"
+        ]
+      },
+      {
+        "iso2": "CG",
+        "csv": [
+          "刚果（布）",
+          "Congo"
+        ],
+        "catalog": [
+          "刚果",
+          "Republic of the Congo"
+        ]
+      },
+      {
+        "iso2": "CI",
+        "csv": [
+          "科特迪瓦",
+          "Côte d'Ivoire"
+        ],
+        "catalog": [
+          "科特迪瓦",
+          "Ivory Coast"
+        ]
+      },
+      {
+        "iso2": "CV",
+        "csv": [
+          "佛得角",
+          "Cabo Verde"
+        ],
+        "catalog": [
+          "佛得角",
+          "Cape Verde"
+        ]
+      },
+      {
+        "iso2": "DM",
+        "csv": [
+          "多米尼克",
+          "Dominica"
+        ],
+        "catalog": [
+          "多米尼加",
+          "Dominica"
+        ]
+      },
+      {
+        "iso2": "DO",
+        "csv": [
+          "多米尼加",
+          "Dominican Republic"
+        ],
+        "catalog": [
+          "多明尼加",
+          "Dominican Republic"
+        ]
+      },
+      {
+        "iso2": "FK",
+        "csv": [
+          "福克兰群岛(马尔维纳斯)",
+          "Falkland Islands (Malvinas)"
+        ],
+        "catalog": [
+          "福克兰群岛",
+          "Falkland Islands"
+        ]
+      },
+      {
+        "iso2": "FM",
+        "csv": [
+          "密克罗尼西亚联邦",
+          "Micronesia, Federated States of"
+        ],
+        "catalog": [
+          "密克罗尼西亚",
+          "Micronesia"
+        ]
+      },
+      {
+        "iso2": "GP",
+        "csv": [
+          "瓜德罗普",
+          "Guadeloupe"
+        ],
+        "catalog": [
+          "瓜德罗普岛",
+          "Guadeloupe"
+        ]
+      },
+      {
+        "iso2": "GS",
+        "csv": [
+          "南乔治亚和南桑威奇群岛",
+          "South Georgia and the South Sandwich Islands"
+        ],
+        "catalog": [
+          "南乔治亚",
+          "South Georgia"
+        ]
+      },
+      {
+        "iso2": "HK",
+        "csv": [
+          "中国香港",
+          "Hong Kong"
+        ],
+        "catalog": [
+          "香港",
+          "Hong Kong"
+        ]
+      },
+      {
+        "iso2": "HM",
+        "csv": [
+          "赫德岛和麦克唐纳群岛",
+          "Heard Island and McDonald Islands"
+        ],
+        "catalog": [
+          "赫德岛和麦当劳群岛",
+          "Heard Island and McDonald Islands"
+        ]
+      },
+      {
+        "iso2": "IR",
+        "csv": [
+          "伊朗",
+          "Iran, Islamic Republic of"
+        ],
+        "catalog": [
+          "伊朗",
+          "Iran"
+        ]
+      },
+      {
+        "iso2": "KP",
+        "csv": [
+          "朝鲜",
+          "Korea, Democratic People's Republic of"
+        ],
+        "catalog": [
+          "朝鲜",
+          "North Korea"
+        ]
+      },
+      {
+        "iso2": "KR",
+        "csv": [
+          "韩国",
+          "Korea, Republic of"
+        ],
+        "catalog": [
+          "韩国",
+          "South Korea"
+        ]
+      },
+      {
+        "iso2": "LA",
+        "csv": [
+          "老挝",
+          "Lao People's Democratic Republic"
+        ],
+        "catalog": [
+          "老挝",
+          "Laos"
+        ]
+      },
+      {
+        "iso2": "MD",
+        "csv": [
+          "摩尔多瓦",
+          "Moldova, Republic of"
+        ],
+        "catalog": [
+          "摩尔多瓦",
+          "Moldova"
+        ]
+      },
+      {
+        "iso2": "MF",
+        "csv": [
+          "法属圣马丁",
+          "Saint Martin (French part)"
+        ],
+        "catalog": [
+          "圣马丁",
+          "Saint Martin"
+        ]
+      },
+      {
+        "iso2": "MK",
+        "csv": [
+          "北马其顿",
+          "North Macedonia"
+        ],
+        "catalog": [
+          "北馬其頓",
+          "North Macedonia"
+        ]
+      },
+      {
+        "iso2": "MO",
+        "csv": [
+          "中国澳门",
+          "Macao"
+        ],
+        "catalog": [
+          "澳门",
+          "Macau"
+        ]
+      },
+      {
+        "iso2": "PN",
+        "csv": [
+          "皮特凯恩群岛",
+          "Pitcairn"
+        ],
+        "catalog": [
+          "皮特凯恩群岛",
+          "Pitcairn Islands"
+        ]
+      },
+      {
+        "iso2": "PS",
+        "csv": [
+          "巴勒斯坦",
+          "Palestine, State of"
+        ],
+        "catalog": [
+          "巴勒斯坦",
+          "Palestine"
+        ]
+      },
+      {
+        "iso2": "RE",
+        "csv": [
+          "留尼汪",
+          "Réunion"
+        ],
+        "catalog": [
+          "留尼旺岛",
+          "Réunion"
+        ]
+      },
+      {
+        "iso2": "SH",
+        "csv": [
+          "圣赫勒拿等岛屿",
+          "Saint Helena"
+        ],
+        "catalog": [
+          "圣赫勒拿、阿森松和特里斯坦-达库尼亚",
+          "Saint Helena, Ascension and Tristan da Cunha"
+        ]
+      },
+      {
+        "iso2": "SJ",
+        "csv": [
+          "斯瓦尔巴和扬马延",
+          "Svalbard and Jan Mayen"
+        ],
+        "catalog": [
+          "斯瓦尔巴特",
+          "Svalbard and Jan Mayen"
+        ]
+      },
+      {
+        "iso2": "ST",
+        "csv": [
+          "圣多美和普林西比",
+          "Sao Tome and Principe"
+        ],
+        "catalog": [
+          "圣多美和普林西比",
+          "São Tomé and Príncipe"
+        ]
+      },
+      {
+        "iso2": "SX",
+        "csv": [
+          "荷属圣马丁",
+          "Sint Maarten (Dutch part)"
+        ],
+        "catalog": [
+          "圣马丁岛",
+          "Sint Maarten"
+        ]
+      },
+      {
+        "iso2": "SY",
+        "csv": [
+          "叙利亚",
+          "Syrian Arab Republic"
+        ],
+        "catalog": [
+          "叙利亚",
+          "Syria"
+        ]
+      },
+      {
+        "iso2": "TF",
+        "csv": [
+          "法属南部和南极领地",
+          "French Southern Territories"
+        ],
+        "catalog": [
+          "法国南部和南极土地",
+          "French Southern and Antarctic Lands"
+        ]
+      },
+      {
+        "iso2": "TR",
+        "csv": [
+          "土耳其",
+          "Turkey"
+        ],
+        "catalog": [
+          "土耳其",
+          "Türkiye"
+        ]
+      },
+      {
+        "iso2": "TW",
+        "csv": [
+          "中国台湾",
+          "Taiwan"
+        ],
+        "catalog": [
+          "台灣",
+          "Taiwan"
+        ]
+      },
+      {
+        "iso2": "TZ",
+        "csv": [
+          "坦桑尼亚",
+          "Tanzania, United Republic of"
+        ],
+        "catalog": [
+          "坦桑尼亚",
+          "Tanzania"
+        ]
+      },
+      {
+        "iso2": "VA",
+        "csv": [
+          "梵蒂冈",
+          "Holy See"
+        ],
+        "catalog": [
+          "梵蒂冈",
+          "Vatican City"
+        ]
+      },
+      {
+        "iso2": "VE",
+        "csv": [
+          "委内瑞拉",
+          "Venezuela, Bolivarian Republic of"
+        ],
+        "catalog": [
+          "委内瑞拉",
+          "Venezuela"
+        ]
+      },
+      {
+        "iso2": "VG",
+        "csv": [
+          "英属维尔京群岛",
+          "Virgin Islands, British"
+        ],
+        "catalog": [
+          "英属维尔京群岛",
+          "British Virgin Islands"
+        ]
+      },
+      {
+        "iso2": "VI",
+        "csv": [
+          "美属维尔京群岛",
+          "Virgin Islands, U.S."
+        ],
+        "catalog": [
+          "美属维尔京群岛",
+          "United States Virgin Islands"
+        ]
+      },
+      {
+        "iso2": "WF",
+        "csv": [
+          "瓦利斯和富图纳",
+          "Wallis and Futuna"
+        ],
+        "catalog": [
+          "瓦利斯和富图纳群岛",
+          "Wallis and Futuna"
+        ]
+      }
+    ],
+    "unmappedMentions": [
+      "港澳通行证",
+      "台湾通行证签注",
+      "无独立签证体系",
+      "公务许可",
+      "逗留签注",
+      "军事",
+      "外交公务签",
+      "公务签证",
+      "国家签证",
+      "高端签证",
+      "高技术移民签",
+      "公务",
+      "访问许可",
+      "Hayya许可",
+      "朝觐签证",
+      "SP)",
+      "临时",
+      "外交",
+      "教廷公务许可"
+    ],
+    "warnings": [],
+    "demoTypes": []
+  },
+  "completeness": {
+    "averageReal": 48,
+    "minReal": 35,
+    "maxReal": 55,
+    "statusDistribution": {
+      "SUMMARY_ONLY": 249
+    }
+  }
+}

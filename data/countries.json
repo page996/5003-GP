@@ -1,0 +1,4299 @@
+[
+  {
+    "code": "AF",
+    "nameZh": "阿富汗",
+    "nameEn": "Afghanistan",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "afghanistan",
+    "aliases": [
+      "AFG",
+      "AF",
+      "Afġānistān"
+    ],
+    "latitude": 33,
+    "longitude": 65,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AX",
+    "nameZh": "奥兰群岛",
+    "nameEn": "Åland Islands",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "åland islands",
+    "aliases": [
+      "ALA",
+      "AX",
+      "Aaland",
+      "Aland",
+      "Ahvenanmaa"
+    ],
+    "latitude": 60.116667,
+    "longitude": 19.9,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AL",
+    "nameZh": "阿尔巴尼亚",
+    "nameEn": "Albania",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "albania",
+    "aliases": [
+      "ALB",
+      "AL",
+      "Shqipëri",
+      "Shqipëria",
+      "Shqipnia"
+    ],
+    "latitude": 41,
+    "longitude": 20,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "DZ",
+    "nameZh": "阿尔及利亚",
+    "nameEn": "Algeria",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "algeria",
+    "aliases": [
+      "DZA",
+      "DZ",
+      "Dzayer",
+      "Algérie"
+    ],
+    "latitude": 28,
+    "longitude": 3,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AS",
+    "nameZh": "美属萨摩亚",
+    "nameEn": "American Samoa",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "american samoa",
+    "aliases": [
+      "ASM",
+      "AS",
+      "Amerika Sāmoa",
+      "Amelika Sāmoa",
+      "Sāmoa Amelika"
+    ],
+    "latitude": -14.33333333,
+    "longitude": -170,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AD",
+    "nameZh": "安道尔",
+    "nameEn": "Andorra",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "andorra",
+    "aliases": [
+      "AND",
+      "AD",
+      "Principality of Andorra",
+      "Principat d'Andorra"
+    ],
+    "latitude": 42.5,
+    "longitude": 1.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AO",
+    "nameZh": "安哥拉",
+    "nameEn": "Angola",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "angola",
+    "aliases": [
+      "AGO",
+      "AO",
+      "República de Angola",
+      "ʁɛpublika de an'ɡɔla"
+    ],
+    "latitude": -12.5,
+    "longitude": 18.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AI",
+    "nameZh": "安圭拉",
+    "nameEn": "Anguilla",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "anguilla",
+    "aliases": [
+      "AIA",
+      "AI"
+    ],
+    "latitude": 18.25,
+    "longitude": -63.16666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AQ",
+    "nameZh": "南极洲",
+    "nameEn": "Antarctica",
+    "region": "Antarctic",
+    "subregion": "",
+    "sortKey": "antarctica",
+    "aliases": [
+      "ATA",
+      "AQ"
+    ],
+    "latitude": -90,
+    "longitude": 0,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AG",
+    "nameZh": "安提瓜和巴布达",
+    "nameEn": "Antigua and Barbuda",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "antigua and barbuda",
+    "aliases": [
+      "ATG",
+      "AG"
+    ],
+    "latitude": 17.05,
+    "longitude": -61.8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AR",
+    "nameZh": "阿根廷",
+    "nameEn": "Argentina",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "argentina",
+    "aliases": [
+      "ARG",
+      "AR",
+      "Argentine Republic",
+      "República Argentina"
+    ],
+    "latitude": -34,
+    "longitude": -64,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AM",
+    "nameZh": "亚美尼亚",
+    "nameEn": "Armenia",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "armenia",
+    "aliases": [
+      "ARM",
+      "AM",
+      "Hayastan",
+      "Republic of Armenia",
+      "Հայաստանի Հանրապետություն"
+    ],
+    "latitude": 40,
+    "longitude": 45,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AW",
+    "nameZh": "阿鲁巴",
+    "nameEn": "Aruba",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "aruba",
+    "aliases": [
+      "ABW",
+      "AW"
+    ],
+    "latitude": 12.5,
+    "longitude": -69.96666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AU",
+    "nameZh": "澳大利亚",
+    "nameEn": "Australia",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "sortKey": "australia",
+    "aliases": [
+      "AUS",
+      "AU"
+    ],
+    "latitude": -27,
+    "longitude": 133,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AT",
+    "nameZh": "奥地利",
+    "nameEn": "Austria",
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "sortKey": "austria",
+    "aliases": [
+      "AUT",
+      "AT",
+      "Osterreich",
+      "Oesterreich"
+    ],
+    "latitude": 47.33333333,
+    "longitude": 13.33333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AZ",
+    "nameZh": "阿塞拜疆",
+    "nameEn": "Azerbaijan",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "azerbaijan",
+    "aliases": [
+      "AZE",
+      "AZ",
+      "Republic of Azerbaijan",
+      "Azərbaycan Respublikası"
+    ],
+    "latitude": 40.5,
+    "longitude": 47.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BS",
+    "nameZh": "巴哈马",
+    "nameEn": "Bahamas",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "bahamas",
+    "aliases": [
+      "BHS",
+      "BS",
+      "Commonwealth of the Bahamas"
+    ],
+    "latitude": 24.25,
+    "longitude": -76,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BH",
+    "nameZh": "巴林",
+    "nameEn": "Bahrain",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "bahrain",
+    "aliases": [
+      "BHR",
+      "BH",
+      "Kingdom of Bahrain",
+      "Mamlakat al-Baḥrayn"
+    ],
+    "latitude": 26,
+    "longitude": 50.55,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BD",
+    "nameZh": "孟加拉国",
+    "nameEn": "Bangladesh",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "bangladesh",
+    "aliases": [
+      "BGD",
+      "BD",
+      "People's Republic of Bangladesh",
+      "Gônôprôjatôntri Bangladesh"
+    ],
+    "latitude": 24,
+    "longitude": 90,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BB",
+    "nameZh": "巴巴多斯",
+    "nameEn": "Barbados",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "barbados",
+    "aliases": [
+      "BRB",
+      "BB"
+    ],
+    "latitude": 13.16666666,
+    "longitude": -59.53333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BY",
+    "nameZh": "白俄罗斯",
+    "nameEn": "Belarus",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "sortKey": "belarus",
+    "aliases": [
+      "BLR",
+      "BY",
+      "Bielaruś",
+      "Republic of Belarus",
+      "Белоруссия",
+      "Республика Белоруссия"
+    ],
+    "latitude": 53,
+    "longitude": 28,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BE",
+    "nameZh": "比利时",
+    "nameEn": "Belgium",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "belgium",
+    "aliases": [
+      "BEL",
+      "BE",
+      "België",
+      "Belgie",
+      "Belgien",
+      "Belgique",
+      "Kingdom of Belgium",
+      "Koninkrijk België",
+      "Royaume de Belgique",
+      "Königreich Belgien"
+    ],
+    "latitude": 50.83333333,
+    "longitude": 4,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BZ",
+    "nameZh": "伯利兹",
+    "nameEn": "Belize",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "belize",
+    "aliases": [
+      "BLZ",
+      "BZ"
+    ],
+    "latitude": 17.25,
+    "longitude": -88.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BJ",
+    "nameZh": "贝宁",
+    "nameEn": "Benin",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "benin",
+    "aliases": [
+      "BEN",
+      "BJ",
+      "Republic of Benin",
+      "République du Bénin"
+    ],
+    "latitude": 9.5,
+    "longitude": 2.25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BM",
+    "nameZh": "百慕大",
+    "nameEn": "Bermuda",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "bermuda",
+    "aliases": [
+      "BMU",
+      "BM",
+      "The Islands of Bermuda",
+      "The Bermudas",
+      "Somers Isles"
+    ],
+    "latitude": 32.33333333,
+    "longitude": -64.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BT",
+    "nameZh": "不丹",
+    "nameEn": "Bhutan",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "bhutan",
+    "aliases": [
+      "BTN",
+      "BT",
+      "Kingdom of Bhutan"
+    ],
+    "latitude": 27.5,
+    "longitude": 90.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BO",
+    "nameZh": "玻利维亚",
+    "nameEn": "Bolivia",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "bolivia",
+    "aliases": [
+      "BOL",
+      "BO",
+      "Buliwya",
+      "Wuliwya",
+      "Bolivia, Plurinational State of",
+      "Plurinational State of Bolivia",
+      "Estado Plurinacional de Bolivia",
+      "Buliwya Mamallaqta",
+      "Wuliwya Suyu",
+      "Tetã Volívia"
+    ],
+    "latitude": -17,
+    "longitude": -65,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BA",
+    "nameZh": "波斯尼亚和黑塞哥维那",
+    "nameEn": "Bosnia and Herzegovina",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "bosnia and herzegovina",
+    "aliases": [
+      "BIH",
+      "BA",
+      "Bosnia-Herzegovina",
+      "Босна и Херцеговина"
+    ],
+    "latitude": 44,
+    "longitude": 18,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BW",
+    "nameZh": "博茨瓦纳",
+    "nameEn": "Botswana",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "sortKey": "botswana",
+    "aliases": [
+      "BWA",
+      "BW",
+      "Republic of Botswana",
+      "Lefatshe la Botswana"
+    ],
+    "latitude": -22,
+    "longitude": 24,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BV",
+    "nameZh": "布维岛",
+    "nameEn": "Bouvet Island",
+    "region": "Antarctic",
+    "subregion": "",
+    "sortKey": "bouvet island",
+    "aliases": [
+      "BVT",
+      "BV",
+      "Bouvetøya",
+      "Bouvet-øya"
+    ],
+    "latitude": -54.43333333,
+    "longitude": 3.4,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BR",
+    "nameZh": "巴西",
+    "nameEn": "Brazil",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "brazil",
+    "aliases": [
+      "BRA",
+      "BR",
+      "Brasil",
+      "Federative Republic of Brazil",
+      "República Federativa do Brasil"
+    ],
+    "latitude": -10,
+    "longitude": -55,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IO",
+    "nameZh": "英属印度洋领地",
+    "nameEn": "British Indian Ocean Territory",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "british indian ocean territory",
+    "aliases": [
+      "IOT",
+      "IO"
+    ],
+    "latitude": -6,
+    "longitude": 71.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VG",
+    "nameZh": "英属维尔京群岛",
+    "nameEn": "British Virgin Islands",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "british virgin islands",
+    "aliases": [
+      "VGB",
+      "VG",
+      "Virgin Islands, British"
+    ],
+    "latitude": 18.431383,
+    "longitude": -64.62305,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BN",
+    "nameZh": "文莱",
+    "nameEn": "Brunei",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "brunei",
+    "aliases": [
+      "BRN",
+      "BN",
+      "Brunei Darussalam",
+      "Nation of Brunei",
+      "the Abode of Peace"
+    ],
+    "latitude": 4.5,
+    "longitude": 114.66666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BG",
+    "nameZh": "保加利亚",
+    "nameEn": "Bulgaria",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "bulgaria",
+    "aliases": [
+      "BGR",
+      "BG",
+      "Republic of Bulgaria",
+      "Република България"
+    ],
+    "latitude": 43,
+    "longitude": 25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BF",
+    "nameZh": "布基纳法索",
+    "nameEn": "Burkina Faso",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "burkina faso",
+    "aliases": [
+      "BFA",
+      "BF"
+    ],
+    "latitude": 13,
+    "longitude": -2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BI",
+    "nameZh": "布隆迪",
+    "nameEn": "Burundi",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "burundi",
+    "aliases": [
+      "BDI",
+      "BI",
+      "Republic of Burundi",
+      "Republika y'Uburundi",
+      "République du Burundi"
+    ],
+    "latitude": -3.5,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KH",
+    "nameZh": "柬埔寨",
+    "nameEn": "Cambodia",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "cambodia",
+    "aliases": [
+      "KHM",
+      "KH",
+      "Kingdom of Cambodia"
+    ],
+    "latitude": 13,
+    "longitude": 105,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CM",
+    "nameZh": "喀麦隆",
+    "nameEn": "Cameroon",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "cameroon",
+    "aliases": [
+      "CMR",
+      "CM",
+      "Republic of Cameroon",
+      "République du Cameroun"
+    ],
+    "latitude": 6,
+    "longitude": 12,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CA",
+    "nameZh": "加拿大",
+    "nameEn": "Canada",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "canada",
+    "aliases": [
+      "CAN",
+      "CA"
+    ],
+    "latitude": 60,
+    "longitude": -95,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CV",
+    "nameZh": "佛得角",
+    "nameEn": "Cape Verde",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "cape verde",
+    "aliases": [
+      "CPV",
+      "CV",
+      "Republic of Cabo Verde",
+      "República de Cabo Verde"
+    ],
+    "latitude": 16,
+    "longitude": -24,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BQ",
+    "nameZh": "荷蘭加勒比區",
+    "nameEn": "Caribbean Netherlands",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "caribbean netherlands",
+    "aliases": [
+      "BES",
+      "BES islands",
+      "Bonaire Sint Eustatius and Saba"
+    ],
+    "latitude": 12.18,
+    "longitude": -68.25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KY",
+    "nameZh": "开曼群岛",
+    "nameEn": "Cayman Islands",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "cayman islands",
+    "aliases": [
+      "CYM",
+      "KY"
+    ],
+    "latitude": 19.5,
+    "longitude": -80.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CF",
+    "nameZh": "中非共和国",
+    "nameEn": "Central African Republic",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "central african republic",
+    "aliases": [
+      "CAF",
+      "CF",
+      "Central African Republic",
+      "République centrafricaine"
+    ],
+    "latitude": 7,
+    "longitude": 21,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TD",
+    "nameZh": "乍得",
+    "nameEn": "Chad",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "chad",
+    "aliases": [
+      "TCD",
+      "TD",
+      "Tchad",
+      "Republic of Chad",
+      "République du Tchad"
+    ],
+    "latitude": 15,
+    "longitude": 19,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CL",
+    "nameZh": "智利",
+    "nameEn": "Chile",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "chile",
+    "aliases": [
+      "CHL",
+      "CL",
+      "Republic of Chile",
+      "República de Chile"
+    ],
+    "latitude": -30,
+    "longitude": -71,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CN",
+    "nameZh": "中国",
+    "nameEn": "China",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "china",
+    "aliases": [
+      "CHN",
+      "CN",
+      "Zhōngguó",
+      "Zhongguo",
+      "Zhonghua",
+      "People's Republic of China",
+      "中华人民共和国",
+      "Zhōnghuá Rénmín Gònghéguó"
+    ],
+    "latitude": 35,
+    "longitude": 105,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CX",
+    "nameZh": "圣诞岛",
+    "nameEn": "Christmas Island",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "sortKey": "christmas island",
+    "aliases": [
+      "CXR",
+      "CX",
+      "Territory of Christmas Island"
+    ],
+    "latitude": -10.5,
+    "longitude": 105.66666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CC",
+    "nameZh": "科科斯",
+    "nameEn": "Cocos (Keeling) Islands",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "sortKey": "cocos (keeling) islands",
+    "aliases": [
+      "CCK",
+      "CC",
+      "Keeling Islands",
+      "Cocos Islands"
+    ],
+    "latitude": -12.5,
+    "longitude": 96.83333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CO",
+    "nameZh": "哥伦比亚",
+    "nameEn": "Colombia",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "colombia",
+    "aliases": [
+      "COL",
+      "CO",
+      "Republic of Colombia",
+      "República de Colombia"
+    ],
+    "latitude": 4,
+    "longitude": -72,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KM",
+    "nameZh": "科摩罗",
+    "nameEn": "Comoros",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "comoros",
+    "aliases": [
+      "COM",
+      "KM",
+      "Union of the Comoros",
+      "Union des Comores",
+      "Udzima wa Komori",
+      "al-Ittiḥād al-Qumurī"
+    ],
+    "latitude": -12.16666666,
+    "longitude": 44.25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CK",
+    "nameZh": "库克群岛",
+    "nameEn": "Cook Islands",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "cook islands",
+    "aliases": [
+      "COK",
+      "CK",
+      "Kūki 'Āirani"
+    ],
+    "latitude": -21.23333333,
+    "longitude": -159.76666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CR",
+    "nameZh": "哥斯达黎加",
+    "nameEn": "Costa Rica",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "costa rica",
+    "aliases": [
+      "CRI",
+      "CR",
+      "Republic of Costa Rica",
+      "República de Costa Rica"
+    ],
+    "latitude": 10,
+    "longitude": -84,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "HR",
+    "nameZh": "克罗地亚",
+    "nameEn": "Croatia",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "croatia",
+    "aliases": [
+      "HRV",
+      "HR",
+      "Hrvatska",
+      "Republic of Croatia",
+      "Republika Hrvatska"
+    ],
+    "latitude": 45.16666666,
+    "longitude": 15.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CU",
+    "nameZh": "古巴",
+    "nameEn": "Cuba",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "cuba",
+    "aliases": [
+      "CUB",
+      "CU",
+      "Republic of Cuba",
+      "República de Cuba"
+    ],
+    "latitude": 21.5,
+    "longitude": -80,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CW",
+    "nameZh": "库拉索",
+    "nameEn": "Curaçao",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "curaçao",
+    "aliases": [
+      "CUW",
+      "CW",
+      "Curacao",
+      "Kòrsou",
+      "Country of Curaçao",
+      "Land Curaçao",
+      "Pais Kòrsou"
+    ],
+    "latitude": 12.116667,
+    "longitude": -68.933333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CY",
+    "nameZh": "塞浦路斯",
+    "nameEn": "Cyprus",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "cyprus",
+    "aliases": [
+      "CYP",
+      "CY",
+      "Kýpros",
+      "Kıbrıs",
+      "Republic of Cyprus",
+      "Κυπριακή Δημοκρατία",
+      "Kıbrıs Cumhuriyeti"
+    ],
+    "latitude": 35,
+    "longitude": 33,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CZ",
+    "nameZh": "捷克",
+    "nameEn": "Czechia",
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "sortKey": "czechia",
+    "aliases": [
+      "CZE",
+      "CZ",
+      "Česká republika",
+      "Česko"
+    ],
+    "latitude": 49.75,
+    "longitude": 15.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "DK",
+    "nameZh": "丹麦",
+    "nameEn": "Denmark",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "denmark",
+    "aliases": [
+      "DNK",
+      "DK",
+      "Danmark",
+      "Kingdom of Denmark",
+      "Kongeriget Danmark"
+    ],
+    "latitude": 56,
+    "longitude": 10,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "DJ",
+    "nameZh": "吉布提",
+    "nameEn": "Djibouti",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "djibouti",
+    "aliases": [
+      "DJI",
+      "DJ",
+      "Jabuuti",
+      "Gabuuti",
+      "Republic of Djibouti",
+      "République de Djibouti",
+      "Gabuutih Ummuuno",
+      "Jamhuuriyadda Jabuuti"
+    ],
+    "latitude": 11.5,
+    "longitude": 43,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "DM",
+    "nameZh": "多米尼加",
+    "nameEn": "Dominica",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "dominica",
+    "aliases": [
+      "DMA",
+      "DM",
+      "Dominique",
+      "Wai‘tu kubuli",
+      "Commonwealth of Dominica"
+    ],
+    "latitude": 15.41666666,
+    "longitude": -61.33333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "DO",
+    "nameZh": "多明尼加",
+    "nameEn": "Dominican Republic",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "dominican republic",
+    "aliases": [
+      "DOM",
+      "DO"
+    ],
+    "latitude": 19,
+    "longitude": -70.66666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CD",
+    "nameZh": "民主刚果",
+    "nameEn": "DR Congo",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "dr congo",
+    "aliases": [
+      "COD",
+      "CD",
+      "DR Congo",
+      "Congo-Kinshasa",
+      "Congo, the Democratic Republic of the",
+      "Democratic Republic of Congo",
+      "DRC"
+    ],
+    "latitude": 0,
+    "longitude": 25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "EC",
+    "nameZh": "厄瓜多尔",
+    "nameEn": "Ecuador",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "ecuador",
+    "aliases": [
+      "ECU",
+      "EC",
+      "Republic of Ecuador",
+      "República del Ecuador"
+    ],
+    "latitude": -2,
+    "longitude": -77.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "EG",
+    "nameZh": "埃及",
+    "nameEn": "Egypt",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "egypt",
+    "aliases": [
+      "EGY",
+      "EG",
+      "Arab Republic of Egypt"
+    ],
+    "latitude": 27,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SV",
+    "nameZh": "萨尔瓦多",
+    "nameEn": "El Salvador",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "el salvador",
+    "aliases": [
+      "SLV",
+      "SV",
+      "Republic of El Salvador",
+      "República de El Salvador"
+    ],
+    "latitude": 13.83333333,
+    "longitude": -88.91666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GQ",
+    "nameZh": "赤道几内亚",
+    "nameEn": "Equatorial Guinea",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "equatorial guinea",
+    "aliases": [
+      "GNQ",
+      "GQ",
+      "Republic of Equatorial Guinea",
+      "República de Guinea Ecuatorial",
+      "République de Guinée équatoriale",
+      "República da Guiné Equatorial"
+    ],
+    "latitude": 2,
+    "longitude": 10,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ER",
+    "nameZh": "厄立特里亚",
+    "nameEn": "Eritrea",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "eritrea",
+    "aliases": [
+      "ERI",
+      "ER",
+      "State of Eritrea",
+      "ሃገረ ኤርትራ",
+      "Dawlat Iritriyá",
+      "ʾErtrā",
+      "Iritriyā"
+    ],
+    "latitude": 15,
+    "longitude": 39,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "EE",
+    "nameZh": "爱沙尼亚",
+    "nameEn": "Estonia",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "estonia",
+    "aliases": [
+      "EST",
+      "EE",
+      "Eesti",
+      "Republic of Estonia",
+      "Eesti Vabariik"
+    ],
+    "latitude": 59,
+    "longitude": 26,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SZ",
+    "nameZh": "斯威士兰",
+    "nameEn": "Eswatini",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "sortKey": "eswatini",
+    "aliases": [
+      "SWZ",
+      "SZ",
+      "Swaziland",
+      "weSwatini",
+      "Swatini",
+      "Ngwane",
+      "Kingdom of Eswatini",
+      "Umbuso weSwatini"
+    ],
+    "latitude": -26.5,
+    "longitude": 31.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ET",
+    "nameZh": "埃塞俄比亚",
+    "nameEn": "Ethiopia",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "ethiopia",
+    "aliases": [
+      "ETH",
+      "ET",
+      "ʾĪtyōṗṗyā",
+      "Federal Democratic Republic of Ethiopia",
+      "የኢትዮጵያ ፌዴራላዊ ዲሞክራሲያዊ ሪፐብሊክ"
+    ],
+    "latitude": 8,
+    "longitude": 38,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "FK",
+    "nameZh": "福克兰群岛",
+    "nameEn": "Falkland Islands",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "falkland islands",
+    "aliases": [
+      "FLK",
+      "FK",
+      "Islas Malvinas",
+      "Falkland Islands (Malvinas)"
+    ],
+    "latitude": -51.75,
+    "longitude": -59,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "FO",
+    "nameZh": "法罗群岛",
+    "nameEn": "Faroe Islands",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "faroe islands",
+    "aliases": [
+      "FRO",
+      "FO",
+      "Føroyar",
+      "Færøerne",
+      "Faeroe Islands"
+    ],
+    "latitude": 62,
+    "longitude": -7,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "FJ",
+    "nameZh": "斐济",
+    "nameEn": "Fiji",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "sortKey": "fiji",
+    "aliases": [
+      "FJI",
+      "FJ",
+      "Viti",
+      "Republic of Fiji",
+      "Matanitu ko Viti",
+      "Fijī Gaṇarājya"
+    ],
+    "latitude": -18,
+    "longitude": 175,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "FI",
+    "nameZh": "芬兰",
+    "nameEn": "Finland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "finland",
+    "aliases": [
+      "FIN",
+      "FI",
+      "Suomi",
+      "Republic of Finland",
+      "Suomen tasavalta",
+      "Republiken Finland"
+    ],
+    "latitude": 64,
+    "longitude": 26,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "FR",
+    "nameZh": "法国",
+    "nameEn": "France",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "france",
+    "aliases": [
+      "FRA",
+      "FR",
+      "French Republic",
+      "République française"
+    ],
+    "latitude": 46,
+    "longitude": 2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GF",
+    "nameZh": "法属圭亚那",
+    "nameEn": "French Guiana",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "french guiana",
+    "aliases": [
+      "GUF",
+      "GF",
+      "Guiana",
+      "Guyane"
+    ],
+    "latitude": 4,
+    "longitude": -53,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PF",
+    "nameZh": "法属波利尼西亚",
+    "nameEn": "French Polynesia",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "french polynesia",
+    "aliases": [
+      "PYF",
+      "PF",
+      "Polynésie française",
+      "French Polynesia",
+      "Pōrīnetia Farāni"
+    ],
+    "latitude": -15,
+    "longitude": -140,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TF",
+    "nameZh": "法国南部和南极土地",
+    "nameEn": "French Southern and Antarctic Lands",
+    "region": "Antarctic",
+    "subregion": "",
+    "sortKey": "french southern and antarctic lands",
+    "aliases": [
+      "ATF",
+      "TF",
+      "French Southern Territories"
+    ],
+    "latitude": -49.25,
+    "longitude": 69.167,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GA",
+    "nameZh": "加蓬",
+    "nameEn": "Gabon",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "gabon",
+    "aliases": [
+      "GAB",
+      "GA",
+      "Gabonese Republic",
+      "République Gabonaise"
+    ],
+    "latitude": -1,
+    "longitude": 11.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GM",
+    "nameZh": "冈比亚",
+    "nameEn": "Gambia",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "gambia",
+    "aliases": [
+      "GMB",
+      "GM",
+      "Republic of the Gambia"
+    ],
+    "latitude": 13.46666666,
+    "longitude": -16.56666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GE",
+    "nameZh": "格鲁吉亚",
+    "nameEn": "Georgia",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "georgia",
+    "aliases": [
+      "GEO",
+      "GE",
+      "Sakartvelo"
+    ],
+    "latitude": 42,
+    "longitude": 43.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "DE",
+    "nameZh": "德国",
+    "nameEn": "Germany",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "germany",
+    "aliases": [
+      "DEU",
+      "DE",
+      "Federal Republic of Germany",
+      "Bundesrepublik Deutschland"
+    ],
+    "latitude": 51,
+    "longitude": 9,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GH",
+    "nameZh": "加纳",
+    "nameEn": "Ghana",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "ghana",
+    "aliases": [
+      "GHA",
+      "GH"
+    ],
+    "latitude": 8,
+    "longitude": -2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GI",
+    "nameZh": "直布罗陀",
+    "nameEn": "Gibraltar",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "gibraltar",
+    "aliases": [
+      "GIB",
+      "GI"
+    ],
+    "latitude": 36.13333333,
+    "longitude": -5.35,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GR",
+    "nameZh": "希腊",
+    "nameEn": "Greece",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "greece",
+    "aliases": [
+      "GRC",
+      "GR",
+      "Elláda",
+      "Hellenic Republic",
+      "Ελληνική Δημοκρατία"
+    ],
+    "latitude": 39,
+    "longitude": 22,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GL",
+    "nameZh": "格陵兰",
+    "nameEn": "Greenland",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "greenland",
+    "aliases": [
+      "GRL",
+      "GL",
+      "Grønland"
+    ],
+    "latitude": 72,
+    "longitude": -40,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GD",
+    "nameZh": "格林纳达",
+    "nameEn": "Grenada",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "grenada",
+    "aliases": [
+      "GRD",
+      "GD"
+    ],
+    "latitude": 12.11666666,
+    "longitude": -61.66666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GP",
+    "nameZh": "瓜德罗普岛",
+    "nameEn": "Guadeloupe",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "guadeloupe",
+    "aliases": [
+      "GLP",
+      "GP",
+      "Gwadloup"
+    ],
+    "latitude": 16.25,
+    "longitude": -61.583333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GU",
+    "nameZh": "关岛",
+    "nameEn": "Guam",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "guam",
+    "aliases": [
+      "GUM",
+      "GU",
+      "Guåhån"
+    ],
+    "latitude": 13.46666666,
+    "longitude": 144.78333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GT",
+    "nameZh": "危地马拉",
+    "nameEn": "Guatemala",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "guatemala",
+    "aliases": [
+      "GTM",
+      "GT"
+    ],
+    "latitude": 15.5,
+    "longitude": -90.25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GG",
+    "nameZh": "根西岛",
+    "nameEn": "Guernsey",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "guernsey",
+    "aliases": [
+      "GGY",
+      "GG",
+      "Bailiwick of Guernsey",
+      "Bailliage de Guernesey"
+    ],
+    "latitude": 49.46666666,
+    "longitude": -2.58333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GN",
+    "nameZh": "几内亚",
+    "nameEn": "Guinea",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "guinea",
+    "aliases": [
+      "GIN",
+      "GN",
+      "Republic of Guinea",
+      "République de Guinée"
+    ],
+    "latitude": 11,
+    "longitude": -10,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GW",
+    "nameZh": "几内亚比绍",
+    "nameEn": "Guinea-Bissau",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "guinea-bissau",
+    "aliases": [
+      "GNB",
+      "GW",
+      "Republic of Guinea-Bissau",
+      "República da Guiné-Bissau"
+    ],
+    "latitude": 12,
+    "longitude": -15,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GY",
+    "nameZh": "圭亚那",
+    "nameEn": "Guyana",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "guyana",
+    "aliases": [
+      "GUY",
+      "GY",
+      "Co-operative Republic of Guyana"
+    ],
+    "latitude": 5,
+    "longitude": -59,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "HT",
+    "nameZh": "海地",
+    "nameEn": "Haiti",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "haiti",
+    "aliases": [
+      "HTI",
+      "HT",
+      "Republic of Haiti",
+      "République d'Haïti",
+      "Repiblik Ayiti"
+    ],
+    "latitude": 19,
+    "longitude": -72.41666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "HM",
+    "nameZh": "赫德岛和麦当劳群岛",
+    "nameEn": "Heard Island and McDonald Islands",
+    "region": "Antarctic",
+    "subregion": "",
+    "sortKey": "heard island and mcdonald islands",
+    "aliases": [
+      "HMD",
+      "HM",
+      "Heard Island and McDonald Islands"
+    ],
+    "latitude": -53.1,
+    "longitude": 72.51666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "HN",
+    "nameZh": "洪都拉斯",
+    "nameEn": "Honduras",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "honduras",
+    "aliases": [
+      "HND",
+      "HN",
+      "Republic of Honduras",
+      "República de Honduras"
+    ],
+    "latitude": 15,
+    "longitude": -86.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "HK",
+    "nameZh": "香港",
+    "nameEn": "Hong Kong",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "hong kong",
+    "aliases": [
+      "HKG",
+      "HK"
+    ],
+    "latitude": 22.267,
+    "longitude": 114.188,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "HU",
+    "nameZh": "匈牙利",
+    "nameEn": "Hungary",
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "sortKey": "hungary",
+    "aliases": [
+      "HUN",
+      "HU"
+    ],
+    "latitude": 47,
+    "longitude": 20,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IS",
+    "nameZh": "冰岛",
+    "nameEn": "Iceland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "iceland",
+    "aliases": [
+      "ISL",
+      "IS",
+      "Island",
+      "Republic of Iceland",
+      "Lýðveldið Ísland"
+    ],
+    "latitude": 65,
+    "longitude": -18,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IN",
+    "nameZh": "印度",
+    "nameEn": "India",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "india",
+    "aliases": [
+      "IND",
+      "IN",
+      "Bhārat",
+      "Republic of India",
+      "Bharat Ganrajya",
+      "இந்தியா"
+    ],
+    "latitude": 20,
+    "longitude": 77,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ID",
+    "nameZh": "印度尼西亚",
+    "nameEn": "Indonesia",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "indonesia",
+    "aliases": [
+      "IDN",
+      "ID",
+      "Republic of Indonesia",
+      "Republik Indonesia"
+    ],
+    "latitude": -5,
+    "longitude": 120,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IR",
+    "nameZh": "伊朗",
+    "nameEn": "Iran",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "iran",
+    "aliases": [
+      "IRN",
+      "IR",
+      "Islamic Republic of Iran",
+      "Iran, Islamic Republic of",
+      "Jomhuri-ye Eslāmi-ye Irān"
+    ],
+    "latitude": 32,
+    "longitude": 53,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IQ",
+    "nameZh": "伊拉克",
+    "nameEn": "Iraq",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "iraq",
+    "aliases": [
+      "IRQ",
+      "IQ",
+      "Republic of Iraq",
+      "Jumhūriyyat al-‘Irāq"
+    ],
+    "latitude": 33,
+    "longitude": 44,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IE",
+    "nameZh": "爱尔兰",
+    "nameEn": "Ireland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "ireland",
+    "aliases": [
+      "IRL",
+      "IE",
+      "Éire",
+      "Republic of Ireland",
+      "Poblacht na hÉireann"
+    ],
+    "latitude": 53,
+    "longitude": -8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IM",
+    "nameZh": "马恩岛",
+    "nameEn": "Isle of Man",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "isle of man",
+    "aliases": [
+      "IMN",
+      "IM",
+      "Ellan Vannin",
+      "Mann",
+      "Mannin"
+    ],
+    "latitude": 54.25,
+    "longitude": -4.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IL",
+    "nameZh": "以色列",
+    "nameEn": "Israel",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "israel",
+    "aliases": [
+      "ISR",
+      "IL",
+      "State of Israel",
+      "Medīnat Yisrā'el"
+    ],
+    "latitude": 31.47,
+    "longitude": 35.13,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "IT",
+    "nameZh": "意大利",
+    "nameEn": "Italy",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "italy",
+    "aliases": [
+      "ITA",
+      "IT",
+      "Italian Republic",
+      "Repubblica italiana"
+    ],
+    "latitude": 42.83333333,
+    "longitude": 12.83333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CI",
+    "nameZh": "科特迪瓦",
+    "nameEn": "Ivory Coast",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "ivory coast",
+    "aliases": [
+      "CIV",
+      "CI",
+      "Côte d'Ivoire",
+      "Cote d'Ivoire",
+      "Ivory Coast",
+      "Republic of Côte d'Ivoire",
+      "République de Côte d'Ivoire"
+    ],
+    "latitude": 8,
+    "longitude": -5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "JM",
+    "nameZh": "牙买加",
+    "nameEn": "Jamaica",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "jamaica",
+    "aliases": [
+      "JAM",
+      "JM"
+    ],
+    "latitude": 18.25,
+    "longitude": -77.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "JP",
+    "nameZh": "日本",
+    "nameEn": "Japan",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "japan",
+    "aliases": [
+      "JPN",
+      "JP",
+      "Nippon",
+      "Nihon"
+    ],
+    "latitude": 36,
+    "longitude": 138,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "JE",
+    "nameZh": "泽西岛",
+    "nameEn": "Jersey",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "jersey",
+    "aliases": [
+      "JEY",
+      "JE",
+      "Bailiwick of Jersey",
+      "Bailliage de Jersey",
+      "Bailliage dé Jèrri"
+    ],
+    "latitude": 49.25,
+    "longitude": -2.16666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "JO",
+    "nameZh": "约旦",
+    "nameEn": "Jordan",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "jordan",
+    "aliases": [
+      "JOR",
+      "JO",
+      "Hashemite Kingdom of Jordan",
+      "al-Mamlakah al-Urdunīyah al-Hāshimīyah"
+    ],
+    "latitude": 31,
+    "longitude": 36,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KZ",
+    "nameZh": "哈萨克斯坦",
+    "nameEn": "Kazakhstan",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "sortKey": "kazakhstan",
+    "aliases": [
+      "KAZ",
+      "KZ",
+      "Qazaqstan",
+      "Казахстан",
+      "Republic of Kazakhstan",
+      "Қазақстан Республикасы",
+      "Qazaqstan Respublïkası",
+      "Республика Казахстан",
+      "Respublika Kazakhstan"
+    ],
+    "latitude": 48,
+    "longitude": 68,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KE",
+    "nameZh": "肯尼亚",
+    "nameEn": "Kenya",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "kenya",
+    "aliases": [
+      "KEN",
+      "KE",
+      "Republic of Kenya",
+      "Jamhuri ya Kenya"
+    ],
+    "latitude": 1,
+    "longitude": 38,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KI",
+    "nameZh": "基里巴斯",
+    "nameEn": "Kiribati",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "kiribati",
+    "aliases": [
+      "KIR",
+      "KI",
+      "Republic of Kiribati",
+      "Ribaberiki Kiribati"
+    ],
+    "latitude": 1.41666666,
+    "longitude": 173,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "XK",
+    "nameZh": "科索沃",
+    "nameEn": "Kosovo",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "kosovo",
+    "aliases": [
+      "UNK",
+      "XK",
+      "Република Косово"
+    ],
+    "latitude": 42.666667,
+    "longitude": 21.166667,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KW",
+    "nameZh": "科威特",
+    "nameEn": "Kuwait",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "kuwait",
+    "aliases": [
+      "KWT",
+      "KW",
+      "State of Kuwait",
+      "Dawlat al-Kuwait"
+    ],
+    "latitude": 29.5,
+    "longitude": 45.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KG",
+    "nameZh": "吉尔吉斯斯坦",
+    "nameEn": "Kyrgyzstan",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "sortKey": "kyrgyzstan",
+    "aliases": [
+      "KGZ",
+      "KG",
+      "Киргизия",
+      "Kyrgyz Republic",
+      "Кыргыз Республикасы",
+      "Kyrgyz Respublikasy"
+    ],
+    "latitude": 41,
+    "longitude": 75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LA",
+    "nameZh": "老挝",
+    "nameEn": "Laos",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "laos",
+    "aliases": [
+      "LAO",
+      "LA",
+      "Lao",
+      "Lao People's Democratic Republic",
+      "Sathalanalat Paxathipatai Paxaxon Lao"
+    ],
+    "latitude": 18,
+    "longitude": 105,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LV",
+    "nameZh": "拉脱维亚",
+    "nameEn": "Latvia",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "latvia",
+    "aliases": [
+      "LVA",
+      "LV",
+      "Republic of Latvia",
+      "Latvijas Republika"
+    ],
+    "latitude": 57,
+    "longitude": 25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LB",
+    "nameZh": "黎巴嫩",
+    "nameEn": "Lebanon",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "lebanon",
+    "aliases": [
+      "LBN",
+      "LB",
+      "Lebanese Republic",
+      "Al-Jumhūrīyah Al-Libnānīyah"
+    ],
+    "latitude": 33.83333333,
+    "longitude": 35.83333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LS",
+    "nameZh": "莱索托",
+    "nameEn": "Lesotho",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "sortKey": "lesotho",
+    "aliases": [
+      "LSO",
+      "LS",
+      "Kingdom of Lesotho",
+      "Muso oa Lesotho"
+    ],
+    "latitude": -29.5,
+    "longitude": 28.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LR",
+    "nameZh": "利比里亚",
+    "nameEn": "Liberia",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "liberia",
+    "aliases": [
+      "LBR",
+      "LR",
+      "Republic of Liberia"
+    ],
+    "latitude": 6.5,
+    "longitude": -9.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LY",
+    "nameZh": "利比亚",
+    "nameEn": "Libya",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "libya",
+    "aliases": [
+      "LBY",
+      "LY",
+      "State of Libya",
+      "Dawlat Libya"
+    ],
+    "latitude": 25,
+    "longitude": 17,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LI",
+    "nameZh": "列支敦士登",
+    "nameEn": "Liechtenstein",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "liechtenstein",
+    "aliases": [
+      "LIE",
+      "LI",
+      "Principality of Liechtenstein",
+      "Fürstentum Liechtenstein"
+    ],
+    "latitude": 47.26666666,
+    "longitude": 9.53333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LT",
+    "nameZh": "立陶宛",
+    "nameEn": "Lithuania",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "lithuania",
+    "aliases": [
+      "LTU",
+      "LT",
+      "Republic of Lithuania",
+      "Lietuvos Respublika"
+    ],
+    "latitude": 56,
+    "longitude": 24,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LU",
+    "nameZh": "卢森堡",
+    "nameEn": "Luxembourg",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "luxembourg",
+    "aliases": [
+      "LUX",
+      "LU",
+      "Grand Duchy of Luxembourg",
+      "Grand-Duché de Luxembourg",
+      "Großherzogtum Luxemburg",
+      "Groussherzogtum Lëtzebuerg"
+    ],
+    "latitude": 49.75,
+    "longitude": 6.16666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MO",
+    "nameZh": "澳门",
+    "nameEn": "Macau",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "macau",
+    "aliases": [
+      "MAC",
+      "MO",
+      "澳门",
+      "Macao",
+      "Macao Special Administrative Region of the People's Republic of China",
+      "中華人民共和國澳門特別行政區",
+      "Região Administrativa Especial de Macau da República Popular da China"
+    ],
+    "latitude": 22.16666666,
+    "longitude": 113.55,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MG",
+    "nameZh": "马达加斯加",
+    "nameEn": "Madagascar",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "madagascar",
+    "aliases": [
+      "MDG",
+      "MG",
+      "Republic of Madagascar",
+      "Repoblikan'i Madagasikara",
+      "République de Madagascar"
+    ],
+    "latitude": -20,
+    "longitude": 47,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MW",
+    "nameZh": "马拉维",
+    "nameEn": "Malawi",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "malawi",
+    "aliases": [
+      "MWI",
+      "MW",
+      "Republic of Malawi"
+    ],
+    "latitude": -13.5,
+    "longitude": 34,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MY",
+    "nameZh": "马来西亚",
+    "nameEn": "Malaysia",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "malaysia",
+    "aliases": [
+      "MYS",
+      "MY"
+    ],
+    "latitude": 2.5,
+    "longitude": 112.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MV",
+    "nameZh": "马尔代夫",
+    "nameEn": "Maldives",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "maldives",
+    "aliases": [
+      "MDV",
+      "MV",
+      "Maldive Islands",
+      "Republic of the Maldives",
+      "Dhivehi Raajjeyge Jumhooriyya"
+    ],
+    "latitude": 3.25,
+    "longitude": 73,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ML",
+    "nameZh": "马里",
+    "nameEn": "Mali",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "mali",
+    "aliases": [
+      "MLI",
+      "ML",
+      "Republic of Mali",
+      "République du Mali"
+    ],
+    "latitude": 17,
+    "longitude": -4,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MT",
+    "nameZh": "马耳他",
+    "nameEn": "Malta",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "malta",
+    "aliases": [
+      "MLT",
+      "MT",
+      "Republic of Malta",
+      "Repubblika ta' Malta"
+    ],
+    "latitude": 35.83333333,
+    "longitude": 14.58333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MH",
+    "nameZh": "马绍尔群岛",
+    "nameEn": "Marshall Islands",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "marshall islands",
+    "aliases": [
+      "MHL",
+      "MH",
+      "Republic of the Marshall Islands",
+      "Aolepān Aorōkin M̧ajeļ"
+    ],
+    "latitude": 9,
+    "longitude": 168,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MQ",
+    "nameZh": "马提尼克",
+    "nameEn": "Martinique",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "martinique",
+    "aliases": [
+      "MTQ",
+      "MQ"
+    ],
+    "latitude": 14.666667,
+    "longitude": -61,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MR",
+    "nameZh": "毛里塔尼亚",
+    "nameEn": "Mauritania",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "mauritania",
+    "aliases": [
+      "MRT",
+      "MR",
+      "Islamic Republic of Mauritania",
+      "al-Jumhūriyyah al-ʾIslāmiyyah al-Mūrītāniyyah"
+    ],
+    "latitude": 20,
+    "longitude": -12,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MU",
+    "nameZh": "毛里求斯",
+    "nameEn": "Mauritius",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "mauritius",
+    "aliases": [
+      "MUS",
+      "MU",
+      "Republic of Mauritius",
+      "République de Maurice"
+    ],
+    "latitude": -20.28333333,
+    "longitude": 57.55,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "YT",
+    "nameZh": "马约特",
+    "nameEn": "Mayotte",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "mayotte",
+    "aliases": [
+      "MYT",
+      "YT",
+      "Department of Mayotte",
+      "Département de Mayotte"
+    ],
+    "latitude": -12.83333333,
+    "longitude": 45.16666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MX",
+    "nameZh": "墨西哥",
+    "nameEn": "Mexico",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "mexico",
+    "aliases": [
+      "MEX",
+      "MX",
+      "Mexicanos",
+      "United Mexican States",
+      "Estados Unidos Mexicanos"
+    ],
+    "latitude": 23,
+    "longitude": -102,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "FM",
+    "nameZh": "密克罗尼西亚",
+    "nameEn": "Micronesia",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "micronesia",
+    "aliases": [
+      "FSM",
+      "FM",
+      "Federated States of Micronesia",
+      "Micronesia, Federated States of"
+    ],
+    "latitude": 6.91666666,
+    "longitude": 158.25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MD",
+    "nameZh": "摩尔多瓦",
+    "nameEn": "Moldova",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "sortKey": "moldova",
+    "aliases": [
+      "MDA",
+      "MD",
+      "Moldova, Republic of",
+      "Republic of Moldova",
+      "Republica Moldova"
+    ],
+    "latitude": 47,
+    "longitude": 29,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MC",
+    "nameZh": "摩纳哥",
+    "nameEn": "Monaco",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "monaco",
+    "aliases": [
+      "MCO",
+      "MC",
+      "Principality of Monaco",
+      "Principauté de Monaco"
+    ],
+    "latitude": 43.73333333,
+    "longitude": 7.4,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MN",
+    "nameZh": "蒙古",
+    "nameEn": "Mongolia",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "mongolia",
+    "aliases": [
+      "MNG",
+      "MN"
+    ],
+    "latitude": 46,
+    "longitude": 105,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ME",
+    "nameZh": "黑山",
+    "nameEn": "Montenegro",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "montenegro",
+    "aliases": [
+      "MNE",
+      "ME",
+      "Crna Gora"
+    ],
+    "latitude": 42.5,
+    "longitude": 19.3,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MS",
+    "nameZh": "蒙特塞拉特",
+    "nameEn": "Montserrat",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "montserrat",
+    "aliases": [
+      "MSR",
+      "MS"
+    ],
+    "latitude": 16.75,
+    "longitude": -62.2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MA",
+    "nameZh": "摩洛哥",
+    "nameEn": "Morocco",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "morocco",
+    "aliases": [
+      "MAR",
+      "MA",
+      "Kingdom of Morocco",
+      "Al-Mamlakah al-Maġribiyah"
+    ],
+    "latitude": 32,
+    "longitude": -5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MZ",
+    "nameZh": "莫桑比克",
+    "nameEn": "Mozambique",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "mozambique",
+    "aliases": [
+      "MOZ",
+      "MZ",
+      "Republic of Mozambique",
+      "República de Moçambique"
+    ],
+    "latitude": -18.25,
+    "longitude": 35,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MM",
+    "nameZh": "缅甸",
+    "nameEn": "Myanmar",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "myanmar",
+    "aliases": [
+      "MMR",
+      "MM",
+      "Burma",
+      "Republic of the Union of Myanmar",
+      "Pyidaunzu Thanmăda Myăma Nainngandaw"
+    ],
+    "latitude": 22,
+    "longitude": 98,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NA",
+    "nameZh": "纳米比亚",
+    "nameEn": "Namibia",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "sortKey": "namibia",
+    "aliases": [
+      "NAM",
+      "NA",
+      "Namibië",
+      "Republic of Namibia"
+    ],
+    "latitude": -22,
+    "longitude": 17,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NR",
+    "nameZh": "瑙鲁",
+    "nameEn": "Nauru",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "nauru",
+    "aliases": [
+      "NRU",
+      "NR",
+      "Naoero",
+      "Pleasant Island",
+      "Republic of Nauru",
+      "Ripublik Naoero"
+    ],
+    "latitude": -0.53333333,
+    "longitude": 166.91666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NP",
+    "nameZh": "尼泊尔",
+    "nameEn": "Nepal",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "nepal",
+    "aliases": [
+      "NPL",
+      "NP",
+      "Federal Democratic Republic of Nepal",
+      "Loktāntrik Ganatantra Nepāl"
+    ],
+    "latitude": 28,
+    "longitude": 84,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NL",
+    "nameZh": "荷兰",
+    "nameEn": "Netherlands",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "netherlands",
+    "aliases": [
+      "NLD",
+      "NL",
+      "Holland",
+      "Nederland",
+      "The Netherlands"
+    ],
+    "latitude": 52.5,
+    "longitude": 5.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NC",
+    "nameZh": "新喀里多尼亚",
+    "nameEn": "New Caledonia",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "sortKey": "new caledonia",
+    "aliases": [
+      "NCL",
+      "NC"
+    ],
+    "latitude": -21.5,
+    "longitude": 165.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NZ",
+    "nameZh": "新西兰",
+    "nameEn": "New Zealand",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "sortKey": "new zealand",
+    "aliases": [
+      "NZL",
+      "NZ",
+      "Aotearoa"
+    ],
+    "latitude": -41,
+    "longitude": 174,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NI",
+    "nameZh": "尼加拉瓜",
+    "nameEn": "Nicaragua",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "nicaragua",
+    "aliases": [
+      "NIC",
+      "NI",
+      "Republic of Nicaragua",
+      "República de Nicaragua"
+    ],
+    "latitude": 13,
+    "longitude": -85,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NE",
+    "nameZh": "尼日尔",
+    "nameEn": "Niger",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "niger",
+    "aliases": [
+      "NER",
+      "NE",
+      "Nijar"
+    ],
+    "latitude": 16,
+    "longitude": 8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NG",
+    "nameZh": "尼日利亚",
+    "nameEn": "Nigeria",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "nigeria",
+    "aliases": [
+      "NGA",
+      "NG",
+      "Nijeriya",
+      "Naíjíríà",
+      "Federal Republic of Nigeria"
+    ],
+    "latitude": 10,
+    "longitude": 8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NU",
+    "nameZh": "纽埃",
+    "nameEn": "Niue",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "niue",
+    "aliases": [
+      "NIU",
+      "NU"
+    ],
+    "latitude": -19.03333333,
+    "longitude": -169.86666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NF",
+    "nameZh": "诺福克岛",
+    "nameEn": "Norfolk Island",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "sortKey": "norfolk island",
+    "aliases": [
+      "NFK",
+      "NF",
+      "Territory of Norfolk Island",
+      "Teratri of Norf'k Ailen"
+    ],
+    "latitude": -29.03333333,
+    "longitude": 167.95,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KP",
+    "nameZh": "朝鲜",
+    "nameEn": "North Korea",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "north korea",
+    "aliases": [
+      "PRK",
+      "KP",
+      "Democratic People's Republic of Korea",
+      "DPRK",
+      "조선민주주의인민공화국",
+      "Chosŏn Minjujuŭi Inmin Konghwaguk",
+      "Korea, Democratic People's Republic of",
+      "북한",
+      "북조선"
+    ],
+    "latitude": 40,
+    "longitude": 127,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MK",
+    "nameZh": "北馬其頓",
+    "nameEn": "North Macedonia",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "north macedonia",
+    "aliases": [
+      "MKD",
+      "MK",
+      "The former Yugoslav Republic of Macedonia",
+      "Republic of North Macedonia",
+      "Macedonia, The Former Yugoslav Republic of",
+      "Република Северна Македонија",
+      "Macedonia"
+    ],
+    "latitude": 41.83333333,
+    "longitude": 22,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MP",
+    "nameZh": "北马里亚纳群岛",
+    "nameEn": "Northern Mariana Islands",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "northern mariana islands",
+    "aliases": [
+      "MNP",
+      "MP",
+      "Commonwealth of the Northern Mariana Islands",
+      "Sankattan Siha Na Islas Mariånas"
+    ],
+    "latitude": 15.2,
+    "longitude": 145.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "NO",
+    "nameZh": "挪威",
+    "nameEn": "Norway",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "norway",
+    "aliases": [
+      "NOR",
+      "NO",
+      "Norge",
+      "Noreg",
+      "Kingdom of Norway",
+      "Kongeriket Norge",
+      "Kongeriket Noreg"
+    ],
+    "latitude": 62,
+    "longitude": 10,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "OM",
+    "nameZh": "阿曼",
+    "nameEn": "Oman",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "oman",
+    "aliases": [
+      "OMN",
+      "OM",
+      "Sultanate of Oman",
+      "Salṭanat ʻUmān"
+    ],
+    "latitude": 21,
+    "longitude": 57,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PK",
+    "nameZh": "巴基斯坦",
+    "nameEn": "Pakistan",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "pakistan",
+    "aliases": [
+      "PAK",
+      "PK",
+      "Pākistān",
+      "Islamic Republic of Pakistan",
+      "Islāmī Jumhūriya'eh Pākistān"
+    ],
+    "latitude": 30,
+    "longitude": 70,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PW",
+    "nameZh": "帕劳",
+    "nameEn": "Palau",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "sortKey": "palau",
+    "aliases": [
+      "PLW",
+      "PW",
+      "Republic of Palau",
+      "Beluu er a Belau"
+    ],
+    "latitude": 7.5,
+    "longitude": 134.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PS",
+    "nameZh": "巴勒斯坦",
+    "nameEn": "Palestine",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "palestine",
+    "aliases": [
+      "PSE",
+      "PS",
+      "Palestine, State of",
+      "State of Palestine",
+      "Dawlat Filasṭin"
+    ],
+    "latitude": 31.9,
+    "longitude": 35.2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PA",
+    "nameZh": "巴拿马",
+    "nameEn": "Panama",
+    "region": "Americas",
+    "subregion": "Central America",
+    "sortKey": "panama",
+    "aliases": [
+      "PAN",
+      "PA",
+      "Republic of Panama",
+      "República de Panamá"
+    ],
+    "latitude": 9,
+    "longitude": -80,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PG",
+    "nameZh": "巴布亚新几内亚",
+    "nameEn": "Papua New Guinea",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "sortKey": "papua new guinea",
+    "aliases": [
+      "PNG",
+      "PG",
+      "Independent State of Papua New Guinea",
+      "Independen Stet bilong Papua Niugini"
+    ],
+    "latitude": -6,
+    "longitude": 147,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PY",
+    "nameZh": "巴拉圭",
+    "nameEn": "Paraguay",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "paraguay",
+    "aliases": [
+      "PRY",
+      "PY",
+      "Republic of Paraguay",
+      "República del Paraguay",
+      "Tetã Paraguái"
+    ],
+    "latitude": -23,
+    "longitude": -58,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PE",
+    "nameZh": "秘鲁",
+    "nameEn": "Peru",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "peru",
+    "aliases": [
+      "PER",
+      "PE",
+      "Republic of Peru",
+      "República del Perú"
+    ],
+    "latitude": -10,
+    "longitude": -76,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PH",
+    "nameZh": "菲律宾",
+    "nameEn": "Philippines",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "philippines",
+    "aliases": [
+      "PHL",
+      "PH",
+      "Republic of the Philippines",
+      "Repúblika ng Pilipinas"
+    ],
+    "latitude": 13,
+    "longitude": 122,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PN",
+    "nameZh": "皮特凯恩群岛",
+    "nameEn": "Pitcairn Islands",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "pitcairn islands",
+    "aliases": [
+      "PCN",
+      "PN",
+      "Pitcairn",
+      "Pitcairn Henderson Ducie and Oeno Islands"
+    ],
+    "latitude": -25.06666666,
+    "longitude": -130.1,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PL",
+    "nameZh": "波兰",
+    "nameEn": "Poland",
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "sortKey": "poland",
+    "aliases": [
+      "POL",
+      "PL",
+      "Republic of Poland",
+      "Rzeczpospolita Polska"
+    ],
+    "latitude": 52,
+    "longitude": 20,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PT",
+    "nameZh": "葡萄牙",
+    "nameEn": "Portugal",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "portugal",
+    "aliases": [
+      "PRT",
+      "PT",
+      "Portuguesa",
+      "Portuguese Republic",
+      "República Portuguesa"
+    ],
+    "latitude": 39.5,
+    "longitude": -8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PR",
+    "nameZh": "波多黎各",
+    "nameEn": "Puerto Rico",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "puerto rico",
+    "aliases": [
+      "PRI",
+      "PR",
+      "Commonwealth of Puerto Rico",
+      "Estado Libre Asociado de Puerto Rico"
+    ],
+    "latitude": 18.25,
+    "longitude": -66.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "QA",
+    "nameZh": "卡塔尔",
+    "nameEn": "Qatar",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "qatar",
+    "aliases": [
+      "QAT",
+      "QA",
+      "State of Qatar",
+      "Dawlat Qaṭar"
+    ],
+    "latitude": 25.5,
+    "longitude": 51.25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CG",
+    "nameZh": "刚果",
+    "nameEn": "Republic of the Congo",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "republic of the congo",
+    "aliases": [
+      "COG",
+      "CG",
+      "Congo",
+      "Congo-Brazzaville"
+    ],
+    "latitude": -1,
+    "longitude": 15,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "RE",
+    "nameZh": "留尼旺岛",
+    "nameEn": "Réunion",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "réunion",
+    "aliases": [
+      "REU",
+      "RE",
+      "Reunion"
+    ],
+    "latitude": -21.15,
+    "longitude": 55.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "RO",
+    "nameZh": "罗马尼亚",
+    "nameEn": "Romania",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "romania",
+    "aliases": [
+      "ROU",
+      "RO",
+      "Rumania",
+      "Roumania",
+      "România"
+    ],
+    "latitude": 46,
+    "longitude": 25,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "RU",
+    "nameZh": "俄罗斯",
+    "nameEn": "Russia",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "sortKey": "russia",
+    "aliases": [
+      "RUS",
+      "RU",
+      "Russian Federation",
+      "Российская Федерация"
+    ],
+    "latitude": 60,
+    "longitude": 100,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "RW",
+    "nameZh": "卢旺达",
+    "nameEn": "Rwanda",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "rwanda",
+    "aliases": [
+      "RWA",
+      "RW",
+      "Republic of Rwanda",
+      "Repubulika y'u Rwanda",
+      "République du Rwanda"
+    ],
+    "latitude": -2,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "BL",
+    "nameZh": "圣巴泰勒米",
+    "nameEn": "Saint Barthélemy",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "saint barthélemy",
+    "aliases": [
+      "BLM",
+      "BL",
+      "St. Barthelemy",
+      "Collectivity of Saint Barthélemy",
+      "Collectivité de Saint-Barthélemy"
+    ],
+    "latitude": 18.5,
+    "longitude": -63.41666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SH",
+    "nameZh": "圣赫勒拿、阿森松和特里斯坦-达库尼亚",
+    "nameEn": "Saint Helena, Ascension and Tristan da Cunha",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "saint helena, ascension and tristan da cunha",
+    "aliases": [
+      "SHN",
+      "Saint Helena",
+      "St. Helena, Ascension and Tristan da Cunha"
+    ],
+    "latitude": -15.95,
+    "longitude": -5.72,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KN",
+    "nameZh": "圣基茨和尼维斯",
+    "nameEn": "Saint Kitts and Nevis",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "saint kitts and nevis",
+    "aliases": [
+      "KNA",
+      "KN",
+      "Federation of Saint Christopher and Nevis"
+    ],
+    "latitude": 17.33333333,
+    "longitude": -62.75,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LC",
+    "nameZh": "圣卢西亚",
+    "nameEn": "Saint Lucia",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "saint lucia",
+    "aliases": [
+      "LCA",
+      "LC"
+    ],
+    "latitude": 13.88333333,
+    "longitude": -60.96666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "MF",
+    "nameZh": "圣马丁",
+    "nameEn": "Saint Martin",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "saint martin",
+    "aliases": [
+      "MAF",
+      "MF",
+      "Collectivity of Saint Martin",
+      "Collectivité de Saint-Martin",
+      "Saint Martin (French part)"
+    ],
+    "latitude": 18.08333333,
+    "longitude": -63.95,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "PM",
+    "nameZh": "圣皮埃尔和密克隆",
+    "nameEn": "Saint Pierre and Miquelon",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "saint pierre and miquelon",
+    "aliases": [
+      "SPM",
+      "PM",
+      "Collectivité territoriale de Saint-Pierre-et-Miquelon"
+    ],
+    "latitude": 46.83333333,
+    "longitude": -56.33333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VC",
+    "nameZh": "圣文森特和格林纳丁斯",
+    "nameEn": "Saint Vincent and the Grenadines",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "saint vincent and the grenadines",
+    "aliases": [
+      "VCT",
+      "VC"
+    ],
+    "latitude": 13.25,
+    "longitude": -61.2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "WS",
+    "nameZh": "萨摩亚",
+    "nameEn": "Samoa",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "samoa",
+    "aliases": [
+      "WSM",
+      "WS",
+      "Independent State of Samoa",
+      "Malo Saʻoloto Tutoʻatasi o Sāmoa"
+    ],
+    "latitude": -13.58333333,
+    "longitude": -172.33333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SM",
+    "nameZh": "圣马力诺",
+    "nameEn": "San Marino",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "san marino",
+    "aliases": [
+      "SMR",
+      "SM",
+      "Republic of San Marino",
+      "Repubblica di San Marino"
+    ],
+    "latitude": 43.76666666,
+    "longitude": 12.41666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ST",
+    "nameZh": "圣多美和普林西比",
+    "nameEn": "São Tomé and Príncipe",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "são tomé and príncipe",
+    "aliases": [
+      "STP",
+      "ST",
+      "Democratic Republic of São Tomé and Príncipe",
+      "Sao Tome and Principe",
+      "República Democrática de São Tomé e Príncipe"
+    ],
+    "latitude": 1,
+    "longitude": 7,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SA",
+    "nameZh": "沙特阿拉伯",
+    "nameEn": "Saudi Arabia",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "saudi arabia",
+    "aliases": [
+      "SAU",
+      "Saudi",
+      "SA",
+      "Kingdom of Saudi Arabia",
+      "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah"
+    ],
+    "latitude": 25,
+    "longitude": 45,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SN",
+    "nameZh": "塞内加尔",
+    "nameEn": "Senegal",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "senegal",
+    "aliases": [
+      "SEN",
+      "SN",
+      "Republic of Senegal",
+      "République du Sénégal"
+    ],
+    "latitude": 14,
+    "longitude": -14,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "RS",
+    "nameZh": "塞尔维亚",
+    "nameEn": "Serbia",
+    "region": "Europe",
+    "subregion": "Southeast Europe",
+    "sortKey": "serbia",
+    "aliases": [
+      "SRB",
+      "RS",
+      "Srbija",
+      "Republika Srbija",
+      "Србија",
+      "Република Србија",
+      "Republic of Serbia"
+    ],
+    "latitude": 44,
+    "longitude": 21,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SC",
+    "nameZh": "塞舌尔",
+    "nameEn": "Seychelles",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "seychelles",
+    "aliases": [
+      "SYC",
+      "SC",
+      "Republic of Seychelles",
+      "Repiblik Sesel",
+      "République des Seychelles"
+    ],
+    "latitude": -4.58333333,
+    "longitude": 55.66666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SL",
+    "nameZh": "塞拉利昂",
+    "nameEn": "Sierra Leone",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "sierra leone",
+    "aliases": [
+      "SLE",
+      "SL",
+      "Republic of Sierra Leone"
+    ],
+    "latitude": 8.5,
+    "longitude": -11.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SG",
+    "nameZh": "新加坡",
+    "nameEn": "Singapore",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "singapore",
+    "aliases": [
+      "SGP",
+      "SG",
+      "Singapura",
+      "Republik Singapura",
+      "新加坡共和国"
+    ],
+    "latitude": 1.36666666,
+    "longitude": 103.8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SX",
+    "nameZh": "圣马丁岛",
+    "nameEn": "Sint Maarten",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "sint maarten",
+    "aliases": [
+      "SXM",
+      "SX",
+      "Sint Maarten (Dutch part)"
+    ],
+    "latitude": 18.033333,
+    "longitude": -63.05,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SK",
+    "nameZh": "斯洛伐克",
+    "nameEn": "Slovakia",
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "sortKey": "slovakia",
+    "aliases": [
+      "SVK",
+      "SK",
+      "Slovak Republic",
+      "Slovenská republika"
+    ],
+    "latitude": 48.66666666,
+    "longitude": 19.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SI",
+    "nameZh": "斯洛文尼亚",
+    "nameEn": "Slovenia",
+    "region": "Europe",
+    "subregion": "Central Europe",
+    "sortKey": "slovenia",
+    "aliases": [
+      "SVN",
+      "SI",
+      "Republic of Slovenia",
+      "Republika Slovenija"
+    ],
+    "latitude": 46.11666666,
+    "longitude": 14.81666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SB",
+    "nameZh": "所罗门群岛",
+    "nameEn": "Solomon Islands",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "sortKey": "solomon islands",
+    "aliases": [
+      "SLB",
+      "SB"
+    ],
+    "latitude": -8,
+    "longitude": 159,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SO",
+    "nameZh": "索马里",
+    "nameEn": "Somalia",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "somalia",
+    "aliases": [
+      "SOM",
+      "SO",
+      "aṣ-Ṣūmāl",
+      "Federal Republic of Somalia",
+      "Jamhuuriyadda Federaalka Soomaaliya",
+      "Jumhūriyyat aṣ-Ṣūmāl al-Fiderāliyya"
+    ],
+    "latitude": 10,
+    "longitude": 49,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ZA",
+    "nameZh": "南非",
+    "nameEn": "South Africa",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "sortKey": "south africa",
+    "aliases": [
+      "ZAF",
+      "ZA",
+      "RSA",
+      "Suid-Afrika",
+      "Republic of South Africa"
+    ],
+    "latitude": -29,
+    "longitude": 24,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GS",
+    "nameZh": "南乔治亚",
+    "nameEn": "South Georgia",
+    "region": "Antarctic",
+    "subregion": "",
+    "sortKey": "south georgia",
+    "aliases": [
+      "SGS",
+      "GS",
+      "South Georgia and the South Sandwich Islands"
+    ],
+    "latitude": -54.5,
+    "longitude": -37,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "KR",
+    "nameZh": "韩国",
+    "nameEn": "South Korea",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "south korea",
+    "aliases": [
+      "KOR",
+      "KR",
+      "Korea, Republic of",
+      "Republic of Korea",
+      "남한",
+      "남조선"
+    ],
+    "latitude": 37,
+    "longitude": 127.5,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SS",
+    "nameZh": "南苏丹",
+    "nameEn": "South Sudan",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "sortKey": "south sudan",
+    "aliases": [
+      "SSD",
+      "SS"
+    ],
+    "latitude": 7,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ES",
+    "nameZh": "西班牙",
+    "nameEn": "Spain",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "spain",
+    "aliases": [
+      "ESP",
+      "ES",
+      "Kingdom of Spain",
+      "Reino de España"
+    ],
+    "latitude": 40,
+    "longitude": -4,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "LK",
+    "nameZh": "斯里兰卡",
+    "nameEn": "Sri Lanka",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "sortKey": "sri lanka",
+    "aliases": [
+      "LKA",
+      "LK",
+      "ilaṅkai",
+      "Democratic Socialist Republic of Sri Lanka"
+    ],
+    "latitude": 7,
+    "longitude": 81,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SD",
+    "nameZh": "苏丹",
+    "nameEn": "Sudan",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "sudan",
+    "aliases": [
+      "SDN",
+      "SD",
+      "Republic of the Sudan",
+      "Jumhūrīyat as-Sūdān"
+    ],
+    "latitude": 15,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SR",
+    "nameZh": "苏里南",
+    "nameEn": "Suriname",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "suriname",
+    "aliases": [
+      "SUR",
+      "SR",
+      "Sarnam",
+      "Sranangron",
+      "Republic of Suriname",
+      "Republiek Suriname"
+    ],
+    "latitude": 4,
+    "longitude": -56,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SJ",
+    "nameZh": "斯瓦尔巴特",
+    "nameEn": "Svalbard and Jan Mayen",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "svalbard and jan mayen",
+    "aliases": [
+      "SJM",
+      "SJ",
+      "Svalbard and Jan Mayen Islands"
+    ],
+    "latitude": 78,
+    "longitude": 20,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SE",
+    "nameZh": "瑞典",
+    "nameEn": "Sweden",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "sweden",
+    "aliases": [
+      "SWE",
+      "SE",
+      "Kingdom of Sweden",
+      "Konungariket Sverige"
+    ],
+    "latitude": 62,
+    "longitude": 15,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "CH",
+    "nameZh": "瑞士",
+    "nameEn": "Switzerland",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "sortKey": "switzerland",
+    "aliases": [
+      "CHE",
+      "CH",
+      "Swiss Confederation",
+      "Schweiz",
+      "Suisse",
+      "Svizzera",
+      "Svizra"
+    ],
+    "latitude": 47,
+    "longitude": 8,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "SY",
+    "nameZh": "叙利亚",
+    "nameEn": "Syria",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "syria",
+    "aliases": [
+      "SYR",
+      "SY",
+      "Syrian Arab Republic",
+      "Al-Jumhūrīyah Al-ʻArabīyah As-Sūrīyah"
+    ],
+    "latitude": 35,
+    "longitude": 38,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TW",
+    "nameZh": "台灣",
+    "nameEn": "Taiwan",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "sortKey": "taiwan",
+    "aliases": [
+      "TWN",
+      "TW",
+      "Táiwān",
+      "Republic of China",
+      "中華民國",
+      "Zhōnghuá Mínguó",
+      "Chinese Taipei"
+    ],
+    "latitude": 23.5,
+    "longitude": 121,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TJ",
+    "nameZh": "塔吉克斯坦",
+    "nameEn": "Tajikistan",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "sortKey": "tajikistan",
+    "aliases": [
+      "TJK",
+      "TJ",
+      "Toçikiston",
+      "Republic of Tajikistan",
+      "Ҷумҳурии Тоҷикистон",
+      "Çumhuriyi Toçikiston"
+    ],
+    "latitude": 39,
+    "longitude": 71,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TZ",
+    "nameZh": "坦桑尼亚",
+    "nameEn": "Tanzania",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "tanzania",
+    "aliases": [
+      "TZA",
+      "TZ",
+      "Tanzania, United Republic of",
+      "United Republic of Tanzania",
+      "Jamhuri ya Muungano wa Tanzania"
+    ],
+    "latitude": -6,
+    "longitude": 35,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TH",
+    "nameZh": "泰国",
+    "nameEn": "Thailand",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "thailand",
+    "aliases": [
+      "THA",
+      "TH",
+      "Prathet",
+      "Thai",
+      "Kingdom of Thailand",
+      "ราชอาณาจักรไทย",
+      "Ratcha Anachak Thai"
+    ],
+    "latitude": 15,
+    "longitude": 100,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TL",
+    "nameZh": "东帝汶",
+    "nameEn": "Timor-Leste",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "timor-leste",
+    "aliases": [
+      "TLS",
+      "TL",
+      "East Timor",
+      "Timor",
+      "Democratic Republic of Timor-Leste",
+      "República Democrática de Timor-Leste",
+      "Repúblika Demokrátika Timór-Leste",
+      "Timór Lorosa'e",
+      "Timor Lorosae"
+    ],
+    "latitude": -8.83333333,
+    "longitude": 125.91666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TG",
+    "nameZh": "多哥",
+    "nameEn": "Togo",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "sortKey": "togo",
+    "aliases": [
+      "TGO",
+      "TG",
+      "Togolese",
+      "Togolese Republic",
+      "République Togolaise"
+    ],
+    "latitude": 8,
+    "longitude": 1.16666666,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TK",
+    "nameZh": "托克劳",
+    "nameEn": "Tokelau",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "tokelau",
+    "aliases": [
+      "TKL",
+      "TK"
+    ],
+    "latitude": -9,
+    "longitude": -172,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TO",
+    "nameZh": "汤加",
+    "nameEn": "Tonga",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "tonga",
+    "aliases": [
+      "TON",
+      "TO"
+    ],
+    "latitude": -20,
+    "longitude": -175,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TT",
+    "nameZh": "特立尼达和多巴哥",
+    "nameEn": "Trinidad and Tobago",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "trinidad and tobago",
+    "aliases": [
+      "TTO",
+      "TT",
+      "Republic of Trinidad and Tobago"
+    ],
+    "latitude": 11,
+    "longitude": -61,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TN",
+    "nameZh": "突尼斯",
+    "nameEn": "Tunisia",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "tunisia",
+    "aliases": [
+      "TUN",
+      "TN",
+      "Republic of Tunisia",
+      "al-Jumhūriyyah at-Tūnisiyyah"
+    ],
+    "latitude": 34,
+    "longitude": 9,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TR",
+    "nameZh": "土耳其",
+    "nameEn": "Türkiye",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "türkiye",
+    "aliases": [
+      "TUR",
+      "TR",
+      "Turkiye",
+      "Republic of Turkey",
+      "Türkiye Cumhuriyeti"
+    ],
+    "latitude": 39,
+    "longitude": 35,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TM",
+    "nameZh": "土库曼斯坦",
+    "nameEn": "Turkmenistan",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "sortKey": "turkmenistan",
+    "aliases": [
+      "TKM",
+      "TM"
+    ],
+    "latitude": 40,
+    "longitude": 60,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TC",
+    "nameZh": "特克斯和凯科斯群岛",
+    "nameEn": "Turks and Caicos Islands",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "turks and caicos islands",
+    "aliases": [
+      "TCA",
+      "TC"
+    ],
+    "latitude": 21.75,
+    "longitude": -71.58333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "TV",
+    "nameZh": "图瓦卢",
+    "nameEn": "Tuvalu",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "tuvalu",
+    "aliases": [
+      "TUV",
+      "TV"
+    ],
+    "latitude": -8,
+    "longitude": 178,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "UG",
+    "nameZh": "乌干达",
+    "nameEn": "Uganda",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "uganda",
+    "aliases": [
+      "UGA",
+      "UG",
+      "Republic of Uganda",
+      "Jamhuri ya Uganda"
+    ],
+    "latitude": 1,
+    "longitude": 32,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "UA",
+    "nameZh": "乌克兰",
+    "nameEn": "Ukraine",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "sortKey": "ukraine",
+    "aliases": [
+      "UKR",
+      "UA",
+      "Ukrayina"
+    ],
+    "latitude": 49,
+    "longitude": 32,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "AE",
+    "nameZh": "阿拉伯联合酋长国",
+    "nameEn": "United Arab Emirates",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "united arab emirates",
+    "aliases": [
+      "ARE",
+      "AE",
+      "UAE",
+      "Emirates"
+    ],
+    "latitude": 24,
+    "longitude": 54,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "GB",
+    "nameZh": "英国",
+    "nameEn": "United Kingdom",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "sortKey": "united kingdom",
+    "aliases": [
+      "GBR",
+      "GB",
+      "UK",
+      "Great Britain"
+    ],
+    "latitude": 54,
+    "longitude": -2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "US",
+    "nameZh": "美国",
+    "nameEn": "United States",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "united states",
+    "aliases": [
+      "USA",
+      "US",
+      "USA",
+      "United States of America"
+    ],
+    "latitude": 38,
+    "longitude": -97,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "UM",
+    "nameZh": "美国本土外小岛屿",
+    "nameEn": "United States Minor Outlying Islands",
+    "region": "Americas",
+    "subregion": "North America",
+    "sortKey": "united states minor outlying islands",
+    "aliases": [
+      "UMI",
+      "UM"
+    ],
+    "latitude": 19.3,
+    "longitude": 166.633333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VI",
+    "nameZh": "美属维尔京群岛",
+    "nameEn": "United States Virgin Islands",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "sortKey": "united states virgin islands",
+    "aliases": [
+      "VIR",
+      "VI",
+      "Virgin Islands, U.S."
+    ],
+    "latitude": 18.35,
+    "longitude": -64.933333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "UY",
+    "nameZh": "乌拉圭",
+    "nameEn": "Uruguay",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "uruguay",
+    "aliases": [
+      "URY",
+      "UY",
+      "Oriental Republic of Uruguay",
+      "República Oriental del Uruguay"
+    ],
+    "latitude": -33,
+    "longitude": -56,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "UZ",
+    "nameZh": "乌兹别克斯坦",
+    "nameEn": "Uzbekistan",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "sortKey": "uzbekistan",
+    "aliases": [
+      "UZB",
+      "UZ",
+      "Republic of Uzbekistan",
+      "O‘zbekiston Respublikasi",
+      "Ўзбекистон Республикаси"
+    ],
+    "latitude": 41,
+    "longitude": 64,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VU",
+    "nameZh": "瓦努阿图",
+    "nameEn": "Vanuatu",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "sortKey": "vanuatu",
+    "aliases": [
+      "VUT",
+      "VU",
+      "Republic of Vanuatu",
+      "Ripablik blong Vanuatu",
+      "République de Vanuatu"
+    ],
+    "latitude": -16,
+    "longitude": 167,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VA",
+    "nameZh": "梵蒂冈",
+    "nameEn": "Vatican City",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "sortKey": "vatican city",
+    "aliases": [
+      "VAT",
+      "VA",
+      "Holy See (Vatican City State)",
+      "Vatican City State",
+      "Vatican",
+      "Stato della Città del Vaticano"
+    ],
+    "latitude": 41.9,
+    "longitude": 12.45,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VE",
+    "nameZh": "委内瑞拉",
+    "nameEn": "Venezuela",
+    "region": "Americas",
+    "subregion": "South America",
+    "sortKey": "venezuela",
+    "aliases": [
+      "VEN",
+      "VE",
+      "Bolivarian Republic of Venezuela",
+      "Venezuela, Bolivarian Republic of",
+      "República Bolivariana de Venezuela"
+    ],
+    "latitude": 8,
+    "longitude": -66,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "VN",
+    "nameZh": "越南",
+    "nameEn": "Vietnam",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "sortKey": "vietnam",
+    "aliases": [
+      "VNM",
+      "VN",
+      "Socialist Republic of Vietnam",
+      "Cộng hòa Xã hội chủ nghĩa Việt Nam",
+      "Viet Nam"
+    ],
+    "latitude": 16.16666666,
+    "longitude": 107.83333333,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "WF",
+    "nameZh": "瓦利斯和富图纳群岛",
+    "nameEn": "Wallis and Futuna",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "sortKey": "wallis and futuna",
+    "aliases": [
+      "WLF",
+      "WF",
+      "Territory of the Wallis and Futuna Islands",
+      "Territoire des îles Wallis et Futuna"
+    ],
+    "latitude": -13.3,
+    "longitude": -176.2,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "EH",
+    "nameZh": "西撒哈拉",
+    "nameEn": "Western Sahara",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "sortKey": "western sahara",
+    "aliases": [
+      "ESH",
+      "EH",
+      "Taneẓroft Tutrimt"
+    ],
+    "latitude": 24.5,
+    "longitude": -13,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "YE",
+    "nameZh": "也门",
+    "nameEn": "Yemen",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "sortKey": "yemen",
+    "aliases": [
+      "YEM",
+      "YE",
+      "Yemeni Republic",
+      "al-Jumhūriyyah al-Yamaniyyah"
+    ],
+    "latitude": 15,
+    "longitude": 48,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ZM",
+    "nameZh": "赞比亚",
+    "nameEn": "Zambia",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "zambia",
+    "aliases": [
+      "ZMB",
+      "ZM",
+      "Republic of Zambia"
+    ],
+    "latitude": -15,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  },
+  {
+    "code": "ZW",
+    "nameZh": "津巴布韦",
+    "nameEn": "Zimbabwe",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "sortKey": "zimbabwe",
+    "aliases": [
+      "ZWE",
+      "ZW",
+      "Republic of Zimbabwe"
+    ],
+    "latitude": -20,
+    "longitude": 30,
+    "sourceUrl": "https://github.com/mledoze/countries"
+  }
+]

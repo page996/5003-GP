@@ -1,0 +1,3252 @@
+[
+  {
+    "countryCode": "AF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AX",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AL",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "DZ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AD",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AQ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AM",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AU",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AT",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AZ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BH",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BD",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BB",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BY",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BZ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BJ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BT",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BA",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BV",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BN",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BG",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KH",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CV",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BQ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KY",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TD",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CL",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CN",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CX",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CC",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CO",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CK",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "HR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CU",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CY",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CZ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "DK",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "DJ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "DM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "DO",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CD",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "EC",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "EG",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SV",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GQ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ER",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "EE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SZ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ET",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "FK",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "FO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "FJ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "FI",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "FR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GA",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "DE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GH",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GL",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GD",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GP",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GU",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GT",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GN",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GY",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "HT",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "HM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "HN",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "HK",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "HU",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IS",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IN",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ID",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IR",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IQ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IL",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "IT",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "JM",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "JP",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "JE",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "JO",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KZ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "XK",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KW",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LV",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LB",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LR",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LY",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LT",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LU",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MY",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MV",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ML",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MT",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MH",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MQ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MR",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MU",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "YT",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MX",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "FM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MD",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MC",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MN",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ME",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MZ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MM",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NA",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NR",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NP",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NL",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NC",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NZ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NE",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NU",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KP",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MK",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MP",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "NO",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "OM",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PK",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PY",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PH",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PN",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PL",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PT",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PR",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "QA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "RE",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "RO",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "RU",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "RW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "BL",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SH",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KN",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LC",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "MF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "PM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VC",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "WS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ST",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SN",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "RS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SC",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SL",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SG",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SX",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SK",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SI",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SB",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ZA",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "KR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SS",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ES",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "LK",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SD",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SR",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SJ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "CH",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "SY",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TJ",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TZ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TH",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TL",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TK",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TO",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TT",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TN",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TR",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TC",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "TV",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "UG",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "UA",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "AE",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "GB",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "US",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "UM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VI",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "UY",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "UZ",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VU",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VA",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VE",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "VN",
+    "priority": true,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "WF",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "EH",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "YE",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ZM",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  },
+  {
+    "countryCode": "ZW",
+    "priority": false,
+    "plannedTypes": [
+      "TOURISM",
+      "BUSINESS",
+      "STUDY",
+      "WORK",
+      "TRANSIT",
+      "FAMILY",
+      "MEDICAL"
+    ]
+  }
+]

@@ -18,6 +18,7 @@ import { LocateFixed, Minus, Plus } from 'lucide-react';
 import type { Map as MapLibreMap, MapMouseEvent, StyleSpecification } from 'maplibre-gl';
 import { POLICY_GROUPS } from '../../../shared/contracts.ts';
 import type { MapCountry } from '../../../shared/contracts.ts';
+import { useI18n } from '../../i18n.tsx';
 import './globe.css';
 
 export interface GlobeFocusRequest {
@@ -79,8 +80,30 @@ const GEO_URLS = {
 
 const SOURCE_COUNTRIES = 'countries';
 const SOURCE_MICRO = 'micro';
+const SOURCE_SEAM_COVER = 'seam-cover';
 const LAYER_FILL = 'countries-fill';
 const LAYER_MICRO = 'micro-dot';
+
+/**
+ * MapLibre globe 在 180° 经线处会渲染一条背景接缝细线（无对应 feature，无法用
+ * queryRenderedFeatures 查到）。用一条与海洋同色的窄线盖住它；放在陆地填充下面，
+ * 因此不会覆盖任何国家。
+ */
+const SEAM_COVER_DATA = {
+  type: 'FeatureCollection' as const,
+  features: [
+    {
+      type: 'Feature' as const,
+      properties: {},
+      geometry: { type: 'LineString' as const, coordinates: [[180, -58], [180, 58]] },
+    },
+    {
+      type: 'Feature' as const,
+      properties: {},
+      geometry: { type: 'LineString' as const, coordinates: [[-180, -58], [-180, 58]] },
+    },
+  ],
+};
 
 const PALETTE = {
   space: '#05080b',
@@ -364,6 +387,7 @@ function buildStyle(
       // 被 line 图层描出的“假国境线/极地环带”（这是 MapLibre GeoJSON 源的已知表现）。
       [SOURCE_COUNTRIES]: { type: 'geojson', data: countries, promoteId: 'iso2', buffer: 512 },
       [SOURCE_MICRO]: { type: 'geojson', data: microstates, promoteId: 'iso2', buffer: 256 },
+      [SOURCE_SEAM_COVER]: { type: 'geojson', data: SEAM_COVER_DATA },
     },
     layers: [
       {
@@ -441,6 +465,16 @@ function buildStyle(
           'circle-stroke-width': microStrokeWidth,
         },
       },
+      {
+        id: 'seam-cover-top',
+        type: 'line',
+        source: SOURCE_SEAM_COVER,
+        paint: {
+          'line-color': PALETTE.ocean,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 0, 7, 4, 4.5, 8, 2.5],
+          'line-opacity': 1,
+        },
+      },
     ],
     sky: {
       'sky-color': '#05080b',
@@ -470,7 +504,7 @@ const setFeatureStateSafe = (map: MapLibreMap, source: string, id: string, state
 const errorMessageOf = (error: unknown): string => {
   if (error instanceof Error && error.message) return error.message;
   if (typeof error === 'string') return error;
-  return '未知错误';
+  return '';
 };
 
 /** 把 API 政策类别与分类色合入 GeoJSON（不写回磁盘，仅运行时视觉用） */
@@ -548,6 +582,7 @@ const isPointOnGlobeSurface = (map: MapLibreMap, point: { x: number; y: number }
 
 export function GlobeMap(props: GlobeMapProps) {
   const { selected, matched, hoverIso2, focusRequest, resetSignal } = props;
+  const { t } = useI18n();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -1026,7 +1061,7 @@ export function GlobeMap(props: GlobeMapProps) {
       data-status={status}
       data-countries={props.countries.length}
       role="region"
-      aria-label="世界签证地球：拖拽拨动地球，滚轮缩放，点击国家查看签证档案"
+      aria-label={t('globe.aria')}
       aria-busy={status === 'loading'}
     >
       <div className="va-globe-canvas" ref={containerRef} aria-hidden="true" />
@@ -1034,28 +1069,28 @@ export function GlobeMap(props: GlobeMapProps) {
       {status !== 'error' ? (
         <div className="va-globe-loading" role="status" aria-live="polite">
           <span className="va-globe-loading__dot" aria-hidden="true" />
-          <span>正在载入地球…</span>
+          <span>{t('globe.loading')}</span>
         </div>
       ) : null}
 
       {status === 'error' ? (
         <div className="va-globe-error" role="alert">
-          <span className="va-globe-error__title">地球加载失败</span>
-          <span className="va-globe-error__detail">{errorMessage || '请检查本地几何数据后重试'}</span>
+          <span className="va-globe-error__title">{t('globe.errorTitle')}</span>
+          <span className="va-globe-error__detail">{errorMessage || t('globe.errorHint')}</span>
           <button type="button" className="va-globe-error__retry" onClick={handleRetry}>
-            重新加载
+            {t('globe.retry')}
           </button>
         </div>
       ) : null}
 
-      <div className="va-globe-controls" role="group" aria-label="地球缩放控制">
-        <button type="button" className="va-globe-control" aria-label="放大" title="放大" onClick={handleZoomIn}>
+      <div className="va-globe-controls" role="group" aria-label={t('globe.controls')}>
+        <button type="button" className="va-globe-control" aria-label={t('globe.zoomIn')} title={t('globe.zoomIn')} onClick={handleZoomIn}>
           <Plus size={16} aria-hidden="true" />
         </button>
-        <button type="button" className="va-globe-control" aria-label="缩小" title="缩小" onClick={handleZoomOut}>
+        <button type="button" className="va-globe-control" aria-label={t('globe.zoomOut')} title={t('globe.zoomOut')} onClick={handleZoomOut}>
           <Minus size={16} aria-hidden="true" />
         </button>
-        <button type="button" className="va-globe-control" aria-label="重置地球" title="重置地球" onClick={handleReset}>
+        <button type="button" className="va-globe-control" aria-label={t('globe.reset')} title={t('globe.reset')} onClick={handleReset}>
           <LocateFixed size={15} aria-hidden="true" />
         </button>
       </div>

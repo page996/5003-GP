@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Info, RefreshCw } from 'lucide-react';
+import { Info, Languages, RefreshCw } from 'lucide-react';
 import { DEFAULT_SEARCH_QUERY, POLICY_GROUPS, VISA_TYPES, categoryColor } from '../shared/contracts.ts';
 import type {
   CountryDossier,
+  MapCountry,
   OverviewResponse,
   SearchQuery,
   SearchResponse,
@@ -13,22 +14,31 @@ import { CountrySheet } from './features/details/CountrySheet';
 import { GlobeMap, type GlobeFocusRequest } from './features/map/GlobeMap';
 import { SearchOverlay, type PresetDefinition } from './features/search/SearchOverlay';
 import { suggestCountries } from './features/search/fuzzy';
+import {
+  categoryName,
+  countryName,
+  formatStayI18n,
+  policyGroupName,
+  useI18n,
+} from './i18n.tsx';
 
 type PresetId = 'free' | 'arrival' | 'online' | 'schengen' | 'business' | 'japan' | 'usa' | 'europe';
 
 interface Preset extends PresetDefinition {
   id: PresetId;
+  /** 交给后端图谱解析的规范查询词，始终用中文 canonical label */
+  query: string;
 }
 
 const PRESETS: Preset[] = [
-  { id: 'free', label: '免签' },
-  { id: 'arrival', label: '落地签' },
-  { id: 'online', label: '电子签' },
-  { id: 'schengen', label: '申根' },
-  { id: 'business', label: '商务签' },
-  { id: 'japan', label: '日本' },
-  { id: 'usa', label: '美国' },
-  { id: 'europe', label: '欧洲' },
+  { id: 'free', label: '免签', labelEn: 'Visa-free', query: '免签' },
+  { id: 'arrival', label: '落地签', labelEn: 'Visa on arrival', query: '落地签' },
+  { id: 'online', label: '电子签', labelEn: 'E-visa', query: '电子签' },
+  { id: 'schengen', label: '申根', labelEn: 'Schengen', query: '申根' },
+  { id: 'business', label: '商务签', labelEn: 'Business', query: '商务签' },
+  { id: 'japan', label: '日本', labelEn: 'Japan', query: '日本' },
+  { id: 'usa', label: '美国', labelEn: 'USA', query: '美国' },
+  { id: 'europe', label: '欧洲', labelEn: 'Europe', query: '欧洲' },
 ];
 
 function buildSearchQuery(text: string, preset: PresetId | null, activeType: string | null): SearchQuery {
@@ -36,7 +46,7 @@ function buildSearchQuery(text: string, preset: PresetId | null, activeType: str
   if (preset) {
     // 预置词统一交给后端知识图谱解析：国家→国家节点、欧洲→地区节点、
     // 免签/落地签/电子签→政策组、申根→签证类别、商务签→签证类型。
-    query.q = PRESETS.find(item => item.id === preset)?.label ?? '';
+    query.q = PRESETS.find(item => item.id === preset)?.query ?? '';
   }
   if (activeType) query.type = activeType;
   return query;
@@ -55,8 +65,15 @@ function isQueryActive(query: SearchQuery): boolean {
   );
 }
 
+function englishCategoryLabel(country: MapCountry): string {
+  if (country.categoryCode) return categoryName(country.categoryCode, 'en');
+  if (country.group) return policyGroupName(country.group, 'en');
+  return 'Category pending';
+}
+
 /** Visa Atlas v2 · 全屏地球 + 顶部搜索胶囊 + 底部国家抽屉 */
 export function App() {
+  const { lang, toggleLang, t } = useI18n();
   const [overview, setOverview] = useState<OverviewResponse | null>(null);
   const [overviewLoading, setOverviewLoading] = useState(true);
   const [overviewError, setOverviewError] = useState<ApiError | null>(null);
@@ -375,13 +392,13 @@ export function App() {
         {overviewLoading ? (
           <div className="va-boot__loading">
             <span className="va-brand__dot" aria-hidden="true" />
-            <p>正在载入地球…</p>
+            <p>{t('globe.loading')}</p>
           </div>
         ) : (
           <div className="va-boot__card">
             <span className="va-boot__eyebrow">DATA UNAVAILABLE</span>
-            <h1>资料服务未能启动</h1>
-            <p>{overviewError?.message ?? '无法读取数据集，请稍后重试。'}</p>
+            <h1>{lang === 'en' ? 'Dataset service is unavailable' : '资料服务未能启动'}</h1>
+            <p>{overviewError?.message ?? t('app.loadFailed')}</p>
             <button
               type="button"
               className="va-text-button"
@@ -389,7 +406,7 @@ export function App() {
               onClick={() => setOverviewRetry(value => value + 1)}
             >
               <RefreshCw size={13} aria-hidden="true" />
-              重新连接
+              {t('app.retry')}
             </button>
           </div>
         )}
@@ -435,22 +452,40 @@ export function App() {
       </div>
 
       <header className="va-topbar">
-        <button type="button" className="va-brand" onClick={handleResetView} aria-label="重置地球视角">
+        <button
+          type="button"
+          className="va-brand"
+          onClick={handleResetView}
+          aria-label={lang === 'en' ? 'Reset globe view' : '重置地球视角'}
+        >
           <span className="va-brand__dot" aria-hidden="true" />
           <span className="va-brand__text">
             <strong>VISA ATLAS</strong>
-            <small>中国普通护照 · 世界签证图谱</small>
+            <small>{t('brand.subtitle')}</small>
           </span>
         </button>
-        <button
-          type="button"
-          className="va-info"
-          data-testid="data-notes"
-          onClick={() => setNotesOpen(true)}
-          aria-label="打开数据说明"
-        >
-          <Info size={17} strokeWidth={1.8} aria-hidden="true" />
-        </button>
+        <div className="va-topbar__actions">
+          <button
+            type="button"
+            className="va-lang"
+            data-testid="lang-toggle"
+            onClick={toggleLang}
+            aria-label={t('lang.switch')}
+            title={t('lang.switch')}
+          >
+            <Languages size={13} strokeWidth={1.8} aria-hidden="true" />
+            <span>{t('lang.label')}</span>
+          </button>
+          <button
+            type="button"
+            className="va-info"
+            data-testid="data-notes"
+            onClick={() => setNotesOpen(true)}
+            aria-label={lang === 'en' ? 'Open data notes' : '打开数据说明'}
+          >
+            <Info size={17} strokeWidth={1.8} aria-hidden="true" />
+          </button>
+        </div>
       </header>
 
       <SearchOverlay
@@ -474,28 +509,34 @@ export function App() {
         inputRef={searchInputRef}
       />
 
-      <div className="va-legend" data-testid="policy-legend" aria-label="地图颜色图例：旅游签政策组">
-        <span className="va-legend__title">地图色 = 旅游签政策</span>
+      <div className="va-legend" data-testid="policy-legend" aria-label={lang === 'en' ? 'Map legend: tourism visa policy groups' : '地图颜色图例：旅游签政策组'}>
+        <span className="va-legend__title">{t('app.legendTitle')}</span>
         {POLICY_GROUPS.map(group => {
           const stats = overview.stats.byGroup.find(item => item.code === group.code);
           return (
             <span
               className="va-legend__item"
               key={group.code}
-              title={`${group.description}${stats ? `：${stats.count} 个国家/地区` : ''}`}
+              title={`${lang === 'en' ? group.nameEn : group.description}${stats ? ` · ${stats.count}` : ''}`}
             >
               <i style={{ background: group.color }} aria-hidden="true" />
-              {group.code === 'ONLINE' ? '电子签' : group.code === 'SPECIAL' ? '特殊/属地' : group.nameZh}
+              {group.code === 'ONLINE'
+                ? lang === 'en'
+                  ? 'E-visa'
+                  : '电子签'
+                : group.code === 'SPECIAL'
+                  ? lang === 'en'
+                    ? 'Special'
+                    : '特殊/属地'
+                  : policyGroupName(group.code, lang)}
             </span>
           );
         })}
       </div>
 
       <div className="va-hints" aria-hidden="true">
-        <span>拖拽旋转 · 滚轮缩放 · 点击国家</span>
-        <span>
-          {overview.stats.countries} 个目的地 · 数据更新 {dataUpdated}
-        </span>
+        <span>{t('app.hints')}</span>
+        <span>{t('app.destinations', { countries: overview.stats.countries, date: dataUpdated })}</span>
       </div>
 
       {hoverCountry && !sheetOpen ? (
@@ -517,8 +558,8 @@ export function App() {
           onClick={() => openCountry(hoverCountry.iso2)}
         >
           <span className="va-hover-card__name">
-            {hoverCountry.nameZh}
-            <em>{hoverCountry.nameEn}</em>
+            {countryName(hoverCountry.nameZh, hoverCountry.nameEn, lang)}
+            {lang === 'zh' ? <em>{hoverCountry.nameEn}</em> : null}
             <code>{hoverCountry.iso2}</code>
           </span>
           <span className="va-hover-card__meta">
@@ -527,11 +568,15 @@ export function App() {
               style={{ background: categoryColor(hoverCountry.categoryCode) }}
               aria-hidden="true"
             />
-            {hoverCountry.categoryLabel ?? (hoverCountry.hasData ? '类别待确认' : '待采集')}
+            {lang === 'en'
+              ? englishCategoryLabel(hoverCountry)
+              : hoverCountry.categoryLabel ?? (hoverCountry.hasData ? '类别待确认' : '待采集')}
             <span aria-hidden="true">·</span>
-            {hoverCountry.stayLabel ?? '停留期待确认'}
+            {lang === 'en'
+              ? formatStayI18n(hoverCountry.stayDays, hoverCountry.stayUnit, 'UNSPECIFIED', null, null, 'en') ?? t('hover.stayPending')
+              : hoverCountry.stayLabel ?? t('hover.stayPending')}
           </span>
-          <span className="va-hover-card__cta">点击查看档案 →</span>
+          <span className="va-hover-card__cta">{t('hover.open')}</span>
         </button>
       ) : null}
 

@@ -49,6 +49,13 @@ async function main() {
     await page.waitForTimeout(1200);
     await shot('globe');
 
+    // 英文界面
+    await page.locator('[data-testid="lang-toggle"]').click();
+    await page.waitForTimeout(500);
+    await shot('globe-en');
+    await page.locator('[data-testid="lang-toggle"]').click();
+    await page.waitForTimeout(400);
+
     // hover：通过搜索结果行 hover 触发地图高亮 + 固定悬浮卡
     await openPreset('免签');
     await shot('search-preset');
@@ -88,6 +95,17 @@ async function main() {
     await openPreset('美国');
     await page.waitForTimeout(700);
     await shot('graph-search');
+
+    // 日期变更线平视：验证 180° 接缝竖线已消除
+    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('.va-globe canvas', { timeout: 25000 });
+    await page.waitForFunction(() => window.__globeReady === true, undefined, { timeout: 25000 });
+    await page.waitForTimeout(900);
+    await page.evaluate(() => {
+      window.__globeMap?.jumpTo({ center: [180, 5], zoom: 2.2, bearing: 0, pitch: 0 });
+    });
+    await page.waitForTimeout(900);
+    await shot('globe-dateline');
 
     // 极地视角：验证不再出现经纬环带/南极背面伪影
     await page.keyboard.press('Escape');

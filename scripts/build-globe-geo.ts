@@ -1,5 +1,5 @@
 /**
- * Visa Atlas v4.0 · 球体地图几何构建（MapLibre GL globe 专用）
+ * Visa Atlas v5.0 · 球体地图几何构建（MapLibre GL globe 专用）
  *
  * world-atlas 1:50m TopoJSON → 本地 GeoJSON（无瓦片 / 无 Key / 无外网），
  * 输出到 `public/geo/`（Vite 构建原样复制到 dist，Fastify 生产同源托管 `/geo/*`）：
@@ -322,7 +322,7 @@ const microLines = microFeatures.map(item => {
   return `  - ${item.id} · ${item.properties.nameZh} / ${item.properties.nameEn} @ (${lng}, ${lat})`;
 });
 
-const report = `# Visa Atlas v4.0 · 球体地图几何构建报告
+const report = `# Visa Atlas v5.0 · 球体地图几何构建报告
 
 > 由 \`npm run geo:build\`（\`tsx scripts/build-globe-geo.ts\`）自动生成，请勿手工编辑。
 > 运行环境：Windows + Node.js（本仓库 \`engines.node >= 24\`），输入依赖版本锁定在 \`package.json\` / \`package-lock.json\`。
@@ -426,7 +426,7 @@ await writeFile(REPORT_PATH, report, 'utf8');
 
 /* ------------------------------------------------------------------ */
 
-console.log('Visa Atlas v4 globe geo build');
+console.log('Visa Atlas v5 globe geo build');
 console.log(`  countries.geo.json    : ${features.length} 个多边形国家，${bytes.countries.toLocaleString('en-US')} bytes`);
 console.log(`  microstates.geo.json  : ${microFeatures.length} 个仅点国家，${bytes.microstates.toLocaleString('en-US')} bytes`);
 console.log(`  覆盖                  : ${covered.size} / ${catalog.length} 目录；CSV ${csvCodes.length - csvMissing.length} / ${csvCodes.length}`);

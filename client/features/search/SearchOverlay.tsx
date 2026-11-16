@@ -2,22 +2,39 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from 'react';
 import { Loader2, Search, X } from 'lucide-react';
 import { categoryColor } from '../../../shared/contracts.ts';
-import type { GraphEntityType, MapCountry, SearchItem, SearchResponse } from '../../../shared/contracts.ts';
+import type {
+  GraphEntityType,
+  GraphEntityRef,
+  MapCountry,
+  SearchItem,
+  SearchResponse,
+  StayUnit,
+} from '../../../shared/contracts.ts';
 import type { ApiError } from '../../api';
 import { cx } from '../../components/cx';
+import {
+  categoryName,
+  formatStayI18n,
+  policyGroupName,
+  regionName,
+  useI18n,
+  visaTypeName,
+  type TranslationKey,
+} from '../../i18n.tsx';
 import { suggestCountries } from './fuzzy';
 
 export interface PresetDefinition {
   id: string;
   label: string;
+  labelEn?: string;
 }
 
-const GRAPH_TYPE_LABEL: Record<GraphEntityType, string> = {
-  COUNTRY: '国家',
-  REGION: '地区',
-  GROUP: '政策组',
-  CATEGORY: '签证类别',
-  VISA_TYPE: '签证类型',
+const GRAPH_TYPE_LABEL: Record<GraphEntityType, TranslationKey> = {
+  COUNTRY: 'graph.country',
+  REGION: 'graph.region',
+  GROUP: 'graph.group',
+  CATEGORY: 'graph.category',
+  VISA_TYPE: 'graph.visaType',
 };
 
 interface SearchRow {
@@ -28,6 +45,9 @@ interface SearchRow {
   nameEn: string;
   categoryCode: string | null;
   categoryLabel: string | null;
+  groupCode: string | null;
+  stayDays: number | null;
+  stayUnit: StayUnit | null;
   stayLabel: string | null;
   isDemo: boolean;
   isMention: boolean;
@@ -67,6 +87,9 @@ function suggestionRow(country: MapCountry): SearchRow {
     nameEn: country.nameEn,
     categoryCode: country.categoryCode,
     categoryLabel: country.categoryLabel,
+    groupCode: country.group,
+    stayDays: country.stayDays,
+    stayUnit: country.stayUnit,
     stayLabel: country.stayLabel,
     // 国家建议只表达“可能想去哪”，不显示演示数据角标，避免误导
     isDemo: false,
@@ -85,6 +108,9 @@ function resultRow(item: SearchItem): SearchRow {
     nameEn: item.nameEn,
     categoryCode: item.categoryCode,
     categoryLabel: item.categoryLabel,
+    groupCode: item.group,
+    stayDays: item.stayDays,
+    stayUnit: item.stayUnit,
     stayLabel: item.stayLabel,
     isDemo: item.isDemo,
     isMention: item.matchKind === 'MENTION_ONLY',
@@ -118,9 +144,24 @@ export function SearchOverlay({
   inputRef,
 }: SearchOverlayProps) {
   const listId = useId();
+  const { lang, t } = useI18n();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
   const [highlight, setHighlight] = useState(-1);
+
+  const presetText = (preset: PresetDefinition): string =>
+    lang === 'en' ? preset.labelEn ?? preset.label : preset.label;
+
+  const graphEntityLabel = (entity: GraphEntityRef): string => {
+    if (entity.type === 'COUNTRY') {
+      const country = countries.find(item => item.iso2 === entity.code);
+      return country ? (lang === 'en' ? country.nameEn : country.nameZh) : entity.label;
+    }
+    if (entity.type === 'REGION') return regionName(entity.code, lang);
+    if (entity.type === 'GROUP') return policyGroupName(entity.code, lang);
+    if (entity.type === 'CATEGORY') return categoryName(entity.code, lang);
+    return visaTypeName(entity.code, lang);
+  };
 
   const keyword = searchText.trim();
   const localSuggestions = useMemo(
@@ -208,7 +249,15 @@ export function SearchOverlay({
 
   function renderRow(row: SearchRow, index: number) {
     const active = index === highlight;
-    const stayText = row.stayLabel ?? '停留期待确认';
+    const localizedCategory = row.categoryCode
+      ? categoryName(row.categoryCode, lang)
+      : row.categoryLabel;
+    const stayText =
+      lang === 'en'
+        ? formatStayI18n(row.stayDays, row.stayUnit, 'UNSPECIFIED', null, null, 'en') ?? t('result.stayPending')
+        : row.stayLabel ?? t('result.stayPending');
+    const nameText = lang === 'en' ? row.nameEn : row.nameZh;
+    const subName = lang === 'en' ? row.nameZh : row.nameEn;
     return (
       <button
         key={row.rowId}
@@ -228,22 +277,22 @@ export function SearchOverlay({
         onClick={() => pick(row)}
       >
         <span className="va-search-row__title">
-          <span className="va-search-row__zh">{row.nameZh}</span>
-          <span className="va-search-row__en">{row.nameEn}</span>
+          <span className="va-search-row__zh">{nameText}</span>
+          {lang === 'zh' ? <span className="va-search-row__en">{subName}</span> : null}
           <code className="va-search-row__iso">{row.iso2}</code>
         </span>
         <span className="va-search-row__meta">
-          {row.categoryLabel ? (
+          {localizedCategory ? (
             <span className="va-search-row__badge">
               <i className="va-search-row__dot" style={{ background: categoryColor(row.categoryCode) }} aria-hidden="true" />
-              {row.categoryLabel}
+              {localizedCategory}
             </span>
           ) : row.isMention ? (
-            <span className="va-search-row__badge is-hint">类型线索</span>
+            <span className="va-search-row__badge is-hint">{t('result.typeClue')}</span>
           ) : null}
           <span className="va-search-row__stay">{stayText}</span>
-          {row.isDemo ? <span className="va-search-row__badge is-gold">演示</span> : null}
-          {row.priority ? <span className="va-search-row__priority">重点</span> : null}
+          {row.isDemo ? <span className="va-search-row__badge is-gold">{lang === 'en' ? 'Demo' : '演示'}</span> : null}
+          {row.priority ? <span className="va-search-row__priority">{t('result.priority')}</span> : null}
         </span>
       </button>
     );
@@ -263,8 +312,8 @@ export function SearchOverlay({
           aria-controls={listId}
           aria-autocomplete="list"
           aria-activedescendant={highlight >= 0 ? `${listId}-row-${highlight}` : undefined}
-          aria-label="搜索国家、签证类型或关键词"
-          placeholder="搜索国家、签证类型或关键词"
+          aria-label={t('search.aria')}
+          placeholder={t('search.placeholder')}
           autoComplete="off"
           spellCheck={false}
           data-testid="search-input"
@@ -278,7 +327,7 @@ export function SearchOverlay({
         />
         {searchLoading ? <Loader2 size={14} className="va-search__spinner va-spin" aria-hidden="true" /> : null}
         {searchText ? (
-          <button type="button" className="va-search__clear" onClick={handleClear} aria-label="清除搜索">
+          <button type="button" className="va-search__clear" onClick={handleClear} aria-label={t('search.clear')}>
             <X size={13} aria-hidden="true" />
           </button>
         ) : focused ? null : (
@@ -288,16 +337,16 @@ export function SearchOverlay({
         )}
       </div>
 
-      <div className="va-presets" role="group" aria-label="搜索预置词">
+      <div className="va-presets" role="group" aria-label={t('search.routePreset')}>
         {activeType ? (
           <button
             type="button"
             className="va-preset is-active"
             onClick={onClearType}
             aria-pressed="true"
-            aria-label={`取消${activeType.label}类型筛选`}
+            aria-label={t('search.clearType', { type: visaTypeName(activeType.code, lang) })}
           >
-            {activeType.label}
+            {visaTypeName(activeType.code, lang)}
             <X size={11} aria-hidden="true" />
           </button>
         ) : null}
@@ -313,19 +362,19 @@ export function SearchOverlay({
               aria-pressed={active}
               onClick={() => onTogglePreset(preset.id)}
             >
-              {preset.label}
+              {presetText(preset)}
             </button>
           );
         })}
       </div>
 
       {panelVisible ? (
-        <div className="va-search__panel" id={listId} role="listbox" aria-label="搜索建议与结果">
+        <div className="va-search__panel" id={listId} role="listbox" aria-label={t('search.panelAria')}>
           {searchError ? (
             <div className="va-search__error" role="alert">
               <p>{searchError.message}</p>
               <button type="button" className="va-search__retry" onClick={onRetrySearch}>
-                重试
+                {t('search.retry')}
               </button>
             </div>
           ) : null}
@@ -333,14 +382,14 @@ export function SearchOverlay({
           {showResults && searchResponse ? (
             <>
               <div className="va-search__section">
-                <span>命中 {searchResponse.total} 个目的地</span>
-                <span>用时 {searchResponse.tookMs} ms</span>
+                <span>{t('search.hits', { count: searchResponse.total })}</span>
+                <span>{t('search.took', { ms: searchResponse.tookMs })}</span>
               </div>
               {searchResponse.graph?.used ? (
                 <div className="va-search__graph" data-testid="graph-hint">
-                  <span className="va-search__graph-label">知识图谱</span>
+                  <span className="va-search__graph-label">{t('search.graph')}</span>
                   {searchResponse.graph.matched
-                    .map(entity => `${GRAPH_TYPE_LABEL[entity.type]}·${entity.label}`)
+                    .map(entity => `${t(GRAPH_TYPE_LABEL[entity.type])}·${graphEntityLabel(entity)}`)
                     .join(' + ')}
                 </div>
               ) : null}
@@ -351,8 +400,8 @@ export function SearchOverlay({
           {showSuggestions ? (
             <>
               <div className="va-search__section">
-                <span>国家建议</span>
-                <span>{showNoResults ? '没有精确匹配，已列出相近国家' : '本地模糊匹配'}</span>
+                <span>{t('search.suggestions')}</span>
+                <span>{showNoResults ? t('search.noExact') : t('search.localFuzzy')}</span>
               </div>
               <div className="va-search__rows">{suggestionRows.map(renderRow)}</div>
             </>
@@ -361,19 +410,16 @@ export function SearchOverlay({
           {!showResults && !showSuggestions && searchLoading ? (
             <div className="va-search__empty">
               <Loader2 size={14} className="va-spin" aria-hidden="true" />
-              正在检索…
+              {t('search.searching')}
             </div>
           ) : null}
 
           {showNoResults && !searchError && suggestionRows.length === 0 ? (
             <div className="va-search__empty-block">
               <p className="va-search__empty-title">
-                {keyword ? `没有找到「${keyword}」` : '没有符合条件的目的地'}
+                {keyword ? t('search.noResults', { query: keyword }) : t('search.noResultsAny')}
               </p>
-              <p className="va-search__empty-hint">
-                {showSuggestions ? '已为你列出相近国家，可直接点击打开档案；' : ''}
-                也可以试试这些预置词：
-              </p>
+              <p className="va-search__empty-hint">{t('search.noResultsHint')}</p>
               <div className="va-search__empty-presets">
                 {presets.slice(0, 3).map(preset => (
                   <button
@@ -384,7 +430,7 @@ export function SearchOverlay({
                     data-preset={preset.id}
                     onClick={() => onTogglePreset(preset.id)}
                   >
-                    {preset.label}
+                    {presetText(preset)}
                   </button>
                 ))}
               </div>
@@ -393,9 +439,7 @@ export function SearchOverlay({
 
           {showResults ? (
             <div className="va-search__foot">
-              <span>↑↓ 选择</span>
-              <span>Enter 打开档案</span>
-              <span>Esc 关闭</span>
+              <span>{t('search.keyboard')}</span>
             </div>
           ) : null}
         </div>

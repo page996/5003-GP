@@ -1,4 +1,4 @@
-# Visa Atlas v4.0 · 球体地图几何构建报告
+# Visa Atlas v5.0 · 球体地图几何构建报告
 
 > 由 `npm run geo:build`（`tsx scripts/build-globe-geo.ts`）自动生成，请勿手工编辑。
 > 运行环境：Windows + Node.js（本仓库 `engines.node >= 24`），输入依赖版本锁定在 `package.json` / `package-lock.json`。

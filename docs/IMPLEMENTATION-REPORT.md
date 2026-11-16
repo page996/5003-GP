@@ -1,4 +1,4 @@
-# 前后端技术栈与架构说明（v4.0）
+# 前后端技术栈与架构说明（v5.0）
 
 > 按第四轮反馈第 4 点：这里只说明**语言、框架和架构分工**，不展开逐行代码。具体实现见源码与 [VERIFICATION.md](VERIFICATION.md)。
 
@@ -7,9 +7,10 @@
 ```
 ┌────────────────────────────── 浏览器（桌面 Web） ──────────────────────────────┐
 │  React 19 + TypeScript + Vite 6                                               │
-│  ├─ MapLibre GL JS 5.9：globe 投影、交互、feature-state 着色                   │
+│  ├─ MapLibre GL JS 5.24：globe 投影、交互、feature-state 着色              │
 │  ├─ SearchOverlay：预置词 / 本地模糊建议 / 后端结果 / 图谱命中解释              │
 │  ├─ CountrySheet：精简版国家签证抽屉                                          │
+│  ├─ i18n.tsx：中英文 UI 字典、切换按钮、字典标签本地化                         │
 │  └─ CSS：深色玻璃 UI、语义色图例、装饰性轨道/角标                               │
 └───────────────────────────────┬───────────────────────────────────────────────┘
                                 │ HTTP JSON（同源 /api/v1/*）
@@ -34,10 +35,11 @@
 | 模块 | 职责 |
 |---|---|
 | `client/App.tsx` | 页面状态编排：overview、搜索防抖、图谱结果、地图选中/悬停、国家抽屉、重置视角 |
-| `client/features/map/GlobeMap.tsx` | MapLibre globe；政策组语义色、hover/selected/focus/dim/match 的 feature-state；拖拽/缩放/飞行聚焦；微国家点 |
+| `client/features/map/GlobeMap.tsx` | MapLibre globe；政策组语义色、hover/selected/focus/dim/match 的 feature-state；拖拽/缩放/飞行聚焦；微国家点；180° 海洋接缝同色覆盖 |
 | `client/features/search/SearchOverlay.tsx` | 8 个预置词、本地模糊建议、后端结果、**图谱命中提示**、键盘导航 |
 | `client/features/details/CountrySheet.tsx` | 精简抽屉：类别/停留/入境/摘要/其他类型线索/来源 |
 | `client/features/search/fuzzy.ts` | 250 国中英文名/ISO/别名的本地容错匹配 |
+| `client/i18n.tsx` | 中英文 UI 字典、LanguageProvider、localStorage 持久化、字典/停留期本地化 |
 | `client/styles.css` | 深色玻璃设计系统、语义色图例、轨道/角标/微光装饰、响应式 |
 
 前端不依赖任何外部地图 Key/瓦片/在线 API；地图 GeoJSON 在构建期生成并由 Vite 随静态资源提供。
@@ -66,7 +68,7 @@
 - 主数据：249 条真实旅游签政策 + 250 国目录（`XK` 未采集）。
 - 词典：76 种原始分类归一化为 16 类 / 5 个政策组；569 条其他签证类型线索；351 条检索同义词。
 - 表：`countries`、`visa_policies`、`visa_categories`、`policy_groups`、`mentioned_visa_types`、`search_synonyms`、来源/批次、明细扩展表等；视图 `v_country_map`、`v_policy_cards`。
-- 演示数据 22 条只作为后端回归夹具，不进入 v4 UI。
+- 演示数据 22 条只作为后端回归夹具，不进入 v5 UI。
 
 ## 5. 运行方式
 

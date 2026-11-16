@@ -175,7 +175,40 @@ async function main() {
       await page.waitForTimeout(300);
     }
 
-    /* 10. 控制台错误 */
+    /* 10. 中英文切换：所有界面元素 */
+    const langToggle = page.locator('[data-testid="lang-toggle"]').first();
+    if (await langToggle.count()) {
+      await langToggle.click();
+      await page.waitForTimeout(500);
+      const placeholderEn = await searchInput.getAttribute('placeholder');
+      check((placeholderEn ?? '').startsWith('Search countries'), '切换 English 后搜索占位符为英文');
+      const legendEn = await page.locator('[data-testid="policy-legend"]').innerText().catch(() => '');
+      check(/map color/i.test(legendEn), '切换 English 后政策图例为英文');
+      const presetsEn = await page.locator('.va-presets').innerText().catch(() => '');
+      check(presetsEn.includes('Visa-free') && presetsEn.includes('Schengen'), '切换 English 后预置词为英文');
+
+      await page.locator('[data-testid="preset-免签"]').first().click();
+      await page.waitForTimeout(900);
+      const enRow = page.locator('[data-testid="result-row"], .va-search-row').first();
+      if (await enRow.count()) {
+        await enRow.click();
+        await page.waitForTimeout(700);
+        const enSheet = page.locator('[data-testid="country-sheet"], .va-sheet').first();
+        const enSheetText = await enSheet.innerText().catch(() => '');
+        check(/Mutual visa exemption|Visa free|Visa on arrival/.test(enSheetText), 'English 抽屉类别为英文');
+        check(!/其他常见签证类型|来源：|停留期待确认/.test(enSheetText), 'English 抽屉无中文 UI 标签');
+        await closeSheet();
+      }
+
+      await langToggle.click();
+      await page.waitForTimeout(400);
+      const placeholderZh = await searchInput.getAttribute('placeholder');
+      check((placeholderZh ?? '').startsWith('搜索国家'), '切回中文后搜索占位符恢复中文');
+    } else {
+      check(false, '提供中英文切换按钮');
+    }
+
+    /* 11. 控制台错误 */
     check(consoleErrors.length === 0, `控制台无 error（实际 ${consoleErrors.length}）`);
     check(pageErrors.length === 0, `页面无未捕获异常（实际 ${pageErrors.length}）`);
     if (consoleErrors.length) console.error(consoleErrors.slice(0, 5).join('\n'));

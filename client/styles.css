@@ -206,6 +206,40 @@ kbd {
   pointer-events: auto;
 }
 
+.va-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.va-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 38px;
+  padding: 0 11px;
+  border: 1px solid var(--va-line);
+  border-radius: 999px;
+  background: var(--va-glass);
+  color: var(--va-text-2);
+  font-family: var(--va-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    color 160ms var(--va-ease),
+    border-color 160ms var(--va-ease),
+    background 160ms var(--va-ease);
+}
+
+.va-lang:hover {
+  border-color: rgba(29, 197, 206, 0.55);
+  background: rgba(20, 44, 49, 0.7);
+  color: var(--va-teal);
+}
+
 .va-brand {
   display: inline-flex;
   align-items: center;
@@ -947,7 +981,7 @@ kbd {
   flex-wrap: wrap;
   align-items: center;
   gap: 5px 11px;
-  max-width: 470px;
+  max-width: 620px;
   padding: 7px 11px;
   border: 1px solid var(--va-line-soft);
   border-radius: 10px;

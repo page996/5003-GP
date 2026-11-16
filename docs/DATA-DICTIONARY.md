@@ -129,7 +129,7 @@ app_meta（数据集版本/导入信息）
 
 ### 2.8 `policy_documents` / `policy_fees` / `policy_timings` / `policy_rules`
 
-真实数据本轮为空数组（诚实表示未采集）；演示明细只作为未来字段/检索回归夹具保留在后端，v4 界面不展示。
+真实数据本轮为空数组（诚实表示未采集）；演示明细只作为未来字段/检索回归夹具保留在后端，v5 界面不展示。
 
 - `policy_documents(route_code, code, name, requirement, quantity, is_required, condition_text, sort_order)`
 - `policy_fees(route_code, code, label, amount_min, amount_max, currency, charge_basis, condition_text, comparable)`：金额用 DECIMAL(12,2)（MySQL）/ TEXT（SQLite），`comparable` 标记能否跨路线比较。
@@ -174,10 +174,10 @@ app_meta（数据集版本/导入信息）
 
 | `data_status` | 中文 | 界面表现 |
 |---|---|---|
-| `SUMMARY_ONLY` | 摘要级资料 | 政策类别、停留期、原文摘要；费用/材料/时间字段未采集，v4 界面不预留空位 |
+| `SUMMARY_ONLY` | 摘要级资料 | 政策类别、停留期、原文摘要；费用/材料/时间字段未采集，v5 界面不预留空位 |
 | `PARTIAL` | 部分明细 | 已有部分结构化字段 |
 | `DETAILED` | 完整明细 | 完整材料/费用/时间/规则 |
-| `DEMO` | 演示明细 | 仅后端夹具，API 保留 `is_demo` 边界；v4 UI 不展示，不与真实结论混淆 |
+| `DEMO` | 演示明细 | 仅后端夹具，API 保留 `is_demo` 边界；v5 UI 不展示，不与真实结论混淆 |
 | `MENTION_ONLY`（检索期生成） | 仅类型线索 | 提示「来源仅标注该类型，结构化明细待采集」 |
 
 ## 6. 扩展数据时要遵守的规则

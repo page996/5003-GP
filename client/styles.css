@@ -584,6 +584,7 @@ kbd {
 .va-search-row__badge {
   display: inline-flex;
   align-items: center;
+  gap: 5px;
   height: 17px;
   padding: 0 6px;
   border: 1px solid var(--va-line);
@@ -593,6 +594,15 @@ kbd {
   font-size: 9px;
   line-height: 1;
   white-space: nowrap;
+}
+
+/* 分类色点：让搜索结果与地图 hover/选中使用同一套 16 类颜色 */
+.va-search-row__dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
 }
 
 .va-search-row__badge.is-gold {
@@ -786,6 +796,14 @@ kbd {
   white-space: nowrap;
 }
 
+.va-hover-card__dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
 .va-hover-card__demo {
   flex: none;
   padding: 0 4px;
@@ -975,6 +993,34 @@ kbd {
   border-top: 1px solid var(--va-line-soft);
 }
 
+/* 精简版抽屉的 footer：类型线索 + 来源 + 免责声明 */
+.va-sheet__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--va-line-soft);
+}
+
+.va-sheet__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  color: var(--va-text-3);
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+
+.va-sheet__source code {
+  color: var(--va-text-2);
+  font-family: var(--va-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
 .va-sheet__types {
   display: flex;
   flex-wrap: wrap;
@@ -1090,9 +1136,9 @@ kbd {
 }
 
 .va-chip--accent {
-  border-color: var(--va-yellow);
-  background: var(--va-yellow);
-  color: #0a0a0a;
+  border-color: var(--va-sheet-accent, var(--va-yellow));
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--va-sheet-accent, var(--va-yellow));
   font-weight: 600;
 }
 

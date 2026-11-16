@@ -16,7 +16,8 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { LocateFixed, Minus, Plus } from 'lucide-react';
 import type { Map as MapLibreMap, MapMouseEvent, StyleSpecification } from 'maplibre-gl';
-import type { MapCountry } from '../../../shared/contracts.ts';
+import { POLICY_GROUPS, VISA_CATEGORIES } from '../../../shared/contracts.ts';
+import type { MapCountry, RegionCode } from '../../../shared/contracts.ts';
 import './globe.css';
 
 export interface GlobeFocusRequest {
@@ -74,7 +75,6 @@ const computeInitialZoom = (width: number, height: number): number => {
 const GEO_URLS = {
   countries: '/geo/countries.geo.json',
   microstates: '/geo/microstates.geo.json',
-  graticule: '/geo/graticule.geo.json',
 } as const;
 
 const SOURCE_COUNTRIES = 'countries';
@@ -85,15 +85,62 @@ const LAYER_MICRO = 'micro-dot';
 const PALETTE = {
   space: '#05080b',
   ocean: '#0e1a22',
+  /** 无政策类别时的兜底陆地灰 */
   land: ['#343b40', '#384045', '#30373b', '#3c4348'],
   border: '#626b72',
-  graticule: '#1d303b',
   dim: '#191d20',
   hover: '#DFC11D',
   selected: '#E3C31C',
   outline: '#F6DD55',
   micro: '#737d84',
 } as const;
+
+/** 未选中陆地的地区色相变化：低饱和灰但不再是完全单一颜色 */
+const REGION_BASE: Record<RegionCode, string> = {
+  EU: '#3a4148',
+  AS: '#3c4244',
+  AF: '#40433d',
+  NA: '#394047',
+  SA: '#3d433f',
+  OC: '#37434a',
+  AN: '#41414a',
+};
+
+/** GeoJSON 里的 region 是 Natural Earth 大洲名，映射到 7 个地区代码 */
+const REGION_NAME_CODE: Record<string, RegionCode> = {
+  Europe: 'EU',
+  Asia: 'AS',
+  Africa: 'AF',
+  Americas: 'NA',
+  Oceania: 'OC',
+  Antarctic: 'AN',
+};
+
+const regionBaseColor = (region: string | undefined): string =>
+  (region ? REGION_BASE[REGION_NAME_CODE[region]] : undefined) ?? PALETTE.land[0];
+
+const CATEGORY_COLOR = new Map(VISA_CATEGORIES.map(category => [category.code, category.color]));
+const GROUP_COLOR = new Map(POLICY_GROUPS.map(group => [group.code, group.color]));
+const FALLBACK_ACCENT = PALETTE.hover;
+
+/** 解析 #RRGGBB，用于把分类色与深色底混合出低饱和“检索命中色” */
+function parseHex(hex: string): [number, number, number] {
+  const value = hex.replace('#', '');
+  const normalized = value.length === 3 ? value.split('').map(char => char + char).join('') : value;
+  const number = Number.parseInt(normalized.slice(0, 6), 16);
+  if (Number.isNaN(number)) return [223, 193, 29];
+  return [(number >> 16) & 255, (number >> 8) & 255, number & 255];
+}
+
+function mixHex(from: string, to: string, ratio: number): string {
+  const [r1, g1, b1] = parseHex(from);
+  const [r2, g2, b2] = parseHex(to);
+  const mix = (a: number, b: number) => Math.round(a + (b - a) * ratio);
+  return `rgb(${mix(r1, r2)}, ${mix(g1, g2)}, ${mix(b1, b2)})`;
+}
+
+/** 分类色 → 检索命中时的低饱和色（45% 分类色 + 深灰底） */
+const matchTint = (color: string): string => mixHex(color, '#1e252a', 0.42);
 
 const FLY_DURATION = 900;
 const RESET_DURATION = 900;
@@ -117,6 +164,11 @@ interface CountryProperties {
   tone: number;
   center: [number, number] | null;
   bbox: [number, number, number, number] | null;
+  /** 以下字段在运行时由 API MapCountry 数据补齐（不写入磁盘 GeoJSON） */
+  categoryCode?: string | null;
+  categoryColor?: string;
+  matchColor?: string;
+  baseColor?: string;
 }
 
 interface MicroProperties {
@@ -127,6 +179,10 @@ interface MicroProperties {
   tone: number;
   center: [number, number] | null;
   bbox: null;
+  categoryCode?: string | null;
+  categoryColor?: string;
+  matchColor?: string;
+  baseColor?: string;
 }
 
 interface FeatureCollectionLike<Properties> {
@@ -145,29 +201,56 @@ interface FeatureCollectionLike<Properties> {
 
 const featureState = (key: string) => ['boolean', ['feature-state', key], false];
 
-/** 陆地 4 档灰：hover / selected / 未命中 dim 依次优先，最后按 tone 取灰 */
+/** 每个国家的分类色（运行时由 API 元数据写入 GeoJSON properties） */
+const categoryColorExpr = ['coalesce', ['get', 'categoryColor'], FALLBACK_ACCENT];
+/** 检索命中时的低饱和分类色 */
+const matchColorExpr = ['coalesce', ['get', 'matchColor'], PALETTE.land[0]];
+/** 按地区色相变化的低饱和陆地灰 */
+const baseColorExpr = ['coalesce', ['get', 'baseColor'], PALETTE.land[0]];
+
+/**
+ * 填充优先级：
+ * selected → 参考黄；hover → 该国分类色（薄荷绿/暖金/天蓝/玫瑰/紫…）；
+ * 检索未命中 → 深灰；检索命中 → 低饱和分类色；默认 → 地区灰。
+ */
 const landFillColor = [
   'case',
   featureState('selected'),
   PALETTE.selected,
   featureState('hover'),
-  PALETTE.hover,
+  categoryColorExpr,
   featureState('dim'),
   PALETTE.dim,
-  ['match', ['get', 'tone'], 0, PALETTE.land[0], 1, PALETTE.land[1], 2, PALETTE.land[2], PALETTE.land[3]],
+  featureState('match'),
+  matchColorExpr,
+  baseColorExpr,
 ];
 
-/** 国境线：zoom 插值 0.7 → 1.3px */
+/** 国境线：zoom 插值 0.7 → 1.3px；检索命中时边框带分类色，命中变暗。 */
 const borderWidth = ['interpolate', ['linear'], ['zoom'], 0.5, 0.7, 6, 1.3];
+const borderColor = [
+  'case',
+  featureState('dim'),
+  '#242b2f',
+  featureState('match'),
+  categoryColorExpr,
+  PALETTE.border,
+];
+const borderOpacity = ['case', featureState('dim'), 0.4, featureState('match'), 0.78, 0.9];
 
-/** 黄色描边（selected 2.4px / hover 1.8px / 其余 0），selected 外加更明显的柔光 */
-const outlineWidth = ['case', featureState('selected'), 2.4, featureState('hover'), 1.8, 0.01];
+/** 描边 / 柔光：selected 用参考黄；hover 用该国分类色，避免所有国家同一个高亮色。 */
+const outlineWidth = ['case', featureState('selected'), 2.6, featureState('hover'), 2.1, 0.01];
+const outlineColor = ['case', featureState('selected'), PALETTE.outline, categoryColorExpr];
 const outlineOpacity = ['case', featureState('selected'), 1, featureState('hover'), 1, 0];
 const glowWidth = ['case', featureState('selected'), 9, featureState('hover'), 6, 0.01];
-const glowOpacity = ['case', featureState('selected'), 0.62, featureState('hover'), 0.3, 0];
+const glowOpacity = ['case', featureState('selected'), 0.6, featureState('hover'), 0.38, 0];
+const glowColor = ['case', featureState('selected'), PALETTE.outline, categoryColorExpr];
+/** selected 内部再叠一圈分类色描边：黄色主选中 + 分类色点缀，让高亮不单调 */
+const accentWidth = ['case', featureState('selected'), 1.25, 0.01];
+const accentOpacity = ['case', featureState('selected'), 0.95, 0];
 
 /**
- * 微国家圆点：3–6px，hover / selected 变黄并轻微放大。
+ * 微国家圆点：3–6px，hover / selected 放大。
  * MapLibre 限制：一个 paint 属性里 zoom 只能作为顶层 step/interpolate 的输入，
  * 因此把 feature-state 缩放 case 放在 interpolate 的每个 stop 输出里（只有一处 zoom 表达）。
  */
@@ -191,10 +274,12 @@ const microColor = [
   featureState('selected'),
   PALETTE.selected,
   featureState('hover'),
-  PALETTE.hover,
+  categoryColorExpr,
   featureState('dim'),
   PALETTE.dim,
-  PALETTE.micro,
+  featureState('match'),
+  matchColorExpr,
+  ['coalesce', ['get', 'matchColor'], PALETTE.micro],
 ];
 const microStrokeWidth = ['case', featureState('selected'), 2, featureState('hover'), 1.6, 1];
 const microStrokeColor = [
@@ -202,40 +287,31 @@ const microStrokeColor = [
   featureState('selected'),
   PALETTE.outline,
   featureState('hover'),
-  PALETTE.outline,
+  categoryColorExpr,
   PALETTE.ocean,
 ];
-const microGlowOpacity = ['case', featureState('selected'), 0.28, featureState('hover'), 0.18, 0];
+const microGlowColor = ['case', featureState('selected'), PALETTE.outline, categoryColorExpr];
+const microGlowOpacity = ['case', featureState('selected'), 0.28, featureState('hover'), 0.22, 0];
 
 function buildStyle(
   countries: FeatureCollectionLike<CountryProperties>,
   microstates: FeatureCollectionLike<MicroProperties>,
-  graticule: unknown,
 ): StyleSpecification {
   const style = {
     version: 8,
     name: 'visa-atlas-globe',
     projection: { type: 'globe' },
     sources: {
-      [SOURCE_COUNTRIES]: { type: 'geojson', data: countries, promoteId: 'iso2' },
-      [SOURCE_MICRO]: { type: 'geojson', data: microstates, promoteId: 'iso2' },
-      graticule: { type: 'geojson', data: graticule },
+      // 加大 tile buffer：避免 globe 投影下 GeoJSON 被内部瓦片裁切时在 tile 边界留下
+      // 被 line 图层描出的“假国境线/极地环带”（这是 MapLibre GeoJSON 源的已知表现）。
+      [SOURCE_COUNTRIES]: { type: 'geojson', data: countries, promoteId: 'iso2', buffer: 512 },
+      [SOURCE_MICRO]: { type: 'geojson', data: microstates, promoteId: 'iso2', buffer: 256 },
     },
     layers: [
       {
         id: 'ocean',
         type: 'background',
         paint: { 'background-color': PALETTE.ocean },
-      },
-      {
-        id: 'graticule',
-        type: 'line',
-        source: 'graticule',
-        paint: {
-          'line-color': PALETTE.graticule,
-          'line-width': 0.6,
-          'line-opacity': 0.85,
-        },
       },
       {
         id: LAYER_FILL,
@@ -248,9 +324,9 @@ function buildStyle(
         type: 'line',
         source: SOURCE_COUNTRIES,
         paint: {
-          'line-color': PALETTE.border,
+          'line-color': borderColor,
           'line-width': borderWidth,
-          'line-opacity': 0.9,
+          'line-opacity': borderOpacity,
         },
       },
       {
@@ -258,9 +334,9 @@ function buildStyle(
         type: 'line',
         source: SOURCE_COUNTRIES,
         paint: {
-          'line-color': PALETTE.outline,
+          'line-color': glowColor,
           'line-width': glowWidth,
-          'line-blur': 3,
+          'line-blur': 3.4,
           'line-opacity': glowOpacity,
         },
       },
@@ -269,9 +345,20 @@ function buildStyle(
         type: 'line',
         source: SOURCE_COUNTRIES,
         paint: {
-          'line-color': PALETTE.outline,
+          'line-color': outlineColor,
           'line-width': outlineWidth,
           'line-opacity': outlineOpacity,
+        },
+      },
+      {
+        id: 'selected-accent',
+        type: 'line',
+        source: SOURCE_COUNTRIES,
+        paint: {
+          'line-color': categoryColorExpr,
+          'line-width': accentWidth,
+          'line-opacity': accentOpacity,
+          'line-blur': 0.3,
         },
       },
       {
@@ -280,7 +367,7 @@ function buildStyle(
         source: SOURCE_MICRO,
         paint: {
           'circle-radius': microGlowRadius,
-          'circle-color': PALETTE.outline,
+          'circle-color': microGlowColor,
           'circle-blur': 1,
           'circle-opacity': microGlowOpacity,
         },
@@ -327,6 +414,39 @@ const errorMessageOf = (error: unknown): string => {
   if (typeof error === 'string') return error;
   return '未知错误';
 };
+
+/** 把 API 政策类别与分类色合入 GeoJSON（不写回磁盘，仅运行时视觉用） */
+function categoryAccentOf(meta: MapCountry | undefined): string {
+  if (!meta) return FALLBACK_ACCENT;
+  const byCategory = meta.categoryCode ? CATEGORY_COLOR.get(meta.categoryCode) : undefined;
+  if (byCategory) return byCategory;
+  const byGroup = meta.group ? GROUP_COLOR.get(meta.group) : undefined;
+  return byGroup ?? FALLBACK_ACCENT;
+}
+
+function decorateCountries(collection: FeatureCollectionLike<CountryProperties>, countries: MapCountry[]): void {
+  const metaByIso = new Map(countries.map(country => [country.iso2, country]));
+  for (const feature of collection.features) {
+    const meta = metaByIso.get(feature.properties.iso2);
+    const accent = categoryAccentOf(meta);
+    feature.properties.categoryCode = meta?.categoryCode ?? null;
+    feature.properties.categoryColor = accent;
+    feature.properties.matchColor = matchTint(accent);
+    feature.properties.baseColor = regionBaseColor(feature.properties.region);
+  }
+}
+
+function decorateMicrostates(collection: FeatureCollectionLike<MicroProperties>, countries: MapCountry[]): void {
+  const metaByIso = new Map(countries.map(country => [country.iso2, country]));
+  for (const feature of collection.features) {
+    const meta = metaByIso.get(feature.properties.iso2);
+    const accent = categoryAccentOf(meta);
+    feature.properties.categoryCode = meta?.categoryCode ?? null;
+    feature.properties.categoryColor = accent;
+    feature.properties.matchColor = matchTint(accent);
+    feature.properties.baseColor = regionBaseColor(feature.properties.region);
+  }
+}
 
 const toRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 
@@ -394,6 +514,7 @@ export function GlobeMap(props: GlobeMapProps) {
   const hoverStateRef = useRef<string | null>(null);
   const hoverInternalRef = useRef<string | null>(null);
   const dimmedStateRef = useRef<Set<string>>(new Set());
+  const matchedStateRef = useRef<Set<string>>(new Set());
   const pointerDownPointRef = useRef<{ x: number; y: number } | null>(null);
   const readyCalledRef = useRef(false);
   const lastFocusNonceRef = useRef<number | null>(null);
@@ -450,6 +571,31 @@ export function GlobeMap(props: GlobeMapProps) {
       }
     }
     dimmedStateRef.current = nextDimmed;
+  }, []);
+
+  /** 检索命中的国家单独标记 match=true，用于填充/边框显示低饱和分类色 */
+  const syncMatch = useCallback((map: MapLibreMap, matchedSet: Set<string> | null) => {
+    const active = matchedSet !== null && matchedSet.size > 0;
+    const nextMatched = new Set<string>();
+    if (active) {
+      const matchedIds = matchedSet as Set<string>;
+      for (const id of countryIdsRef.current) if (matchedIds.has(id)) nextMatched.add(id);
+      for (const id of microIdsRef.current) if (matchedIds.has(id)) nextMatched.add(id);
+    }
+    const previous = matchedStateRef.current;
+    for (const id of previous) {
+      if (!nextMatched.has(id)) {
+        setFeatureStateSafe(map, SOURCE_COUNTRIES, id, { match: false });
+        setFeatureStateSafe(map, SOURCE_MICRO, id, { match: false });
+      }
+    }
+    for (const id of nextMatched) {
+      if (!previous.has(id)) {
+        setFeatureStateSafe(map, SOURCE_COUNTRIES, id, { match: true });
+        setFeatureStateSafe(map, SOURCE_MICRO, id, { match: true });
+      }
+    }
+    matchedStateRef.current = nextMatched;
   }, []);
 
   const syncHover = useCallback((map: MapLibreMap) => {
@@ -532,7 +678,7 @@ export function GlobeMap(props: GlobeMapProps) {
 
     const init = async () => {
       try {
-        const [countries, microstates, graticule] = await Promise.all([
+        const [countries, microstates] = await Promise.all([
           fetch(GEO_URLS.countries, { signal: controller.signal }).then(response => {
             if (!response.ok) throw new Error(`countries.geo.json ${response.status}`);
             return response.json() as Promise<FeatureCollectionLike<CountryProperties>>;
@@ -541,12 +687,12 @@ export function GlobeMap(props: GlobeMapProps) {
             if (!response.ok) throw new Error(`microstates.geo.json ${response.status}`);
             return response.json() as Promise<FeatureCollectionLike<MicroProperties>>;
           }),
-          fetch(GEO_URLS.graticule, { signal: controller.signal }).then(response => {
-            if (!response.ok) throw new Error(`graticule.geo.json ${response.status}`);
-            return response.json() as Promise<unknown>;
-          }),
         ]);
         if (disposed) return;
+
+        // 把 API 的政策类别/分类色合入 GeoJSON properties（只在启动时做一次，不增加运行时网络请求）
+        decorateCountries(countries, propsRef.current.countries);
+        decorateMicrostates(microstates, propsRef.current.countries);
 
         countryMetaRef.current = new Map(countries.features.map(item => [item.properties.iso2, item.properties]));
         microMetaRef.current = new Map(microstates.features.map(item => [item.properties.iso2, item.properties]));
@@ -556,6 +702,7 @@ export function GlobeMap(props: GlobeMapProps) {
         hoverStateRef.current = null;
         hoverInternalRef.current = null;
         dimmedStateRef.current = new Set();
+        matchedStateRef.current = new Set();
 
         const containerRect = container.getBoundingClientRect();
         const initialZoom = computeInitialZoom(
@@ -566,7 +713,7 @@ export function GlobeMap(props: GlobeMapProps) {
 
         const map = new maplibregl.Map({
           container,
-          style: buildStyle(countries, microstates, graticule),
+          style: buildStyle(countries, microstates),
           center: INITIAL_CENTER,
           zoom: initialZoom,
           minZoom: MIN_ZOOM,
@@ -578,6 +725,10 @@ export function GlobeMap(props: GlobeMapProps) {
           fadeDuration: 180,
         });
         mapRef.current = map;
+        // 开发环境暴露 map 便于浏览器调试（生产构建会被 Vite 摇掉）
+        if (import.meta.env.DEV) {
+          (window as unknown as { __globeMap?: MapLibreMap }).__globeMap = map;
+        }
 
         /* 视口自适应：未交互过时随容器短边重算初始 zoom；交互过只更新 reset 基线 */
         if (typeof ResizeObserver !== 'undefined') {
@@ -624,6 +775,7 @@ export function GlobeMap(props: GlobeMapProps) {
         const applyAllStates = () => {
           syncSelected(map, propsRef.current.selected);
           syncDim(map, propsRef.current.matched);
+          syncMatch(map, propsRef.current.matched);
           hoverInternalRef.current = null;
           syncHover(map);
         };
@@ -712,7 +864,8 @@ export function GlobeMap(props: GlobeMapProps) {
     const map = mapRef.current;
     if (!map || status !== 'ready') return;
     syncDim(map, matched);
-  }, [matched, status, syncDim]);
+    syncMatch(map, matched);
+  }, [matched, status, syncDim, syncMatch]);
 
   useEffect(() => {
     const map = mapRef.current;

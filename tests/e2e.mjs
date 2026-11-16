@@ -6,7 +6,7 @@
  * 环境变量：E2E_BASE_URL（默认 http://127.0.0.1:5173）、CHROME_PATH。
  *
  * 覆盖：地球渲染、悬停国家浮层、搜索预置词、模糊搜索、搜索结果选择、
- *       国家抽屉收起/展开、点击地球选国、数据说明弹层、控制台零错误。
+ *       精简国家抽屉字段、点击地球选国、数据说明弹层、控制台零错误。
  */
 import { chromium } from 'playwright-core';
 
@@ -102,16 +102,9 @@ async function main() {
       const sheet = page.locator('[data-testid="country-sheet"], .va-sheet').first();
       check(await sheet.isVisible(), '点击结果行打开国家抽屉');
       const sheetText = await sheet.innerText();
-      check(/停留|入境|完整度/.test(sheetText), '抽屉包含停留/入境/完整度');
-      const expand = page.locator('[data-testid="sheet-expand"]').first();
-      if (await expand.count()) {
-        await expand.click();
-        await page.waitForTimeout(500);
-        const expandedText = await sheet.innerText();
-        check(/待采集|资料|来源/.test(expandedText), '抽屉展开显示待采集/来源信息');
-      } else {
-        check(false, '抽屉提供展开入口');
-      }
+      check(/停留|入境/.test(sheetText), '抽屉包含停留/入境信息');
+      check(/来源|路线/.test(sheetText), '抽屉包含来源/路线编号');
+      check(!/待采集|费用|材料|审核时间/.test(sheetText), '抽屉已瘦身（不再预留费用/材料/审核时间空位）');
       await closeSheet();
     }
 

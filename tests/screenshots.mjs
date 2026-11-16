@@ -60,12 +60,6 @@ async function main() {
       await rows.first().click();
       await page.waitForTimeout(900);
       await shot('country-sheet');
-      const expand = page.locator('[data-testid="sheet-expand"]').first();
-      if (await expand.count()) {
-        await expand.click();
-        await page.waitForTimeout(600);
-        await shot('country-sheet-expanded');
-      }
       const close = page.locator('[data-testid="sheet-close"]').first();
       if (await close.count()) await close.click().catch(() => {});
       await page.waitForTimeout(400);
@@ -85,6 +79,31 @@ async function main() {
     await searchInput.fill('Japn');
     await page.waitForTimeout(800);
     await shot('search-fuzzy');
+
+    // 极地视角：验证不再出现经纬环带/南极背面伪影
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(300);
+    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('.va-globe canvas', { timeout: 25000 });
+    await page.waitForFunction(() => window.__globeReady === true, undefined, { timeout: 25000 });
+    await page.waitForTimeout(1200);
+    const canvasBox = await page.locator('.va-globe canvas').first().boundingBox();
+    if (canvasBox) {
+      const cx = canvasBox.x + canvasBox.width / 2;
+      const cy = canvasBox.y + canvasBox.height / 2;
+      const sx = cx + 120;
+      await page.mouse.move(sx, cy);
+      await page.mouse.down();
+      for (let i = 1; i <= 10; i += 1) {
+        await page.mouse.move(sx, cy + i * 30);
+        await page.waitForTimeout(20);
+      }
+      await page.mouse.up();
+      // 指针停在海洋上，避免悬停国家的分类色盖住极区
+      await page.mouse.move(900, 480);
+      await page.waitForTimeout(3000);
+      await shot('globe-pole');
+    }
 
     // 宽屏初始状态
     await page.setViewportSize({ width: 1920, height: 1080 });

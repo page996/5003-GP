@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from 'react';
 import { Loader2, Search, X } from 'lucide-react';
+import { categoryColor } from '../../../shared/contracts.ts';
 import type { MapCountry, SearchItem, SearchResponse } from '../../../shared/contracts.ts';
 import type { ApiError } from '../../api';
 import { cx } from '../../components/cx';
@@ -17,6 +18,7 @@ interface SearchRow {
   iso2: string;
   nameZh: string;
   nameEn: string;
+  categoryCode: string | null;
   categoryLabel: string | null;
   stayLabel: string | null;
   isDemo: boolean;
@@ -55,6 +57,7 @@ function suggestionRow(country: MapCountry): SearchRow {
     iso2: country.iso2,
     nameZh: country.nameZh,
     nameEn: country.nameEn,
+    categoryCode: country.categoryCode,
     categoryLabel: country.categoryLabel,
     stayLabel: country.stayLabel,
     // 国家建议只表达“可能想去哪”，不显示演示数据角标，避免误导
@@ -72,6 +75,7 @@ function resultRow(item: SearchItem): SearchRow {
     iso2: item.iso2,
     nameZh: item.nameZh,
     nameEn: item.nameEn,
+    categoryCode: item.categoryCode,
     categoryLabel: item.categoryLabel,
     stayLabel: item.stayLabel,
     isDemo: item.isDemo,
@@ -222,7 +226,10 @@ export function SearchOverlay({
         </span>
         <span className="va-search-row__meta">
           {row.categoryLabel ? (
-            <span className="va-search-row__badge">{row.categoryLabel}</span>
+            <span className="va-search-row__badge">
+              <i className="va-search-row__dot" style={{ background: categoryColor(row.categoryCode) }} aria-hidden="true" />
+              {row.categoryLabel}
+            </span>
           ) : row.isMention ? (
             <span className="va-search-row__badge is-hint">类型线索</span>
           ) : null}

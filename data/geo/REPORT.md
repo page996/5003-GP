@@ -1,4 +1,4 @@
-# Visa Atlas v2.0 · 球体地图几何构建报告
+# Visa Atlas v3.0 · 球体地图几何构建报告
 
 > 由 `npm run geo:build`（`tsx scripts/build-globe-geo.ts`）自动生成，请勿手工编辑。
 > 运行环境：Windows + Node.js（本仓库 `engines.node >= 24`），输入依赖版本锁定在 `package.json` / `package-lock.json`。
@@ -18,12 +18,13 @@ npm run geo:build
 
 | 文件 | 内容 | 大小 |
 |---|---|---:|
-| `public/geo/countries.geo.json` | 236 个多边形国家（FeatureCollection） | 1,699,924 bytes（1660.1 KiB） |
+| `public/geo/countries.geo.json` | 236 个多边形国家（FeatureCollection） | 1,700,129 bytes（1660.3 KiB） |
 | `public/geo/microstates.geo.json` | 14 个无多边形微国家（Point） | 3,186 bytes（3.1 KiB） |
-| `public/geo/graticule.geo.json` | 10° 经纬网（MultiLineString） | 27,662 bytes（27.0 KiB） |
-| 合计 | | 1,730,772 bytes（1690.2 KiB） |
+| 合计 | | 1,703,315 bytes（1663.4 KiB） |
 
-单文件与整体体积上限：3,000,000 bytes（当前合计占 57.7%）。
+单文件与整体体积上限：3,000,000 bytes（当前合计占 56.8%）。
+> v3 起移除经纬网装饰：原 10° 经纬网在南北极形成同心环带，视觉上易被误认为国境线，且会遮挡极区国家；球体不再绘制经纬网。
+> 同时对跨 ±180° 的多边形做反经线切分（RFC 7946 §3.1.9，使用 `geojson-antimeridian-cut`），避免 MapLibre globe 把跨日界线长边沿“长路”渲染成极地环带。
 
 ## 3. 覆盖统计
 
@@ -86,13 +87,12 @@ npm run geo:build
 | `properties.bbox` | [w, s, e, n] \| null | 跨反经线（>300°）时为 null |
 
 `microstates.geo.json` 每个 Feature：`id` / `iso2` / `nameZh` / `nameEn` / `region` / `tone` / `center` / `bbox: null`，geometry 为 `Point`。
-`graticule.geo.json` 为单个 Feature（`MultiLineString`），供 MapLibre line layer 绘制。
 
 ## 5. 前端球体配置
 
 - 渲染：MapLibre GL JS 5.9（`projection: { type: 'globe' }`），本地 GeoJSON source，无外部 source / sprite / glyphs / 瓦片。
 - 初始相机：`center [108, 22]`、`zoom 2.0`、`minZoom 0.5`、`maxZoom 10`。
-- 配色（用户指定色号）：太空/天空 `#05080b`、海洋 `#0e1a22`、陆地 4 档灰 `#30363a/#343a3e/#2c3236/#383e42`、未命中变暗 `#191d20`、国境线 `#5a636a`、经纬网 `#1d303b`、hover 黄 `#DFC11D`、selected 黄 `#E3C31C`、黄色描边 `#F6DD55`。
+- 配色（用户指定色号）：太空/天空 `#05080b`、海洋 `#0e1a22`、陆地低饱和灰（按地区轻微色相变化）、未命中变暗 `#191d20`、国境线 `#626b72`；hover 使用该类别的分类色（如互免薄荷绿、落地签暖金、电子签天蓝、申根玫瑰、属地紫），selected 保持参考黄 `#E3C31C` + 分类色内描边；检索命中时按类别色着淡彩。不再绘制经纬网。
 - 聚焦规则：有 `bbox` → `fitBounds(padding 110, maxZoom 7.5, duration 900)`；无 `bbox`（AQ/FJ/KI/NZ/RU/US）→ `center + zoom 3`；微国家圆点 → `center + zoom 7.5`；`prefers-reduced-motion` 时 duration 设为 0。
 - feature-state：`hover` / `selected` / `dim`，source 均设置 `promoteId: 'iso2'`；内部 hover 与外部 `hoverIso2` 合并，hover 不触发 React 重渲染。
 
@@ -107,7 +107,7 @@ npm run geo:build
 
 1. 1:50m 分辨率下 14 个微国家/属地没有独立多边形，只能以点渲染；点位置为目录经纬度近似。
 2. 跨反经线的 6 个国家（AQ、FJ、KI、NZ、RU、US）bbox 横跨 ±180，不参与 `fitBounds`，聚焦时用 `center + zoom 3`，可能不完全居中。
-3. 陆地区分仅靠 4 档 tone 哈希 + 国境线，不渲染国名标签与政策图例；政策信息通过 hover 卡片、搜索与底部抽屉呈现。
-4. `tone` 是按 ISO2 哈希的纯视觉索引，没有地理/政策含义。
+3. 陆地底色按大洲低饱和色相区分（欧洲蓝灰、亚洲青灰、非洲橄榄灰、美洲蓝灰、大洋洲蓝灰、南极紫灰）；hover 使用 16 类签证分类色，selected 用参考黄 + 分类色内描边，检索命中用分类色淡彩；不渲染国名标签。
+4. `tone` 是按 ISO2 哈希的纯视觉索引（保留给未分类兜底色），没有地理/政策含义。
 5. 文件体积目标是 < 3MB；若升级到 10m 分辨率或增加图层需重新评估。
 6. 微国家圆点在 globe 背面不可见（MapLibre 遮挡），点击/悬停只对正面国家生效。

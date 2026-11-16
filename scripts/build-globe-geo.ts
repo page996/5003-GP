@@ -1,11 +1,10 @@
 /**
- * Visa Atlas v2.0 · 球体地图几何构建（MapLibre GL globe 专用）
+ * Visa Atlas v3.0 · 球体地图几何构建（MapLibre GL globe 专用）
  *
  * world-atlas 1:50m TopoJSON → 本地 GeoJSON（无瓦片 / 无 Key / 无外网），
  * 输出到 `public/geo/`（Vite 构建原样复制到 dist，Fastify 生产同源托管 `/geo/*`）：
  *   - countries.geo.json    236 个多边形国家（FeatureCollection，properties 含 iso2/tone/center/bbox）
  *   - microstates.geo.json  14 个无多边形微国家（Point，常驻圆点）
- *   - graticule.geo.json    10° 经纬网（MultiLineString）
  *
  * 同时生成 `data/geo/REPORT.md` 覆盖与许可报告。
  * 运行：`npm run geo:build`（即 `tsx scripts/build-globe-geo.ts`，可重复执行）。
@@ -13,9 +12,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { geoCentroid, geoGraticule10 } from 'd3-geo';
+import { geoCentroid } from 'd3-geo';
 import { feature } from 'topojson-client';
 import worldCountries from 'world-countries';
+import splitGeoJSON from 'geojson-antimeridian-cut';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -96,8 +96,22 @@ function collectPositions(value: unknown, sink: Position[]): void {
   for (const item of value as unknown[]) collectPositions(item, sink);
 }
 
-function boundsOf(geometry: { coordinates: unknown }): [number, number, number, number] | null {
-  const positions: Position[] = [];
+/**
+ * MapLibre globe 会把跨 ±180° 的边（俄罗斯楚科奇、斐济等）按“走长路”渲染，
+ * 在北极形成同心环带，视觉上像国境线且遮挡极区国家。
+ * 用 geojson-antimeridian-cut 在 ±180° 处切开（RFC 7946 §3.1.9）。
+ * 南极洲等特殊几何若无法切分则保留原样：它本身是极冠，不会产生北极环带。
+ */
+function clipAntimeridian(geometry: { type: string; coordinates: unknown }): { type: string; coordinates: unknown } {
+  if (geometry.type !== 'Polygon' && geometry.type !== 'MultiPolygon') return geometry;
+  try {
+    return splitGeoJSON(geometry as never) as { type: string; coordinates: unknown };
+  } catch {
+    return geometry;
+  }
+}
+
+function boundsOf(geometry: { coordinates: unknown }): [number, number, number, number] | null {  const positions: Position[] = [];
   collectPositions(geometry.coordinates, positions);
   if (!positions.length) return null;
   let minLng = Infinity;
@@ -233,6 +247,15 @@ for (const raw of collection.features) {
 
 features.sort((a, b) => a.id.localeCompare(b.id));
 
+// 反经线裁剪：避免 MapLibre globe 把跨 ±180° 的边沿“长路”渲染成极地环带
+for (const item of features) {
+  const geometry = item.geometry as { type: string; coordinates: unknown };
+  const clipped = clipAntimeridian(geometry);
+  if (!clipped) continue;
+  item.geometry = { type: clipped.type, coordinates: roundCoordinates(clipped.coordinates) };
+  item.properties.bbox = boundsOf(item.geometry as { coordinates: unknown });
+}
+
 /* ------------------------------------------------------------------ */
 /* 无多边形国家 → 常驻圆点                                            */
 /* ------------------------------------------------------------------ */
@@ -268,22 +291,18 @@ for (const country of missing) {
 
 const countriesCollection = { type: 'FeatureCollection' as const, features };
 const microCollection = { type: 'FeatureCollection' as const, features: microFeatures };
-const graticule = { type: 'Feature' as const, properties: {}, geometry: geoGraticule10() };
 
 await mkdir(PUBLIC_GEO_DIR, { recursive: true });
 const countriesText = JSON.stringify(countriesCollection);
 const microText = JSON.stringify(microCollection);
-const graticuleText = JSON.stringify(graticule);
 await writeFile(path.join(PUBLIC_GEO_DIR, 'countries.geo.json'), countriesText, 'utf8');
 await writeFile(path.join(PUBLIC_GEO_DIR, 'microstates.geo.json'), microText, 'utf8');
-await writeFile(path.join(PUBLIC_GEO_DIR, 'graticule.geo.json'), graticuleText, 'utf8');
 
 const bytes = {
   countries: Buffer.byteLength(countriesText, 'utf8'),
   microstates: Buffer.byteLength(microText, 'utf8'),
-  graticule: Buffer.byteLength(graticuleText, 'utf8'),
 };
-const totalBytes = bytes.countries + bytes.microstates + bytes.graticule;
+const totalBytes = bytes.countries + bytes.microstates;
 
 const covered = new Set<string>([...features.map(item => item.id), ...microFeatures.map(item => item.id)]);
 const csvMissing = csvCodes.filter(code => !covered.has(code));
@@ -303,7 +322,7 @@ const microLines = microFeatures.map(item => {
   return `  - ${item.id} · ${item.properties.nameZh} / ${item.properties.nameEn} @ (${lng}, ${lat})`;
 });
 
-const report = `# Visa Atlas v2.0 · 球体地图几何构建报告
+const report = `# Visa Atlas v3.0 · 球体地图几何构建报告
 
 > 由 \`npm run geo:build\`（\`tsx scripts/build-globe-geo.ts\`）自动生成，请勿手工编辑。
 > 运行环境：Windows + Node.js（本仓库 \`engines.node >= 24\`），输入依赖版本锁定在 \`package.json\` / \`package-lock.json\`。
@@ -325,10 +344,11 @@ npm run geo:build
 |---|---|---:|
 | \`public/geo/countries.geo.json\` | ${features.length} 个多边形国家（FeatureCollection） | ${formatBytes(bytes.countries)} |
 | \`public/geo/microstates.geo.json\` | ${microFeatures.length} 个无多边形微国家（Point） | ${formatBytes(bytes.microstates)} |
-| \`public/geo/graticule.geo.json\` | 10° 经纬网（MultiLineString） | ${formatBytes(bytes.graticule)} |
 | 合计 | | ${formatBytes(totalBytes)} |
 
 单文件与整体体积上限：${FILE_SIZE_LIMIT.toLocaleString('en-US')} bytes（当前合计占 ${((totalBytes / FILE_SIZE_LIMIT) * 100).toFixed(1)}%）。
+> v3 起移除经纬网装饰：原 10° 经纬网在南北极形成同心环带，视觉上易被误认为国境线，且会遮挡极区国家；球体不再绘制经纬网。
+> 同时对跨 ±180° 的多边形做反经线切分（RFC 7946 §3.1.9，使用 \`geojson-antimeridian-cut\`），避免 MapLibre globe 把跨日界线长边沿“长路”渲染成极地环带。
 
 ## 3. 覆盖统计
 
@@ -337,7 +357,7 @@ npm run geo:build
 | TopoJSON 总要素 | ${collection.features.length} | \`objects.countries.geometries\` |
 | 目录国家有 polygon | ${features.length} / ${catalog.length}（${((features.length / catalog.length) * 100).toFixed(1)}%） | \`countries.geo.json\` |
 | 目录国家仅圆点 | ${microFeatures.length} / ${catalog.length} | \`microstates.geo.json\` |
-| 目录国家覆盖合计 | ${covered.size} / ${catalog.length} | 236 + 14 = 250，无遗漏 |
+| 目录国家覆盖合计 | ${covered.size} / ${catalog.length} | ${features.length} + ${microFeatures.length} = ${covered.size}，无遗漏 |
 | CSV 249 国覆盖 | ${csvCodes.length - csvMissing.length} / ${csvCodes.length} | 249 个采集国家全部有 polygon 或圆点 |
 | CSV 缺失 | ${csvMissing.length} | ${csvMissing.length ? csvMissing.join(', ') : '无'} |
 | 目录未覆盖 | ${catalogMissing.length} | ${catalogMissing.length ? catalogMissing.join(', ') : '无'} |
@@ -375,13 +395,12 @@ ${microWithoutCoordinates.length ? `有目录但缺经纬度、无法生成圆�
 | \`properties.bbox\` | [w, s, e, n] \\| null | 跨反经线（>300°）时为 null |
 
 \`microstates.geo.json\` 每个 Feature：\`id\` / \`iso2\` / \`nameZh\` / \`nameEn\` / \`region\` / \`tone\` / \`center\` / \`bbox: null\`，geometry 为 \`Point\`。
-\`graticule.geo.json\` 为单个 Feature（\`MultiLineString\`），供 MapLibre line layer 绘制。
 
 ## 5. 前端球体配置
 
 - 渲染：MapLibre GL JS 5.9（\`projection: { type: 'globe' }\`），本地 GeoJSON source，无外部 source / sprite / glyphs / 瓦片。
 - 初始相机：\`center [108, 22]\`、\`zoom 2.0\`、\`minZoom 0.5\`、\`maxZoom 10\`。
-- 配色（用户指定色号）：太空/天空 \`#05080b\`、海洋 \`#0e1a22\`、陆地 4 档灰 \`#30363a/#343a3e/#2c3236/#383e42\`、未命中变暗 \`#191d20\`、国境线 \`#5a636a\`、经纬网 \`#1d303b\`、hover 黄 \`#DFC11D\`、selected 黄 \`#E3C31C\`、黄色描边 \`#F6DD55\`。
+- 配色（用户指定色号）：太空/天空 \`#05080b\`、海洋 \`#0e1a22\`、陆地低饱和灰（按地区轻微色相变化）、未命中变暗 \`#191d20\`、国境线 \`#626b72\`；hover 使用该类别的分类色（如互免薄荷绿、落地签暖金、电子签天蓝、申根玫瑰、属地紫），selected 保持参考黄 \`#E3C31C\` + 分类色内描边；检索命中时按类别色着淡彩。不再绘制经纬网。
 - 聚焦规则：有 \`bbox\` → \`fitBounds(padding 110, maxZoom 7.5, duration 900)\`；无 \`bbox\`（${noBbox.join('/')}）→ \`center + zoom 3\`；微国家圆点 → \`center + zoom 7.5\`；\`prefers-reduced-motion\` 时 duration 设为 0。
 - feature-state：\`hover\` / \`selected\` / \`dim\`，source 均设置 \`promoteId: 'iso2'\`；内部 hover 与外部 \`hoverIso2\` 合并，hover 不触发 React 重渲染。
 
@@ -396,8 +415,8 @@ ${microWithoutCoordinates.length ? `有目录但缺经纬度、无法生成圆�
 
 1. 1:50m 分辨率下 14 个微国家/属地没有独立多边形，只能以点渲染；点位置为目录经纬度近似。
 2. 跨反经线的 6 个国家（${noBbox.join('、')}）bbox 横跨 ±180，不参与 \`fitBounds\`，聚焦时用 \`center + zoom 3\`，可能不完全居中。
-3. 陆地区分仅靠 4 档 tone 哈希 + 国境线，不渲染国名标签与政策图例；政策信息通过 hover 卡片、搜索与底部抽屉呈现。
-4. \`tone\` 是按 ISO2 哈希的纯视觉索引，没有地理/政策含义。
+3. 陆地底色按大洲低饱和色相区分（欧洲蓝灰、亚洲青灰、非洲橄榄灰、美洲蓝灰、大洋洲蓝灰、南极紫灰）；hover 使用 16 类签证分类色，selected 用参考黄 + 分类色内描边，检索命中用分类色淡彩；不渲染国名标签。
+4. \`tone\` 是按 ISO2 哈希的纯视觉索引（保留给未分类兜底色），没有地理/政策含义。
 5. 文件体积目标是 < 3MB；若升级到 10m 分辨率或增加图层需重新评估。
 6. 微国家圆点在 globe 背面不可见（MapLibre 遮挡），点击/悬停只对正面国家生效。
 `;
@@ -407,10 +426,9 @@ await writeFile(REPORT_PATH, report, 'utf8');
 
 /* ------------------------------------------------------------------ */
 
-console.log('Visa Atlas v2 globe geo build');
+console.log('Visa Atlas v3 globe geo build');
 console.log(`  countries.geo.json    : ${features.length} 个多边形国家，${bytes.countries.toLocaleString('en-US')} bytes`);
 console.log(`  microstates.geo.json  : ${microFeatures.length} 个仅点国家，${bytes.microstates.toLocaleString('en-US')} bytes`);
-console.log(`  graticule.geo.json    : ${bytes.graticule.toLocaleString('en-US')} bytes`);
 console.log(`  覆盖                  : ${covered.size} / ${catalog.length} 目录；CSV ${csvCodes.length - csvMissing.length} / ${csvCodes.length}`);
 console.log(`  无 bbox 国家          : ${noBbox.join(', ') || '无'}`);
 console.log(`  忽略的 TopoJSON 要素  : ${unmappedTopoFeatures.join(' | ') || '无'}`);

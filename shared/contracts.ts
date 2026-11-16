@@ -491,6 +491,13 @@ export const visaTypeLabel = (code: string): string =>
 export const categoryLabel = (code: string | null): string =>
   code ? VISA_CATEGORIES.find(category => category.code === code)?.nameZh ?? code : '';
 
+/** 16 个细分签证类别的颜色（hover、抽屉强调色、搜索结果点） */
+export const categoryColor = (code: string | null | undefined): string => {
+  if (!code) return '#DFC11D';
+  const category = VISA_CATEGORIES.find(item => item.code === code);
+  return category?.color ?? POLICY_GROUPS.find(group => group.code === category?.group)?.color ?? '#DFC11D';
+};
+
 export const entryScopeLabel = (scope: EntryScope | null): string =>
   scope === 'SINGLE' ? '单次入境' : scope === 'MULTIPLE' ? '多次入境' : '入境次数待确认';
 

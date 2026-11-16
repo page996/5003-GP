@@ -5,12 +5,12 @@
  * - 236 个多边形国家 + 14 个微国家点 = 250 个目录国家全覆盖
  * - iso2 唯一、id 与 properties.iso2 一致、properties 字段齐全
  * - center / bbox 合法（bbox 为 null 的跨反经线国家单独记录）
- * - 坐标 3 位小数、geometr 有效、经纬网非空、文件体积 < 3MB
+ * - 坐标 3 位小数、geometry 有效、文件体积 < 3MB（v3 起不再输出经纬网）
  *
  * 运行：`npx tsx --test tests/globe.test.ts`（或 `npm test` 的 tests/*.test.ts 全量）
  */
 import assert from 'node:assert/strict';
-import { readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -19,7 +19,6 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const GEO_DIR = resolve(ROOT, 'public/geo');
 const COUNTRIES_PATH = resolve(GEO_DIR, 'countries.geo.json');
 const MICRO_PATH = resolve(GEO_DIR, 'microstates.geo.json');
-const GRATICULE_PATH = resolve(GEO_DIR, 'graticule.geo.json');
 const CATALOG_PATH = resolve(ROOT, 'data/countries.json');
 const CSV_PATH = resolve(ROOT, 'data/source/global_249_countries_cn_passport_visa.csv');
 
@@ -69,10 +68,6 @@ interface CatalogCountry {
 
 const countries = JSON.parse(readFileSync(COUNTRIES_PATH, 'utf8')) as FeatureCollection<CountryProperties>;
 const micro = JSON.parse(readFileSync(MICRO_PATH, 'utf8')) as FeatureCollection<MicroProperties>;
-const graticule = JSON.parse(readFileSync(GRATICULE_PATH, 'utf8')) as {
-  type: string;
-  geometry: { type: string; coordinates: unknown };
-};
 const catalog = JSON.parse(readFileSync(CATALOG_PATH, 'utf8')) as CatalogCountry[];
 const catalogCodes = catalog.map(country => country.code);
 const countryIds = countries.features.map(feature => feature.id ?? feature.properties.iso2);
@@ -119,7 +114,6 @@ test('geo 文件存在、可解析且体积在上限内', () => {
   for (const [name, path] of [
     ['countries', COUNTRIES_PATH],
     ['microstates', MICRO_PATH],
-    ['graticule', GRATICULE_PATH],
   ] as const) {
     const bytes = statSync(path).size;
     assert.ok(bytes > 0, `${name}.geo.json 不能为空`);
@@ -127,8 +121,6 @@ test('geo 文件存在、可解析且体积在上限内', () => {
   }
   assert.equal(countries.type, 'FeatureCollection');
   assert.equal(micro.type, 'FeatureCollection');
-  assert.equal(graticule.type, 'Feature');
-  assert.equal(graticule.geometry.type, 'MultiLineString');
 });
 
 test('236 个多边形国家 + 14 个微国家点覆盖 250 国目录', () => {
@@ -219,11 +211,27 @@ test('微国家 features 为 Point，字段完整且与 center 一致', () => {
   }
 });
 
-test('经纬网非空且坐标合法', () => {
-  const positions: [number, number][] = [];
-  collectPositions(graticule.geometry.coordinates, positions, false);
-  assert.ok(positions.length > 100, `经纬网坐标点过少：${positions.length}`);
-  // 10° 经纬网：至少包含多条横线与竖线
-  const lines = graticule.geometry.coordinates as unknown[];
-  assert.ok(Array.isArray(lines) && lines.length >= 30, `经纬网线数量过少：${lines.length}`);
+test('不再输出经纬网装饰（极区环带的来源之一）', () => {
+  assert.equal(existsSync(resolve(GEO_DIR, 'graticule.geo.json')), false, 'graticule.geo.json 不应再生成');
+});
+
+test('跨日界线国家已在 ±180° 切分，避免 globe 长跨段环带', () => {
+  for (const iso2 of ['RU', 'FJ']) {
+    const feature = countries.features.find(item => item.properties.iso2 === iso2);
+    assert.ok(feature, `${iso2} 应有多边形`);
+    const rings: [number, number][][] = [];
+    const collectRings = (value: unknown): void => {
+      if (!Array.isArray(value)) return;
+      if (isPosition(value)) return;
+      if (Array.isArray(value[0]) && isPosition(value[0])) { rings.push(value as [number, number][]); return; }
+      for (const item of value) collectRings(item);
+    };
+    collectRings(feature.geometry.coordinates);
+    for (const ring of rings) {
+      for (let index = 1; index < ring.length; index += 1) {
+        const jump = Math.abs(ring[index][0] - ring[index - 1][0]);
+        assert.ok(jump <= 180, `${iso2} 存在跨 ±180° 的长边段：${jump}°`);
+      }
+    }
+  }
 });

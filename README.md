@@ -1,4 +1,4 @@
-﻿# Visa Atlas · 世界签证图谱
+# Visa Atlas · 世界签证图谱
 
 > **中国普通护照出境签证查询与地球探索系统**（课程项目）
 > 以小组整理的 **249 个国家/地区旅游签数据** 完成真实落地：可拨动缩放的地球仪 + 预置词/模糊搜索 + 国家签证抽屉。
@@ -6,9 +6,9 @@
 
 ![地球探索](docs/screenshots/globe.png)
 
-| 悬停国家 | 国家签证抽屉 | 搜索与预置词 |
-|---|---|---|
-| ![悬停国家](docs/screenshots/hover-card.png) | ![国家签证抽屉](docs/screenshots/country-sheet.png) | ![搜索](docs/screenshots/search-preset.png) |
+| 悬停国家 | 国家签证抽屉 | 搜索与预置词 | 极地视角（环带已移除） |
+|---|---|---|---|
+| ![悬停国家](docs/screenshots/hover-card.png) | ![国家签证抽屉](docs/screenshots/country-sheet.png) | ![搜索](docs/screenshots/search-preset.png) | ![极地视角](docs/screenshots/globe-pole.png) |
 
 ## 1. 项目定位
 
@@ -56,34 +56,36 @@ SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mys
 ### 3.1 可交互地球（MapLibre GL globe）
 
 - 全屏自绘球体：**拖拽旋转、滚轮/双指缩放（0.5–10 倍）、双击放大、右下角 +/−/重置**；初始约屏高 2/3，缩放后可查看大国与小国/岛国。
-- 配色：**未选中陆地低饱和灰**（4 档微妙区分），海洋深蓝黑、太空近黑，国境线灰、经纬网极淡；**hover / 选中 = 高饱和黄 `#DFC11D / #E3C31C`，边界亮黄 + 柔光**，与周围灰色形成强对比（参考提交色号）。
+- 配色分层：**未选中陆地按大洲低饱和色相**（欧洲蓝灰 / 亚洲青灰 / 非洲橄榄灰 / 美洲蓝灰 / 大洋洲蓝灰 / 南极紫灰），海洋深蓝黑、太空近黑、国境线灰；**hover = 该国 16 类签证类别色**（互免薄荷绿、落地签暖金、电子签天蓝、申根玫瑰、属地紫…），**selected = 参考黄 `#E3C31C` + 分类色内描边/柔光**，检索命中时按类别色着淡彩——高亮不再只有单一黄色。
 - 点击国家：地球飞行聚焦（大国有上下文、小国适当放大），国家变黄并打开底部签证抽屉。
-- 微国家：14 个无多边形国家以可点击圆点呈现；hover 变黄并放大。
-- 搜索/预置词生效时：未命中目的地变暗，命中国家保持灰色；选中/悬停仍为黄色。
+- 微国家：14 个无多边形国家以可点击圆点呈现，圆点同样带分类色；hover/选中放大并显示对应类别色。
+- 搜索/预置词生效时：未命中目的地变暗 `#191d20`；命中国家按分类色淡彩显示，边框保留分类色，便于一次看到同类政策的分布。
+- **极区修复**：移除原经纬网装饰；对跨 ±180° 的国家多边形做反经线切分（RFC 7946 §3.1.9），避免 MapLibre globe 把跨日界线长边渲染成南北极同心环带，极区国家不再被“假国境线”遮挡。
 - 点击空白关闭抽屉并清除选中；`/` 聚焦搜索。
 
 ### 3.2 搜索（预置词 + 模糊搜索）
 
 - 顶部玻璃搜索胶囊 + 8 个预置词：`免签` `落地签` `电子签` `申根` `商务签` `日本` `美国` `欧洲`；点击立即筛选，再次点击取消。
 - **本地模糊国家建议**：250 国中英文名/ISO/别名，忽略大小写、子串、英文编辑距离 ≤1、中文包含/字序容忍（例如 `Japn` → 日本）。
-- 300ms 防抖调用后端 `/api/v1/search`：显示「命中 N 个目的地」结果行（国家/类别/停留期/演示或线索角标）；**搜索到明确国家时地球自动飞过去**。
-- ↑↓ 选择、Enter 打开档案、Esc 关闭；hover 结果行同步在地球高亮该国。
-- 无结果时给出相近国家建议与 3 个预置词快捷入口。
+- 300ms 防抖调用后端 `/api/v1/search`：显示「命中 N 个目的地」结果行（国家/类别/停留期/重点候选）；行内类别徽章带**分类色点**，与地球 hover 颜色一致。
+- **搜索结果行 hover 同步高亮地球**：命中国家按分类色显示、未命中变暗；搜索到明确国家时地球自动飞过去。
+- ↑↓ 选择、Enter 打开档案、Esc 关闭；结果行 hover 时出现固定悬浮卡，可直接点击打开抽屉。
+- 无结果/模糊输入时给出相近国家建议与预置词快捷入口。
 
-### 3.3 国家签证抽屉（Bottom Sheet）
+### 3.3 国家签证抽屉（Bottom Sheet，精简版）
 
-- 收起态：国家中英文名 + 黄色类别 chip + 停留期 + 入境次数 + 完整度 + 一句话结论 + 原文摘要 + 其他签证类型 chips + 「展开完整档案」。
-- 展开态：**费用 / 材料 / 审核时间「待采集」**三宫格（真实数据未采集，不编造）、演示明细（金色 `演示样本`，含材料/费用/时间/资格规则）、来源与限制、路线编号。
+- 只展示**本轮可规模化采集**的字段：国家中英文名 + 分类色类别 chip + 停留期 + 入境次数 + 一句话结论 + 原文摘要 + 其他签证类型 chips + 来源/路线编号/免责声明。
+- 不再预留费用、材料、审核时间、完整度、演示明细等空位——这些字段属于未来可选扩展，不增加本轮数据收集尺度；未来补采时后端可升级 `data_status`，前端只需按需扩展。
 - 类型线索 chips 可点击，切换为该用途（商务/留学/工作…）检索。
 - 目录内未采集国家（`XK`）显示明确空态；无资料不伪造。
 
 ### 3.4 数据与数据库
 
 - 真实数据：**249 条旅游签政策**（250 国目录中仅 `XK` 未采集）；CSV 原始 76 种分类归一化为 **16 个可筛选类别 / 5 个政策组**；抽取停留期（132/249）、入境次数；**569 条**其他签证类型线索；**351 条**检索同义词。
-- 演示明细：**22 条**明确虚构（商务/留学/工作等 10 类），用于验证未来字段，默认收纳在抽屉内并持续标注。
+- 演示明细：**22 条**明确虚构（商务/留学/工作等 10 类），只作为未来字段/data_status 的回归夹具保留在后端，**v3 界面不再展示**。
 - 数据库：15 张表 + 2 个视图 + 完整外键/CHECK/索引；SQLite（默认，零安装）与 MySQL 8（同构）。
 - 数据链路：`CSV → scripts/etl.ts → data/generated/dataset.json → scripts/db-seed.ts → SQLite/MySQL`，可重放、可校验、可 diff。
-- 地球几何：`world-atlas` 1:50m → `scripts/build-globe-geo.ts` → `public/geo/*.geo.json`（236 多边形 + 14 微国家点 + 经纬网 + 中心/bbox），构建期完成，无运行时外部请求。
+- 地球几何：`world-atlas` 1:50m → `scripts/build-globe-geo.ts` → `public/geo/*.geo.json`（236 多边形 + 14 微国家点 + 中心/bbox；跨反经线国家在 ±180° 切分；无经纬网），构建期完成，无运行时外部请求。
 
 ## 4. 数据与来源
 
@@ -91,7 +93,7 @@ SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mys
 |---|---|
 | 真实数据 | `data/source/global_249_countries_cn_passport_visa.csv`（小组整理，249 行） |
 | 来源等级 | `SINGLE_SOURCE`：小组汇总，无逐国官方链接；界面与文档持续提示以官方公告为准 |
-| 当前成熟度 | `SUMMARY_ONLY`：政策类别 + 一句摘要 + 抽取的停留期；费用/材料/审核时间/个人条件规则未采集 |
+| 当前成熟度 | `SUMMARY_ONLY`：政策类别 + 一句摘要 + 抽取的停留期；界面只展示可规模化采集的字段（费用/材料/审核时间不预留空位） |
 | 未采集国家 | `XK`（目录保留，抽屉显示「尚未纳入本轮采集」） |
 | 演示数据 | `data/source/demo-details.json`（22 条，完全虚构，`is_demo=1`） |
 | 同义词 | `data/source/synonyms.json`（351 条，检索辅助，不含政策事实） |
@@ -103,7 +105,7 @@ SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mys
 ```powershell
 npm run data:build     # CSV + 演示 + 同义词 → dataset.json / report.json / report.md
 npm run data:check     # 结构、枚举、外键引用、数量与边界校验
-npm run geo:build      # world-atlas 50m → public/geo/{countries,microstates,graticule}.geo.json
+npm run geo:build      # world-atlas 50m → public/geo/{countries,microstates}.geo.json（±180° 切分，无经纬网）
 npm run db:rebuild     # 重建 SQLite 并幂等导入
 ```
 
@@ -141,21 +143,21 @@ search_synonyms / app_meta
 ## 7. 测试与验收
 
 ```powershell
-npm test             # 77 tests / 75 pass / 0 fail / 2 skip（MySQL 连接类用例未配置环境时跳过）
+npm test             # 78 tests / 76 pass / 0 fail / 2 skip（MySQL 连接类用例未配置环境时跳过）
 npm run test:mysql   # 需要可用 MySQL（读取 .env 或环境变量），5/5 pass
 npm run e2e          # Playwright + 系统 Chrome 浏览器验收（需先 npm run dev）
 npm run screenshots  # 生成 docs/screenshots 截图
 ```
 
-浏览器验收覆盖：地球渲染、悬停国家、预置词、模糊搜索、搜索结果选择、国家抽屉收起/展开、点击地球选国、数据说明弹层、控制台无报错。完整证据见 [docs/VERIFICATION.md](docs/VERIFICATION.md)。
+浏览器验收覆盖：地球渲染/极地视角、悬停国家、预置词、模糊搜索、搜索结果选择、精简国家抽屉字段、点击地球选国、数据说明弹层、控制台无报错。完整证据见 [docs/VERIFICATION.md](docs/VERIFICATION.md)，前后端代码实现摘录见 [docs/IMPLEMENTATION-REPORT.md](docs/IMPLEMENTATION-REPORT.md)。
 
 ## 8. 项目结构
 
 ```
 client/                 React 19 前端（极简 v2）
-  features/map/         MapLibre GL globe（灰度陆地/黄色高亮/飞行聚焦/微国家点）
+  features/map/         MapLibre GL globe（大洲灰底/分类色 hover/参考黄选中/反经线切分）
   features/search/      搜索胶囊、预置词、本地模糊匹配、结果下拉
-  features/details/     国家签证抽屉（收起/展开）
+  features/details/     国家签证抽屉（精简版，仅可规模化采集字段）
   components/           ⓘ 数据说明弹层、className 工具
   styles.css            v2 设计系统（深黑 + 低饱和灰 + 黄）
 server/                 Fastify API（SQLite / MySQL 仓储、服务层、路由）
@@ -179,11 +181,11 @@ docs/                   架构、审计、设计规范、API、数据字典、�
 
 ## 10. 已知限制与免责声明
 
-- 本轮真实数据为**摘要级**：没有逐国官方 URL、费用、材料、审核时间与完整个人条件规则；界面用「待采集」呈现，不编造。
+- 本轮真实数据为**摘要级**：没有逐国官方 URL、费用、材料、审核时间与完整个人条件规则；v3 界面只展示可规模化采集的字段，不再预留这些空位。
 - 政策分类归一化存在解释空间；复合路线（如「落地签/电子签」）按来源顺序归入主类别，次选方式保留原文。
 - 停留期由中文文本规则抽取（132/249 条可解析），可能与最新政策有出入。
-- 演示明细为完全虚构样本，仅用于展示未来类型与字段；抽屉内持续标注，不可用于申请。
-- 地球为 MapLibre GL JS 球体投影，无卫星/街道底图；14 个微国家以圆点呈现（Natural Earth 1:50m 本身无多边形）。
+- 演示明细为完全虚构样本，仅保留在后端作为未来字段回归夹具，界面不展示，不可用于申请。
+- 地球为 MapLibre GL JS 球体投影，无卫星/街道底图；14 个微国家以圆点呈现（Natural Earth 1:50m 本身无多边形）；跨 ±180° 多边形已切分，极区不再出现假环带。
 - 仅面向桌面 Web（≥1180px）。
 
 > 本项目的签证信息来自公开资料整理与虚构演示样本，未经使领馆逐条确认，不构成签证、法律或出行建议。请以中国领事服务网与目的地使领馆最新公告为准。
@@ -196,5 +198,6 @@ docs/                   架构、审计、设计规范、API、数据字典、�
 - [docs/API.md](docs/API.md)：接口约定与检索语义
 - [docs/DATA-DICTIONARY.md](docs/DATA-DICTIONARY.md)：数据库字段、视图、索引、成熟度
 - [docs/DESIGN-SYSTEM-V2.md](docs/DESIGN-SYSTEM-V2.md)：v2 极简地球界面视觉与交互规范
+- [docs/IMPLEMENTATION-REPORT.md](docs/IMPLEMENTATION-REPORT.md)：前后端代码实现摘录（地图样式、搜索、抽屉、API、ETL、数据库）
 - [data/geo/REPORT.md](data/geo/REPORT.md)：地球几何覆盖与生成说明
 - [data/generated/report.md](data/generated/report.md)：ETL 数据质量报告

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Info, RefreshCw } from 'lucide-react';
-import { DEFAULT_SEARCH_QUERY, VISA_TYPES } from '../shared/contracts.ts';
+import { DEFAULT_SEARCH_QUERY, VISA_TYPES, categoryColor } from '../shared/contracts.ts';
 import type {
   CountryDossier,
   OverviewResponse,
@@ -109,7 +109,6 @@ export function App() {
   const [dossierRetry, setDossierRetry] = useState(0);
 
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [sheetExpanded, setSheetExpanded] = useState(false);
   const [focusRequest, setFocusRequest] = useState<GlobeFocusRequest | null>(null);
   const focusNonceRef = useRef(0);
   const [resetSignal, setResetSignal] = useState(0);
@@ -238,7 +237,7 @@ export function App() {
     const controller = new AbortController();
     setDossierLoading(true);
     setDossierError(null);
-    fetchCountry(selectedIso2, true, controller.signal)
+    fetchCountry(selectedIso2, false, controller.signal)
       .then(data => {
         if (controller.signal.aborted) return;
         setDossier(data);
@@ -289,7 +288,6 @@ export function App() {
 
   const closeSheet = useCallback(() => {
     setSheetOpen(false);
-    setSheetExpanded(false);
     setSelectedIso2(null);
     setDossier(null);
     setDossierError(null);
@@ -307,7 +305,6 @@ export function App() {
     focusNonceRef.current += 1;
     setFocusRequest({ iso2, nonce: focusNonceRef.current });
     setSheetOpen(true);
-    setSheetExpanded(false);
     setSearchOpen(false);
   }, [clearHoverTimer]);
 
@@ -374,10 +371,6 @@ export function App() {
         setSearchOpen(false);
         return;
       }
-      if (sheetExpanded) {
-        setSheetExpanded(false);
-        return;
-      }
       if (sheetOpen) {
         closeSheet();
         return;
@@ -386,7 +379,7 @@ export function App() {
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [notesOpen, searchOpen, sheetExpanded, sheetOpen, selectedIso2, closeSheet]);
+  }, [notesOpen, searchOpen, sheetOpen, selectedIso2, closeSheet]);
 
   /* ---------------- 首屏：载入 / 失败 ---------------- */
   if (!overview) {
@@ -512,6 +505,11 @@ export function App() {
             <code>{hoverCountry.iso2}</code>
           </span>
           <span className="va-hover-card__meta">
+            <i
+              className="va-hover-card__dot"
+              style={{ background: categoryColor(hoverCountry.categoryCode) }}
+              aria-hidden="true"
+            />
             {hoverCountry.categoryLabel ?? (hoverCountry.hasData ? '类别待确认' : '待采集')}
             <span aria-hidden="true">·</span>
             {hoverCountry.stayLabel ?? '停留期待确认'}
@@ -527,9 +525,7 @@ export function App() {
         dossier={dossier}
         loading={dossierLoading}
         error={dossierError}
-        expanded={sheetExpanded}
         onClose={closeSheet}
-        onToggleExpanded={() => setSheetExpanded(expanded => !expanded)}
         onRetry={() => setDossierRetry(value => value + 1)}
         onSearchType={handleSearchType}
       />

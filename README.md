@@ -147,7 +147,7 @@ npm run screenshots  # 重新生成 docs/screenshots
 
 ## 10. 交接资料
 
-- [HANDOVER.md](HANDOVER.md)：交接说明、启动/部署、数据文件与补充模板
+- [HANDOVER.md](HANDOVER.md)：交接说明与启动/部署
 - [docs/IMPLEMENTATION-REPORT.md](docs/IMPLEMENTATION-REPORT.md)：前后端技术栈与架构
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)：系统架构与数据链路
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)：验收记录

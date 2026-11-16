@@ -17,7 +17,8 @@
 | 完整离线包（Windows x64） | `deliverables/visaatlas-full-win-x64.zip` | 含 `node_modules`、构建产物和运行数据，解压后可直接启动 |
 | 启动脚本 | `start.cmd` / `start-dev.cmd` / `setup.cmd` / `start.sh` | Windows 一键启动 / 开发 / 初始化；macOS/Linux 启动 |
 | 交接说明书 | `HANDOVER.md`（本文） | 部署、启动、数据补充清单 |
-| 数据补充模板 | `data/templates/data-supplement-template.csv` | 后续补充费用/材料/时间/规则/来源时使用 |
+| 数据补充模板 | `data/templates/data-supplement-template.csv` | 后续补充费用/材料/时间/规则/来源时使用的字段模板 |
+| 逐国数据补充清单 | `data/templates/data-supplement-coverage.csv` | 当前 249 条真实旅游签路线的逐国清单与缺失字段状态（可直接分派采集） |
 | 验收记录 | `docs/VERIFICATION.md` | 测试、E2E、构建结果 |
 | 截图 | `docs/screenshots/` | 中文界面、英文界面、知识图谱、日期变更线、极地等 |
 
@@ -190,7 +191,9 @@ Invoke-RestMethod http://127.0.0.1:3001/api/health
 
 ### 5.1 数据补充格式
 
-模板：`data/templates/data-supplement-template.csv`
+模板：
+- `data/templates/data-supplement-template.csv`：字段填写模板（一行 = 一条补充事实）。
+- `data/templates/data-supplement-coverage.csv`：**249 条真实路线的逐国清单**，已列出当前来源、已有摘要与费用/材料/时间/规则/官方 URL 的补充状态，可直接作为采集任务分配表。
 
 CSV 列（一行 = 一条可导入的补充事实；明细可用后续批次表扩展）：
 

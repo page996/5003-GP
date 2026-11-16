@@ -18,6 +18,12 @@ call npm.cmd run data:build
 if errorlevel 1 goto :failed
 :data_ok
 
+if exist "public\geo\countries.geo.json" goto :geo_ok
+echo Building globe geometry...
+call npm.cmd run geo:build
+if errorlevel 1 goto :failed
+:geo_ok
+
 if exist "data\visaatlas.sqlite" goto :db_ok
 echo Creating SQLite database...
 call npm.cmd run db:rebuild

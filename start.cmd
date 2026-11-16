@@ -18,14 +18,20 @@ call npm.cmd run data:build
 if errorlevel 1 goto :failed
 :data_ok
 
+if exist "public\geo\countries.geo.json" goto :geo_ok
+echo [3/5] Building globe geometry...
+call npm.cmd run geo:build
+if errorlevel 1 goto :failed
+:geo_ok
+
 if exist "data\visaatlas.sqlite" goto :db_ok
-echo [3/4] Creating SQLite database...
+echo [4/5] Creating SQLite database...
 call npm.cmd run db:rebuild
 if errorlevel 1 goto :failed
 :db_ok
 
 if exist "dist\index.html" goto :build_ok
-echo [4/4] Building production bundle...
+echo [5/5] Building production bundle...
 set "TEMP=%CD%\.esbuild-tmp"
 set "TMP=%TEMP%"
 if not exist ".esbuild-tmp" mkdir ".esbuild-tmp"

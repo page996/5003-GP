@@ -18,17 +18,22 @@ if [ ! -f node_modules/maplibre-gl/package.json ]; then
 fi
 
 if [ ! -f data/generated/dataset.json ]; then
-  echo "[2/4] Building dataset..."
+  echo "[2/5] Building dataset..."
   npm run data:build
 fi
 
+if [ ! -f public/geo/countries.geo.json ]; then
+  echo "[3/5] Building globe geometry..."
+  npm run geo:build
+fi
+
 if [ ! -f data/visaatlas.sqlite ]; then
-  echo "[3/4] Creating SQLite database..."
+  echo "[4/5] Creating SQLite database..."
   npm run db:rebuild
 fi
 
 if [ ! -f dist/index.html ]; then
-  echo "[4/4] Building production bundle..."
+  echo "[5/5] Building production bundle..."
   npm run build
 fi
 

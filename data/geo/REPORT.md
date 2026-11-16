@@ -1,4 +1,4 @@
-# Visa Atlas v3.0 · 球体地图几何构建报告
+# Visa Atlas v4.0 · 球体地图几何构建报告
 
 > 由 `npm run geo:build`（`tsx scripts/build-globe-geo.ts`）自动生成，请勿手工编辑。
 > 运行环境：Windows + Node.js（本仓库 `engines.node >= 24`），输入依赖版本锁定在 `package.json` / `package-lock.json`。
@@ -23,7 +23,7 @@ npm run geo:build
 | 合计 | | 1,703,315 bytes（1663.4 KiB） |
 
 单文件与整体体积上限：3,000,000 bytes（当前合计占 56.8%）。
-> v3 起移除经纬网装饰：原 10° 经纬网在南北极形成同心环带，视觉上易被误认为国境线，且会遮挡极区国家；球体不再绘制经纬网。
+> v4 起移除经纬网装饰：原 10° 经纬网在南北极形成同心环带，视觉上易被误认为国境线，且会遮挡极区国家；球体不再绘制经纬网。
 > 同时对跨 ±180° 的多边形做反经线切分（RFC 7946 §3.1.9，使用 `geojson-antimeridian-cut`），避免 MapLibre globe 把跨日界线长边沿“长路”渲染成极地环带。
 
 ## 3. 覆盖统计
@@ -92,9 +92,9 @@ npm run geo:build
 
 - 渲染：MapLibre GL JS 5.9（`projection: { type: 'globe' }`），本地 GeoJSON source，无外部 source / sprite / glyphs / 瓦片。
 - 初始相机：`center [108, 22]`、`zoom 2.0`、`minZoom 0.5`、`maxZoom 10`。
-- 配色（用户指定色号）：太空/天空 `#05080b`、海洋 `#0e1a22`、陆地低饱和灰（按地区轻微色相变化）、未命中变暗 `#191d20`、国境线 `#626b72`；hover 使用该类别的分类色（如互免薄荷绿、落地签暖金、电子签天蓝、申根玫瑰、属地紫），selected 保持参考黄 `#E3C31C` + 分类色内描边；检索命中时按类别色着淡彩。不再绘制经纬网。
+- 配色（用户指定语义色板）：太空/天空 `#05080b`、海洋 `#0e1a22`、未命中变暗 `#191d20`、国境线 `#626b72`；陆地基色按 5 个政策组语义色低饱和化——免签绿 `#A0DA26`、落地签黄 `#DFC11D`、电子签青 `#1DC5CE`、预办珊瑚 `#FF633D`、特殊中性灰 `#8C9AA3`；hover 用政策组亮色，selected 保持参考黄 `#E3C31C` + 政策组内描边；选中国家后其他地区进入统一深灰 focus 静默态。不再绘制经纬网。
 - 聚焦规则：有 `bbox` → `fitBounds(padding 110, maxZoom 7.5, duration 900)`；无 `bbox`（AQ/FJ/KI/NZ/RU/US）→ `center + zoom 3`；微国家圆点 → `center + zoom 7.5`；`prefers-reduced-motion` 时 duration 设为 0。
-- feature-state：`hover` / `selected` / `dim`，source 均设置 `promoteId: 'iso2'`；内部 hover 与外部 `hoverIso2` 合并，hover 不触发 React 重渲染。
+- feature-state：`hover` / `selected` / `focus` / `dim` / `match`，source 均设置 `promoteId: 'iso2'`；内部 hover 与外部 `hoverIso2` 合并，hover 不触发 React 重渲染；focus 用于选中国家后静默其他地区。
 
 ## 6. 数据许可与署名
 
@@ -107,7 +107,7 @@ npm run geo:build
 
 1. 1:50m 分辨率下 14 个微国家/属地没有独立多边形，只能以点渲染；点位置为目录经纬度近似。
 2. 跨反经线的 6 个国家（AQ、FJ、KI、NZ、RU、US）bbox 横跨 ±180，不参与 `fitBounds`，聚焦时用 `center + zoom 3`，可能不完全居中。
-3. 陆地底色按大洲低饱和色相区分（欧洲蓝灰、亚洲青灰、非洲橄榄灰、美洲蓝灰、大洋洲蓝灰、南极紫灰）；hover 使用 16 类签证分类色，selected 用参考黄 + 分类色内描边，检索命中用分类色淡彩；不渲染国名标签。
+3. 陆地底色按 5 个政策组语义色低饱和化（免签绿、落地签黄、电子签青、预办珊瑚、特殊中性灰）；hover 用政策组亮色，selected 用参考黄 + 政策组内描边；选中国家后其他地区进入统一深灰静默态；不渲染国名标签。
 4. `tone` 是按 ISO2 哈希的纯视觉索引（保留给未分类兜底色），没有地理/政策含义。
 5. 文件体积目标是 < 3MB；若升级到 10m 分辨率或增加图层需重新评估。
 6. 微国家圆点在 globe 背面不可见（MapLibre 遮挡），点击/悬停只对正面国家生效。

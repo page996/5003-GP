@@ -19,6 +19,7 @@ import type {
   PolicyGroup,
   RegionCode,
   SearchFacets,
+  SearchGraphInfo,
   SearchItem,
   SearchQuery,
   SearchResponse,
@@ -28,6 +29,7 @@ import type {
 import { DATA_STATUS_META, STAY_BUCKETS, formatStay } from '../../shared/contracts.ts';
 import type { DatabaseDriver, Row, SqlValue } from '../db/driver.ts';
 import type { Dictionaries } from '../db/repository.ts';
+import { resolveSearchGraph } from './graph.ts';
 import {
   asBoolean,
   asNullableNumber,
@@ -157,6 +159,8 @@ export interface ItemFilterOptions {
   stays?: readonly string[];
   statuses?: readonly string[];
   priorityOnly?: boolean;
+  /** 图谱解析出的国家集合；空数组表示图谱命中但无国家（返回空集） */
+  countryCodes?: readonly string[];
   tokenGroups?: readonly TokenGroup[];
 }
 
@@ -178,6 +182,10 @@ export function buildItemFilters(options: ItemFilterOptions): SqlFragment {
     return `${column} IN (${placeholders})`;
   };
 
+  if (options.countryCodes !== undefined) {
+    if (options.countryCodes.length === 0) clauses.push('1 = 0');
+    else clauses.push(inClause('iso2', options.countryCodes));
+  }
   if (options.regions?.length) clauses.push(inClause('region_code', options.regions));
   if (options.groups?.length) clauses.push(inClause('group_code', options.groups));
   if (options.categories?.length) clauses.push(inClause('category_code', options.categories));
@@ -452,14 +460,31 @@ async function queryTypeCounts(
 
 export async function search(driver: DatabaseDriver, query: SearchQuery): Promise<SearchResponse> {
   const startedAt = performance.now();
-  const dictionaries = await loadDictionaries(driver);
-  const [synonymRows, meta] = await Promise.all([loadSynonyms(driver), loadAppMeta(driver)]);
+  const [dictionaries, synonymRows, meta, graph] = await Promise.all([
+    loadDictionaries(driver),
+    loadSynonyms(driver),
+    loadAppMeta(driver),
+    resolveSearchGraph(driver, query),
+  ]);
   const synonymIndex = buildSynonymIndex(synonymRows);
-  const expandedQuery = expandQuery(query.q, synonymIndex);
+  // 图谱命中时使用实体→国家约束，不再把查询词拆成文本 token，避免「美国」混入文中提到美国的国家
+  const expandedQuery = expandQuery(graph.used ? '' : query.q, synonymIndex);
   const tokenGroups = expandedQuery.tokenGroups;
+  const effectiveType = graph.visaType ?? query.type;
+  const graphCountryCodes = graph.used ? graph.countryCodes ?? [] : undefined;
 
-  const cte = buildItemsCte({ type: query.type, includeDemo: query.includeDemo });
+  const graphCountrySet = new Set(graph.matched.filter(node => node.type === 'COUNTRY').map(node => node.code));
+  const scoreForRow = (row: Row): number => {
+    if (!graph.used) return computeScore(row, tokenGroups);
+    // 图谱直接命中的国家给最高相关度，保持「精确国别搜索」的稳定排序；
+    // 组/地区/类型的成员按名称排序即可，不伪造文本相关度。
+    if (graphCountrySet.has(asString(row, 'iso2'))) return 1000;
+    return 0;
+  };
+
+  const cte = buildItemsCte({ type: effectiveType, includeDemo: query.includeDemo });
   const baseFilters: ItemFilterOptions = {
+    countryCodes: graphCountryCodes,
     tokenGroups,
     priorityOnly: query.priorityOnly,
   };
@@ -478,7 +503,7 @@ export async function search(driver: DatabaseDriver, query: SearchQuery): Promis
   );
 
   const candidates: Candidate[] = rows.map(row => {
-    const score = computeScore(row, tokenGroups);
+    const score = scoreForRow(row);
     return {
       row,
       item: mapSearchItem(row, dictionaries, score),
@@ -501,6 +526,7 @@ export async function search(driver: DatabaseDriver, query: SearchQuery): Promis
     const stays = excluded === 'stays' ? [] : query.stays;
     const statuses = excluded === 'statuses' ? [] : query.statuses;
     return buildItemFilters({
+      countryCodes: graphCountryCodes,
       tokenGroups,
       priorityOnly: query.priorityOnly,
       regions,
@@ -520,6 +546,7 @@ export async function search(driver: DatabaseDriver, query: SearchQuery): Promis
     queryTypeCounts(
       driver,
       buildItemFilters({
+        countryCodes: graphCountryCodes,
         tokenGroups,
         priorityOnly: query.priorityOnly,
         regions: query.regions,
@@ -546,6 +573,9 @@ export async function search(driver: DatabaseDriver, query: SearchQuery): Promis
   );
 
   const matchedCountries = Array.from(new Set(sorted.map(candidate => candidate.item.iso2))).sort();
+  const graphInfo: SearchGraphInfo | undefined = graph.used
+    ? { used: true, matched: graph.matched, path: graph.path }
+    : undefined;
 
   return {
     query,
@@ -556,6 +586,7 @@ export async function search(driver: DatabaseDriver, query: SearchQuery): Promis
     pageCount,
     facets,
     matchedCountries,
+    ...(graphInfo ? { graph: graphInfo } : {}),
     tookMs: Math.round(performance.now() - startedAt),
     mode: driver.mode,
     datasetVersion: meta.get('dataset_version') ?? 'unknown',

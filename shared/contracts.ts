@@ -94,56 +94,56 @@ export const POLICY_GROUPS: PolicyGroupInfo[] = [
     code: 'FREE',
     nameZh: '免签入境',
     nameEn: 'Visa free',
-    color: '#6fe3b6',
+    color: '#A0DA26',
     description: '互免、单方面免签、附条件免签或仅需免费登记',
   },
   {
     code: 'ARRIVAL',
     nameZh: '落地签',
     nameEn: 'Visa on arrival',
-    color: '#e9c98d',
+    color: '#DFC11D',
     description: '抵达口岸后现场或凭批文办理签证',
   },
   {
     code: 'ONLINE',
     nameZh: '电子签 / 电子授权',
     nameEn: 'E-visa / ETA',
-    color: '#86c9ff',
+    color: '#1DC5CE',
     description: '在线申请电子签证或电子旅行授权',
   },
   {
     code: 'PREARRANGED',
     nameZh: '预办签证',
     nameEn: 'Pre-arranged visa',
-    color: '#ffa8b8',
+    color: '#FF633D',
     description: '出发前向使领馆或签证中心递交申请',
   },
   {
     code: 'SPECIAL',
     nameZh: '特殊许可 / 属地',
     nameEn: 'Special permit',
-    color: '#b7a6ff',
+    color: '#8C9AA3',
     description: '特殊许可、军事/生态管制、属地签证或无主权地区',
   },
 ];
 
 export const VISA_CATEGORIES: VisaCategoryInfo[] = [
-  { code: 'MUTUAL_FREE', nameZh: '互免签证', nameEn: 'Mutual visa exemption', group: 'FREE', requiresVisa: false, requiresAuthorization: false, severity: 1, color: '#6fe3b6' },
-  { code: 'UNILATERAL_FREE', nameZh: '单方面免签', nameEn: 'Unilateral visa exemption', group: 'FREE', requiresVisa: false, requiresAuthorization: false, severity: 2, color: '#7bebc1' },
-  { code: 'CONDITIONAL_FREE', nameZh: '有条件免签', nameEn: 'Conditional visa exemption', group: 'FREE', requiresVisa: false, requiresAuthorization: false, severity: 4, color: '#8ff0c9' },
-  { code: 'FREE_WITH_REGISTRATION', nameZh: '免签（需预登记）', nameEn: 'Visa free with registration', group: 'FREE', requiresVisa: false, requiresAuthorization: true, severity: 5, color: '#a3f4d5' },
-  { code: 'VISA_ON_ARRIVAL', nameZh: '落地签', nameEn: 'Visa on arrival', group: 'ARRIVAL', requiresVisa: false, requiresAuthorization: true, severity: 6, color: '#e9c98d' },
-  { code: 'E_VISA', nameZh: '电子签证', nameEn: 'E-visa', group: 'ONLINE', requiresVisa: true, requiresAuthorization: true, severity: 7, color: '#86c9ff' },
-  { code: 'ETA', nameZh: '电子旅行授权', nameEn: 'Electronic travel authorisation', group: 'ONLINE', requiresVisa: false, requiresAuthorization: true, severity: 7, color: '#9ed6ff' },
-  { code: 'EMBASSY_VISA', nameZh: '使领馆预办签证', nameEn: 'Embassy / consular visa', group: 'PREARRANGED', requiresVisa: true, requiresAuthorization: true, severity: 9, color: '#ffa8b8' },
-  { code: 'SCHENGEN_VISA', nameZh: '申根签证', nameEn: 'Schengen visa', group: 'PREARRANGED', requiresVisa: true, requiresAuthorization: true, severity: 10, color: '#ffb8c6' },
-  { code: 'US_VISA_ROUTE', nameZh: '需美国签证', nameEn: 'Requires US visa', group: 'PREARRANGED', requiresVisa: true, requiresAuthorization: true, severity: 11, color: '#ffc4cf' },
-  { code: 'TERRITORY_VISA', nameZh: '属地 / 海外领地签证', nameEn: 'Territory visa', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 8, color: '#b7a6ff' },
-  { code: 'REGION_PERMIT', nameZh: '特殊地区通行证', nameEn: 'Regional permit', group: 'SPECIAL', requiresVisa: false, requiresAuthorization: true, severity: 9, color: '#c5b8ff' },
-  { code: 'SPECIAL_PERMIT', nameZh: '特殊许可 / 管制', nameEn: 'Special permit', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 12, color: '#d3c9ff' },
-  { code: 'NO_SOVEREIGN', nameZh: '无主权签证体系', nameEn: 'No sovereign visa system', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 13, color: '#bfb4e8' },
-  { code: 'REFERENCE_POLICY', nameZh: '参照 / 过境管制', nameEn: 'Reference policy', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 12, color: '#a99fd6' },
-  { code: 'HOME_REGION', nameZh: '本国 / 本地区', nameEn: 'Home region', group: 'SPECIAL', requiresVisa: false, requiresAuthorization: false, severity: 0, color: '#9fb3c8' },
+  { code: 'MUTUAL_FREE', nameZh: '互免签证', nameEn: 'Mutual visa exemption', group: 'FREE', requiresVisa: false, requiresAuthorization: false, severity: 1, color: '#A0DA26' },
+  { code: 'UNILATERAL_FREE', nameZh: '单方面免签', nameEn: 'Unilateral visa exemption', group: 'FREE', requiresVisa: false, requiresAuthorization: false, severity: 2, color: '#B7E94B' },
+  { code: 'CONDITIONAL_FREE', nameZh: '有条件免签', nameEn: 'Conditional visa exemption', group: 'FREE', requiresVisa: false, requiresAuthorization: false, severity: 4, color: '#8CC61E' },
+  { code: 'FREE_WITH_REGISTRATION', nameZh: '免签（需预登记）', nameEn: 'Visa free with registration', group: 'FREE', requiresVisa: false, requiresAuthorization: true, severity: 5, color: '#CFF56A' },
+  { code: 'VISA_ON_ARRIVAL', nameZh: '落地签', nameEn: 'Visa on arrival', group: 'ARRIVAL', requiresVisa: false, requiresAuthorization: true, severity: 6, color: '#DFC11D' },
+  { code: 'E_VISA', nameZh: '电子签证', nameEn: 'E-visa', group: 'ONLINE', requiresVisa: true, requiresAuthorization: true, severity: 7, color: '#1DC5CE' },
+  { code: 'ETA', nameZh: '电子旅行授权', nameEn: 'Electronic travel authorisation', group: 'ONLINE', requiresVisa: false, requiresAuthorization: true, severity: 7, color: '#64DDE3' },
+  { code: 'EMBASSY_VISA', nameZh: '使领馆预办签证', nameEn: 'Embassy / consular visa', group: 'PREARRANGED', requiresVisa: true, requiresAuthorization: true, severity: 9, color: '#FF633D' },
+  { code: 'SCHENGEN_VISA', nameZh: '申根签证', nameEn: 'Schengen visa', group: 'PREARRANGED', requiresVisa: true, requiresAuthorization: true, severity: 10, color: '#FF7A57' },
+  { code: 'US_VISA_ROUTE', nameZh: '需美国签证', nameEn: 'Requires US visa', group: 'PREARRANGED', requiresVisa: true, requiresAuthorization: true, severity: 11, color: '#FF9278' },
+  { code: 'TERRITORY_VISA', nameZh: '属地 / 海外领地签证', nameEn: 'Territory visa', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 8, color: '#8796A3' },
+  { code: 'REGION_PERMIT', nameZh: '特殊地区通行证', nameEn: 'Regional permit', group: 'SPECIAL', requiresVisa: false, requiresAuthorization: true, severity: 9, color: '#9CA9B2' },
+  { code: 'SPECIAL_PERMIT', nameZh: '特殊许可 / 管制', nameEn: 'Special permit', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 12, color: '#B3BEC4' },
+  { code: 'NO_SOVEREIGN', nameZh: '无主权签证体系', nameEn: 'No sovereign visa system', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 13, color: '#C0C9CE' },
+  { code: 'REFERENCE_POLICY', nameZh: '参照 / 过境管制', nameEn: 'Reference policy', group: 'SPECIAL', requiresVisa: true, requiresAuthorization: true, severity: 12, color: '#A6B2BA' },
+  { code: 'HOME_REGION', nameZh: '本国 / 本地区', nameEn: 'Home region', group: 'SPECIAL', requiresVisa: false, requiresAuthorization: false, severity: 0, color: '#9FB3C8' },
 ];
 
 export const STAY_BUCKETS: StayBucketInfo[] = [
@@ -252,6 +252,22 @@ export interface SearchItem {
   score: number;
 }
 
+export type GraphEntityType = 'COUNTRY' | 'REGION' | 'GROUP' | 'CATEGORY' | 'VISA_TYPE';
+
+export interface GraphEntityRef {
+  type: GraphEntityType;
+  code: string;
+  label: string;
+}
+
+export interface SearchGraphInfo {
+  used: boolean;
+  /** 查询解析出的图谱实体（最多 4 个） */
+  matched: GraphEntityRef[];
+  /** 可解释路径，如「国家 · 美国 → 1 个国家/地区」 */
+  path: string;
+}
+
 export interface SearchResponse {
   query: SearchQuery;
   items: SearchItem[];
@@ -262,6 +278,8 @@ export interface SearchResponse {
   facets: SearchFacets;
   /** 当前筛选命中的全部国家代码（去重，用于地图着色，最多 300 个） */
   matchedCountries: string[];
+  /** 图谱优先检索的解析结果；未命中实体时不存在 */
+  graph?: SearchGraphInfo;
   tookMs: number;
   mode: DbMode;
   datasetVersion: string;
@@ -491,11 +509,12 @@ export const visaTypeLabel = (code: string): string =>
 export const categoryLabel = (code: string | null): string =>
   code ? VISA_CATEGORIES.find(category => category.code === code)?.nameZh ?? code : '';
 
-/** 16 个细分签证类别的颜色（hover、抽屉强调色、搜索结果点） */
+/** 分类强调色：同一政策组共享一个语义色（免签绿/落地签黄/电子签青/预办珊瑚） */
 export const categoryColor = (code: string | null | undefined): string => {
-  if (!code) return '#DFC11D';
+  if (!code) return '#8C9AA3';
   const category = VISA_CATEGORIES.find(item => item.code === code);
-  return category?.color ?? POLICY_GROUPS.find(group => group.code === category?.group)?.color ?? '#DFC11D';
+  if (!category) return '#8C9AA3';
+  return POLICY_GROUPS.find(group => group.code === category.group)?.color ?? '#8C9AA3';
 };
 
 export const entryScopeLabel = (scope: EntryScope | null): string =>

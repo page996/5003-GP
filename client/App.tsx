@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Info, RefreshCw } from 'lucide-react';
-import { DEFAULT_SEARCH_QUERY, VISA_TYPES, categoryColor } from '../shared/contracts.ts';
+import { DEFAULT_SEARCH_QUERY, POLICY_GROUPS, VISA_TYPES, categoryColor } from '../shared/contracts.ts';
 import type {
   CountryDossier,
   OverviewResponse,
@@ -33,33 +33,10 @@ const PRESETS: Preset[] = [
 
 function buildSearchQuery(text: string, preset: PresetId | null, activeType: string | null): SearchQuery {
   const query: SearchQuery = { ...DEFAULT_SEARCH_QUERY, q: text.trim(), page: 1, pageSize: 24 };
-  switch (preset) {
-    case 'free':
-      query.groups = ['FREE'];
-      break;
-    case 'arrival':
-      query.groups = ['ARRIVAL'];
-      break;
-    case 'online':
-      query.groups = ['ONLINE'];
-      break;
-    case 'schengen':
-      query.categories = ['SCHENGEN_VISA'];
-      break;
-    case 'business':
-      query.type = 'BUSINESS';
-      break;
-    case 'japan':
-      query.q = '日本';
-      break;
-    case 'usa':
-      query.q = '美国';
-      break;
-    case 'europe':
-      query.regions = ['EU'];
-      break;
-    default:
-      break;
+  if (preset) {
+    // 预置词统一交给后端知识图谱解析：国家→国家节点、欧洲→地区节点、
+    // 免签/落地签/电子签→政策组、申根→签证类别、商务签→签证类型。
+    query.q = PRESETS.find(item => item.id === preset)?.label ?? '';
   }
   if (activeType) query.type = activeType;
   return query;
@@ -308,22 +285,32 @@ export function App() {
     setSearchOpen(false);
   }, [clearHoverTimer]);
 
-  const handleSearchTextChange = useCallback((text: string) => {
-    setSearchText(text);
-    setActivePreset(null);
-    setActiveType(null);
-    setSearchOpen(true);
-    if (!text.trim()) setDebouncedText('');
-  }, []);
+  const handleSearchTextChange = useCallback(
+    (text: string) => {
+      // 开始一次新搜索时清除上一次选中国家，避免地图停留在旧焦点、
+      // 新命中被 focus 静默态覆盖。
+      if (text.trim() && (sheetOpen || selectedIso2)) closeSheet();
+      setSearchText(text);
+      setActivePreset(null);
+      setActiveType(null);
+      setSearchOpen(true);
+      if (!text.trim()) setDebouncedText('');
+    },
+    [closeSheet, selectedIso2, sheetOpen],
+  );
 
-  const handleTogglePreset = useCallback((presetId: string) => {
-    setActivePreset(previous => (previous === (presetId as PresetId) ? null : (presetId as PresetId)));
-    setActiveType(null);
-    setSearchText('');
-    setDebouncedText('');
-    setSearchOpen(true);
-    window.setTimeout(() => searchInputRef.current?.focus(), 0);
-  }, []);
+  const handleTogglePreset = useCallback(
+    (presetId: string) => {
+      closeSheet();
+      setActivePreset(previous => (previous === (presetId as PresetId) ? null : (presetId as PresetId)));
+      setActiveType(null);
+      setSearchText('');
+      setDebouncedText('');
+      setSearchOpen(true);
+      window.setTimeout(() => searchInputRef.current?.focus(), 0);
+    },
+    [closeSheet],
+  );
 
   const handleSearchType = useCallback(
     (visaType: string) => {
@@ -419,7 +406,7 @@ export function App() {
   const dataUpdated = overview.meta.generatedAt ? overview.meta.generatedAt.slice(0, 7) : '—';
 
   return (
-    <div className="va-app">
+    <div className={selectedIso2 ? 'va-app is-focused' : 'va-app'}>
       <div className="va-globe-layer">
         <GlobeMap
           countries={overview.mapCountries}
@@ -432,6 +419,19 @@ export function App() {
           onHover={handleHoverCountry}
           onBackgroundClick={handleBackgroundClick}
         />
+      </div>
+
+      {/* 装饰性轨道/角标：纯 CSS，pointer-events:none，不参与命中测试 */}
+      <div className="va-deco" aria-hidden="true">
+        <span className="va-deco__orbit va-deco__orbit--outer" />
+        <span className="va-deco__orbit va-deco__orbit--inner" />
+        <span className="va-deco__corner va-deco__corner--tl" />
+        <span className="va-deco__corner va-deco__corner--tr" />
+        <span className="va-deco__corner va-deco__corner--bl" />
+        <span className="va-deco__corner va-deco__corner--br" />
+        <span className="va-deco__spark va-deco__spark--teal" />
+        <span className="va-deco__spark va-deco__spark--green" />
+        <span className="va-deco__spark va-deco__spark--coral" />
       </div>
 
       <header className="va-topbar">
@@ -473,6 +473,23 @@ export function App() {
         onRetrySearch={() => setSearchRetry(value => value + 1)}
         inputRef={searchInputRef}
       />
+
+      <div className="va-legend" data-testid="policy-legend" aria-label="地图颜色图例：旅游签政策组">
+        <span className="va-legend__title">地图色 = 旅游签政策</span>
+        {POLICY_GROUPS.map(group => {
+          const stats = overview.stats.byGroup.find(item => item.code === group.code);
+          return (
+            <span
+              className="va-legend__item"
+              key={group.code}
+              title={`${group.description}${stats ? `：${stats.count} 个国家/地区` : ''}`}
+            >
+              <i style={{ background: group.color }} aria-hidden="true" />
+              {group.code === 'ONLINE' ? '电子签' : group.code === 'SPECIAL' ? '特殊/属地' : group.nameZh}
+            </span>
+          );
+        })}
+      </div>
 
       <div className="va-hints" aria-hidden="true">
         <span>拖拽旋转 · 滚轮缩放 · 点击国家</span>

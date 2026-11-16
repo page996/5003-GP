@@ -32,7 +32,7 @@
 
 | 参数 | 类型 | 默认 | 说明 |
 |---|---|---|---|
-| `q` | string | `""` | 关键词，≤ 80 字符；空格分词后 AND；匹配国家中文名/英文名/ISO/别名、政策摘要、来源类型线索、类别名；同义词表扩展 |
+| `q` | string | `""` | 关键词，≤ 80 字符；先做**知识图谱实体解析**（国家/地区/政策组/类别/签证类型，含别名与同义词），命中实体则按实体→国家/类型边精确取集合；未命中实体才回退空格分词 AND 全文检索 |
 | `type` | string | `TOURISM` | 签证用途代码（`VISA_TYPES`）；未知代码 400 |
 | `region` | `EU,AS,...` | 空 | 地区多选 |
 | `group` | `FREE,ARRIVAL,...` | 空 | 政策组多选 |
@@ -54,6 +54,7 @@
   - `isDemo`、`completeness`、`priority` 用于角标与排序。
 - `facets`：`regions / groups / categories / types / stays / statuses` 数组，每项 `{code,label,count,color?}`。**分面计数规则：该维度计数忽略自身已选筛选，保留其他维度筛选与关键词**（标准分面语义）。
 - `matchedCountries: string[]`：当前筛选命中的全部国家 ISO2 去重集合，前端用于地图高亮/变暗。
+- `graph?: { used: true; matched: {type,code,label}[]; path: string }`：知识图谱优先检索命中结果与可解释路径；未命中实体时省略。例如 `q=美国` 返回 `国家·美国`，`q=免签` 返回 `政策组·免签入境`，`q=商务签` 返回 `签证类型·商务访问`。
 - `total / page / pageSize / pageCount / tookMs / mode / datasetVersion`。
 
 错误：`400 VALIDATION_ERROR`（参数非法）、`503 DATA_UNAVAILABLE`（数据库不可用）。

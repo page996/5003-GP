@@ -16,8 +16,8 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { LocateFixed, Minus, Plus } from 'lucide-react';
 import type { Map as MapLibreMap, MapMouseEvent, StyleSpecification } from 'maplibre-gl';
-import { POLICY_GROUPS, VISA_CATEGORIES } from '../../../shared/contracts.ts';
-import type { MapCountry, RegionCode } from '../../../shared/contracts.ts';
+import { POLICY_GROUPS } from '../../../shared/contracts.ts';
+import type { MapCountry } from '../../../shared/contracts.ts';
 import './globe.css';
 
 export interface GlobeFocusRequest {
@@ -85,50 +85,29 @@ const LAYER_MICRO = 'micro-dot';
 const PALETTE = {
   space: '#05080b',
   ocean: '#0e1a22',
-  /** 无政策类别时的兜底陆地灰 */
-  land: ['#343b40', '#384045', '#30373b', '#3c4348'],
   border: '#626b72',
   dim: '#191d20',
+  /** 选中国家时其他地区的“静默”底色 */
+  focus: '#10161a',
+  focusBorder: '#222b31',
   hover: '#DFC11D',
   selected: '#E3C31C',
   outline: '#F6DD55',
-  micro: '#737d84',
+  micro: '#8C9AA3',
+  /** 无政策/未采集国家的兜底灰 */
+  unknown: '#262e33',
 } as const;
 
-/** 未选中陆地的地区色相变化：低饱和灰但不再是完全单一颜色 */
-const REGION_BASE: Record<RegionCode, string> = {
-  EU: '#3a4148',
-  AS: '#3c4244',
-  AF: '#40433d',
-  NA: '#394047',
-  SA: '#3d433f',
-  OC: '#37434a',
-  AN: '#41414a',
-};
+/** 5 个政策组 = 5 种语义色：免签绿、落地签黄、电子签青、预办珊瑚、特殊中性灰 */
+const GROUP_COLOR = new Map<string, string>(POLICY_GROUPS.map(group => [group.code, group.color]));
+const FALLBACK_GROUP_COLOR = '#8C9AA3';
 
-/** GeoJSON 里的 region 是 Natural Earth 大洲名，映射到 7 个地区代码 */
-const REGION_NAME_CODE: Record<string, RegionCode> = {
-  Europe: 'EU',
-  Asia: 'AS',
-  Africa: 'AF',
-  Americas: 'NA',
-  Oceania: 'OC',
-  Antarctic: 'AN',
-};
-
-const regionBaseColor = (region: string | undefined): string =>
-  (region ? REGION_BASE[REGION_NAME_CODE[region]] : undefined) ?? PALETTE.land[0];
-
-const CATEGORY_COLOR = new Map(VISA_CATEGORIES.map(category => [category.code, category.color]));
-const GROUP_COLOR = new Map(POLICY_GROUPS.map(group => [group.code, group.color]));
-const FALLBACK_ACCENT = PALETTE.hover;
-
-/** 解析 #RRGGBB，用于把分类色与深色底混合出低饱和“检索命中色” */
+/** 解析 #RRGGBB，用于把语义色与深色底混合出低饱和色 */
 function parseHex(hex: string): [number, number, number] {
   const value = hex.replace('#', '');
   const normalized = value.length === 3 ? value.split('').map(char => char + char).join('') : value;
   const number = Number.parseInt(normalized.slice(0, 6), 16);
-  if (Number.isNaN(number)) return [223, 193, 29];
+  if (Number.isNaN(number)) return [140, 154, 163];
   return [(number >> 16) & 255, (number >> 8) & 255, number & 255];
 }
 
@@ -139,8 +118,13 @@ function mixHex(from: string, to: string, ratio: number): string {
   return `rgb(${mix(r1, r2)}, ${mix(g1, g2)}, ${mix(b1, b2)})`;
 }
 
-/** 分类色 → 检索命中时的低饱和色（45% 分类色 + 深灰底） */
-const matchTint = (color: string): string => mixHex(color, '#1e252a', 0.42);
+const groupBrightColor = (group: string | null | undefined): string =>
+  (group ? GROUP_COLOR.get(group) : undefined) ?? FALLBACK_GROUP_COLOR;
+/** 未选中陆地：语义色的深色低饱和版本，颜色仍有含义 */
+const groupBaseColor = (bright: string): string => mixHex(bright, '#0b1115', 0.76);
+/** 选中国家后，hover 其他国家只给很克制的提示 */
+const groupFocusHoverColor = (bright: string): string => mixHex(bright, '#10171b', 0.55);
+const matchTint = (bright: string): string => mixHex(bright, '#1e252a', 0.5);
 
 const FLY_DURATION = 900;
 const RESET_DURATION = 900;
@@ -166,9 +150,13 @@ interface CountryProperties {
   bbox: [number, number, number, number] | null;
   /** 以下字段在运行时由 API MapCountry 数据补齐（不写入磁盘 GeoJSON） */
   categoryCode?: string | null;
-  categoryColor?: string;
+  groupCode?: string | null;
+  /** 政策组语义色（亮色，用于 hover/选中强调） */
+  groupColor?: string;
+  /** 语义色与深底混合后的静默陆地色 */
+  groupBaseColor?: string;
   matchColor?: string;
-  baseColor?: string;
+  focusHoverColor?: string;
 }
 
 interface MicroProperties {
@@ -180,9 +168,11 @@ interface MicroProperties {
   center: [number, number] | null;
   bbox: null;
   categoryCode?: string | null;
-  categoryColor?: string;
+  groupCode?: string | null;
+  groupColor?: string;
+  groupBaseColor?: string;
   matchColor?: string;
-  baseColor?: string;
+  focusHoverColor?: string;
 }
 
 interface FeatureCollectionLike<Properties> {
@@ -201,51 +191,106 @@ interface FeatureCollectionLike<Properties> {
 
 const featureState = (key: string) => ['boolean', ['feature-state', key], false];
 
-/** 每个国家的分类色（运行时由 API 元数据写入 GeoJSON properties） */
-const categoryColorExpr = ['coalesce', ['get', 'categoryColor'], FALLBACK_ACCENT];
-/** 检索命中时的低饱和分类色 */
-const matchColorExpr = ['coalesce', ['get', 'matchColor'], PALETTE.land[0]];
-/** 按地区色相变化的低饱和陆地灰 */
-const baseColorExpr = ['coalesce', ['get', 'baseColor'], PALETTE.land[0]];
+/** 政策组语义色（免签绿 / 落地签黄 / 电子签青 / 预办珊瑚 / 特殊灰） */
+const groupColorExpr = ['coalesce', ['get', 'groupColor'], FALLBACK_GROUP_COLOR];
+/** 低饱和语义底色；无政策国家使用中性灰 */
+const groupBaseColorExpr = ['coalesce', ['get', 'groupBaseColor'], PALETTE.unknown];
+/** 检索命中时的语义淡彩 */
+const matchColorExpr = ['coalesce', ['get', 'matchColor'], groupBaseColorExpr];
+/** 选中国家时，hover 其他国家的克制提示色 */
+const focusHoverColorExpr = ['coalesce', ['get', 'focusHoverColor'], PALETTE.focus];
 
 /**
  * 填充优先级：
- * selected → 参考黄；hover → 该国分类色（薄荷绿/暖金/天蓝/玫瑰/紫…）；
- * 检索未命中 → 深灰；检索命中 → 低饱和分类色；默认 → 地区灰。
+ * - selected：参考黄（交互选中）
+ * - focus（已有选中国家）：其他地区统一静默深灰；hover 只给克制提示
+ * - hover：政策组语义色
+ * - 检索未命中：深灰；命中：语义淡彩；默认：语义色低饱和底
  */
 const landFillColor = [
   'case',
   featureState('selected'),
   PALETTE.selected,
+  featureState('focus'),
+  ['case', featureState('hover'), focusHoverColorExpr, PALETTE.focus],
   featureState('hover'),
-  categoryColorExpr,
+  groupColorExpr,
   featureState('dim'),
   PALETTE.dim,
   featureState('match'),
   matchColorExpr,
-  baseColorExpr,
+  groupBaseColorExpr,
 ];
 
-/** 国境线：zoom 插值 0.7 → 1.3px；检索命中时边框带分类色，命中变暗。 */
+/** 国境线：zoom 插值 0.7 → 1.3px；命中时带政策组语义色。 */
 const borderWidth = ['interpolate', ['linear'], ['zoom'], 0.5, 0.7, 6, 1.3];
 const borderColor = [
   'case',
+  featureState('focus'),
+  ['case', featureState('selected'), PALETTE.outline, PALETTE.focusBorder],
   featureState('dim'),
   '#242b2f',
   featureState('match'),
-  categoryColorExpr,
+  groupColorExpr,
   PALETTE.border,
 ];
-const borderOpacity = ['case', featureState('dim'), 0.4, featureState('match'), 0.78, 0.9];
+const borderOpacity = [
+  'case',
+  featureState('selected'),
+  1,
+  featureState('focus'),
+  0.4,
+  featureState('dim'),
+  0.4,
+  featureState('match'),
+  0.78,
+  0.9,
+];
 
-/** 描边 / 柔光：selected 用参考黄；hover 用该国分类色，避免所有国家同一个高亮色。 */
-const outlineWidth = ['case', featureState('selected'), 2.6, featureState('hover'), 2.1, 0.01];
-const outlineColor = ['case', featureState('selected'), PALETTE.outline, categoryColorExpr];
-const outlineOpacity = ['case', featureState('selected'), 1, featureState('hover'), 1, 0];
-const glowWidth = ['case', featureState('selected'), 9, featureState('hover'), 6, 0.01];
-const glowOpacity = ['case', featureState('selected'), 0.6, featureState('hover'), 0.38, 0];
-const glowColor = ['case', featureState('selected'), PALETTE.outline, categoryColorExpr];
-/** selected 内部再叠一圈分类色描边：黄色主选中 + 分类色点缀，让高亮不单调 */
+/** 描边 / 柔光：selected 用参考黄；hover 用政策组语义色。 */
+const outlineWidth = [
+  'case',
+  featureState('selected'),
+  2.6,
+  featureState('focus'),
+  ['case', featureState('hover'), 1.0, 0.01],
+  featureState('hover'),
+  2.1,
+  0.01,
+];
+const outlineColor = ['case', featureState('selected'), PALETTE.outline, groupColorExpr];
+const outlineOpacity = [
+  'case',
+  featureState('selected'),
+  1,
+  featureState('focus'),
+  ['case', featureState('hover'), 0.75, 0],
+  featureState('hover'),
+  1,
+  0,
+];
+const glowWidth = [
+  'case',
+  featureState('selected'),
+  9,
+  featureState('focus'),
+  ['case', featureState('hover'), 3.5, 0.01],
+  featureState('hover'),
+  6,
+  0.01,
+];
+const glowOpacity = [
+  'case',
+  featureState('selected'),
+  0.6,
+  featureState('focus'),
+  ['case', featureState('hover'), 0.16, 0],
+  featureState('hover'),
+  0.38,
+  0,
+];
+const glowColor = ['case', featureState('selected'), PALETTE.outline, groupColorExpr];
+/** selected 内部再叠一圈政策组语义色描边：黄选中 + 类别点缀 */
 const accentWidth = ['case', featureState('selected'), 1.25, 0.01];
 const accentOpacity = ['case', featureState('selected'), 0.95, 0];
 
@@ -273,25 +318,38 @@ const microColor = [
   'case',
   featureState('selected'),
   PALETTE.selected,
+  featureState('focus'),
+  ['case', featureState('hover'), focusHoverColorExpr, PALETTE.focus],
   featureState('hover'),
-  categoryColorExpr,
+  groupColorExpr,
   featureState('dim'),
   PALETTE.dim,
   featureState('match'),
   matchColorExpr,
-  ['coalesce', ['get', 'matchColor'], PALETTE.micro],
+  groupBaseColorExpr,
 ];
 const microStrokeWidth = ['case', featureState('selected'), 2, featureState('hover'), 1.6, 1];
 const microStrokeColor = [
   'case',
   featureState('selected'),
   PALETTE.outline,
+  featureState('focus'),
+  PALETTE.focusBorder,
   featureState('hover'),
-  categoryColorExpr,
+  groupColorExpr,
   PALETTE.ocean,
 ];
-const microGlowColor = ['case', featureState('selected'), PALETTE.outline, categoryColorExpr];
-const microGlowOpacity = ['case', featureState('selected'), 0.28, featureState('hover'), 0.22, 0];
+const microGlowColor = ['case', featureState('selected'), PALETTE.outline, groupColorExpr];
+const microGlowOpacity = [
+  'case',
+  featureState('selected'),
+  0.28,
+  featureState('focus'),
+  ['case', featureState('hover'), 0.1, 0],
+  featureState('hover'),
+  0.22,
+  0,
+];
 
 function buildStyle(
   countries: FeatureCollectionLike<CountryProperties>,
@@ -355,7 +413,7 @@ function buildStyle(
         type: 'line',
         source: SOURCE_COUNTRIES,
         paint: {
-          'line-color': categoryColorExpr,
+          'line-color': groupColorExpr,
           'line-width': accentWidth,
           'line-opacity': accentOpacity,
           'line-blur': 0.3,
@@ -416,35 +474,36 @@ const errorMessageOf = (error: unknown): string => {
 };
 
 /** 把 API 政策类别与分类色合入 GeoJSON（不写回磁盘，仅运行时视觉用） */
-function categoryAccentOf(meta: MapCountry | undefined): string {
-  if (!meta) return FALLBACK_ACCENT;
-  const byCategory = meta.categoryCode ? CATEGORY_COLOR.get(meta.categoryCode) : undefined;
-  if (byCategory) return byCategory;
-  const byGroup = meta.group ? GROUP_COLOR.get(meta.group) : undefined;
-  return byGroup ?? FALLBACK_ACCENT;
+function decorateFeature(meta: MapCountry | undefined): {
+  categoryCode: string | null;
+  groupCode: string | null;
+  groupColor: string;
+  groupBaseColor: string;
+  matchColor: string;
+  focusHoverColor: string;
+} {
+  const bright = groupBrightColor(meta?.group);
+  return {
+    categoryCode: meta?.categoryCode ?? null,
+    groupCode: meta?.group ?? null,
+    groupColor: bright,
+    groupBaseColor: meta?.group ? groupBaseColor(bright) : PALETTE.unknown,
+    matchColor: matchTint(bright),
+    focusHoverColor: groupFocusHoverColor(bright),
+  };
 }
 
 function decorateCountries(collection: FeatureCollectionLike<CountryProperties>, countries: MapCountry[]): void {
   const metaByIso = new Map(countries.map(country => [country.iso2, country]));
   for (const feature of collection.features) {
-    const meta = metaByIso.get(feature.properties.iso2);
-    const accent = categoryAccentOf(meta);
-    feature.properties.categoryCode = meta?.categoryCode ?? null;
-    feature.properties.categoryColor = accent;
-    feature.properties.matchColor = matchTint(accent);
-    feature.properties.baseColor = regionBaseColor(feature.properties.region);
+    Object.assign(feature.properties, decorateFeature(metaByIso.get(feature.properties.iso2)));
   }
 }
 
 function decorateMicrostates(collection: FeatureCollectionLike<MicroProperties>, countries: MapCountry[]): void {
   const metaByIso = new Map(countries.map(country => [country.iso2, country]));
   for (const feature of collection.features) {
-    const meta = metaByIso.get(feature.properties.iso2);
-    const accent = categoryAccentOf(meta);
-    feature.properties.categoryCode = meta?.categoryCode ?? null;
-    feature.properties.categoryColor = accent;
-    feature.properties.matchColor = matchTint(accent);
-    feature.properties.baseColor = regionBaseColor(feature.properties.region);
+    Object.assign(feature.properties, decorateFeature(metaByIso.get(feature.properties.iso2)));
   }
 }
 
@@ -516,6 +575,7 @@ export function GlobeMap(props: GlobeMapProps) {
   const dimmedStateRef = useRef<Set<string>>(new Set());
   const matchedStateRef = useRef<Set<string>>(new Set());
   const pointerDownPointRef = useRef<{ x: number; y: number } | null>(null);
+  const dragMovedRef = useRef(false);
   const readyCalledRef = useRef(false);
   const lastFocusNonceRef = useRef<number | null>(null);
   const lastResetSignalRef = useRef(resetSignal);
@@ -546,6 +606,20 @@ export function GlobeMap(props: GlobeMapProps) {
     if (next) {
       setFeatureStateSafe(map, SOURCE_COUNTRIES, next, { selected: true });
       setFeatureStateSafe(map, SOURCE_MICRO, next, { selected: true });
+    }
+  }, []);
+
+  /**
+   * 选中国家后把“其他地区静默”的 focus 状态写到全部 feature。
+   * focus=true 时填充为统一深灰，只有 selected 国家保留参考黄；
+   * hover 另一个国家时仅给克制提示，不再让整图按语义色各自亮起。
+   */
+  const syncFocus = useCallback((map: MapLibreMap, active: boolean) => {
+    for (const id of countryIdsRef.current) {
+      setFeatureStateSafe(map, SOURCE_COUNTRIES, id, { focus: active });
+    }
+    for (const id of microIdsRef.current) {
+      setFeatureStateSafe(map, SOURCE_MICRO, id, { focus: active });
     }
   }, []);
 
@@ -671,6 +745,7 @@ export function GlobeMap(props: GlobeMapProps) {
     const controller = new AbortController();
     let resizeObserver: ResizeObserver | null = null;
     let detachCanvasEvents: (() => void) | null = null;
+    let detachWindowPointer: (() => void) | null = null;
 
     setStatus('loading');
     setErrorMessage('');
@@ -774,6 +849,7 @@ export function GlobeMap(props: GlobeMapProps) {
 
         const applyAllStates = () => {
           syncSelected(map, propsRef.current.selected);
+          syncFocus(map, propsRef.current.selected !== null);
           syncDim(map, propsRef.current.matched);
           syncMatch(map, propsRef.current.matched);
           hoverInternalRef.current = null;
@@ -803,12 +879,33 @@ export function GlobeMap(props: GlobeMapProps) {
           // 已加载后的非致命错误（如单帧渲染告警）不打断地球
         });
 
+        const clearPointerDown = () => {
+          // 关键：拖拽结束（包括在球体外/UI 上松开）必须清空按下状态，
+          // 否则 mousemove 会一直认为还在拖拽、悬停高亮失效。
+          pointerDownPointRef.current = null;
+        };
+        window.addEventListener('pointerup', clearPointerDown);
+        window.addEventListener('mouseup', clearPointerDown);
+        window.addEventListener('blur', clearPointerDown);
+        detachWindowPointer = () => {
+          window.removeEventListener('pointerup', clearPointerDown);
+          window.removeEventListener('mouseup', clearPointerDown);
+          window.removeEventListener('blur', clearPointerDown);
+        };
+
         map.on('mousedown', event => {
           pointerDownPointRef.current = { x: event.point.x, y: event.point.y };
+          dragMovedRef.current = false;
         });
 
         map.on('mousemove', event => {
-          if (pointerDownPointRef.current) return; // 拖拽拨动地球时不切换 hover
+          if (pointerDownPointRef.current) {
+            const start = pointerDownPointRef.current;
+            if (Math.hypot(event.point.x - start.x, event.point.y - start.y) > CLICK_MOVE_TOLERANCE) {
+              dragMovedRef.current = true;
+            }
+            return; // 拖拽拨动地球时不切换 hover
+          }
           const next = queryIso2(event);
           if (next === hoverInternalRef.current) return;
           hoverInternalRef.current = next;
@@ -824,9 +921,10 @@ export function GlobeMap(props: GlobeMapProps) {
         });
 
         map.on('click', event => {
-          const start = pointerDownPointRef.current;
+          const moved = dragMovedRef.current;
+          dragMovedRef.current = false;
           pointerDownPointRef.current = null;
-          if (start && Math.hypot(event.point.x - start.x, event.point.y - start.y) > CLICK_MOVE_TOLERANCE) return;
+          if (moved) return;
           const iso2 = queryIso2(event);
           if (iso2) propsRef.current.onSelect(iso2);
           else propsRef.current.onBackgroundClick();
@@ -845,6 +943,7 @@ export function GlobeMap(props: GlobeMapProps) {
       controller.abort();
       resizeObserver?.disconnect();
       detachCanvasEvents?.();
+      detachWindowPointer?.();
       const map = mapRef.current;
       mapRef.current = null;
       if (map) map.remove();
@@ -858,7 +957,8 @@ export function GlobeMap(props: GlobeMapProps) {
     const map = mapRef.current;
     if (!map || status !== 'ready') return;
     syncSelected(map, selected);
-  }, [selected, status, syncSelected]);
+    syncFocus(map, selected !== null);
+  }, [selected, status, syncSelected, syncFocus]);
 
   useEffect(() => {
     const map = mapRef.current;

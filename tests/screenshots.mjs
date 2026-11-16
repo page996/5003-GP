@@ -1,5 +1,5 @@
 /**
- * Visa Atlas v2 · 截图生成（Playwright + 系统 Chrome）
+ * Visa Atlas v4 · 截图生成（Playwright + 系统 Chrome）
  *
  * 前置：另开终端运行 `npm run dev`。
  * 运行：npm run screenshots
@@ -79,6 +79,15 @@ async function main() {
     await searchInput.fill('Japn');
     await page.waitForTimeout(800);
     await shot('search-fuzzy');
+
+    // 知识图谱精确检索：预置词「美国」只显示美国
+    await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('.va-globe canvas', { timeout: 25000 });
+    await page.waitForFunction(() => window.__globeReady === true, undefined, { timeout: 25000 });
+    await page.waitForTimeout(900);
+    await openPreset('美国');
+    await page.waitForTimeout(700);
+    await shot('graph-search');
 
     // 极地视角：验证不再出现经纬环带/南极背面伪影
     await page.keyboard.press('Escape');

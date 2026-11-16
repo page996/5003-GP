@@ -73,6 +73,10 @@ async function main() {
     check(await searchInput.isVisible(), '顶部搜索框可见');
     const presetCount = await page.locator('.va-presets button, [data-testid^="preset-"]').count();
     check(presetCount >= 6, `预置词 ${presetCount} 个（≥6）`);
+    check(
+      await page.locator('[data-testid="policy-legend"]').isVisible().catch(() => false),
+      '政策组语义色图例可见',
+    );
     const bodyText = await page.locator('body').innerText();
     check(!/Filters|筛选栏|检索结果面板/.test(bodyText), '旧三栏 UI 已移除');
 
@@ -108,7 +112,19 @@ async function main() {
       await closeSheet();
     }
 
-    /* 5. 搜索「日本」 */
+    /* 5. 图谱预置：美国只命中美国，不应出现无关国家 */
+    await openPreset('美国');
+    const usRows = page.locator('[data-testid="result-row"], .va-search-row');
+    const usCount = await usRows.count();
+    const usIso2 = usCount ? await usRows.first().getAttribute('data-iso2') : null;
+    check(usCount === 1 && usIso2 === 'US', `预置词「美国」图谱精确命中 US（实际 ${usCount} 行 / ${usIso2}）`);
+    check(
+      await page.locator('[data-testid="graph-hint"]').first().isVisible().catch(() => false),
+      '搜索结果显示知识图谱命中解释',
+    );
+    await openPreset('美国'); // 取消该预置
+
+    /* 6. 搜索「日本」 */
     await clearSearch();
     await searchInput.fill('日本');
     await page.waitForTimeout(1000);

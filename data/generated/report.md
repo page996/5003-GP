@@ -1,7 +1,7 @@
 # ETL 质量报告
 
-- 生成时间：2026-11-15T17:41:47.248Z
-- 数据集版本：v1.0.0-csv249-demo22-syn351-f8887472
+- 生成时间：2026-11-16T06:34:22.540Z
+- 数据集版本：v1.0.0-csv249-demo22-syn351-af33c70a
 - 源文件：data/source/global_249_countries_cn_passport_visa.csv（249 行，sha256 ad7416b1d779bcf8…）
 
 ## 数量

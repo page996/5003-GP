@@ -6,9 +6,9 @@
 
 ![地球探索](docs/screenshots/globe.png)
 
-| 悬停国家 | 国家签证抽屉 | 搜索与预置词 | 极地视角（环带已移除） |
-|---|---|---|---|
-| ![悬停国家](docs/screenshots/hover-card.png) | ![国家签证抽屉](docs/screenshots/country-sheet.png) | ![搜索](docs/screenshots/search-preset.png) | ![极地视角](docs/screenshots/globe-pole.png) |
+| 悬停国家 | 国家签证抽屉 | 搜索与预置词 | 知识图谱检索 | 极地视角（环带已移除） |
+|---|---|---|---|---|
+| ![悬停国家](docs/screenshots/hover-card.png) | ![国家签证抽屉](docs/screenshots/country-sheet.png) | ![搜索](docs/screenshots/search-preset.png) | ![知识图谱检索](docs/screenshots/graph-search.png) | ![极地视角](docs/screenshots/globe-pole.png) |
 
 ## 1. 项目定位
 
@@ -56,10 +56,12 @@ SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mys
 ### 3.1 可交互地球（MapLibre GL globe）
 
 - 全屏自绘球体：**拖拽旋转、滚轮/双指缩放（0.5–10 倍）、双击放大、右下角 +/−/重置**；初始约屏高 2/3，缩放后可查看大国与小国/岛国。
-- 配色分层：**未选中陆地按大洲低饱和色相**（欧洲蓝灰 / 亚洲青灰 / 非洲橄榄灰 / 美洲蓝灰 / 大洋洲蓝灰 / 南极紫灰），海洋深蓝黑、太空近黑、国境线灰；**hover = 该国 16 类签证类别色**（互免薄荷绿、落地签暖金、电子签天蓝、申根玫瑰、属地紫…），**selected = 参考黄 `#E3C31C` + 分类色内描边/柔光**，检索命中时按类别色着淡彩——高亮不再只有单一黄色。
+- 配色分层：**陆地基色 = 旅游签政策组语义色**（免签绿 `#A0DA26`、落地签黄 `#DFC11D`、电子签青 `#1DC5CE`、预办签证珊瑚 `#FF633D`、特殊/属地为中性灰），不再是“只为区分而区分”的五花八门颜色；左下角常驻**政策色图例**说明颜色含义。
+- 高亮：**hover = 政策组亮色**；**selected = 参考黄 `#E3C31C` + 政策组内描边/柔光**；**选中国家后其他地区统一进入深灰 focus 静默态**，只保留选中与 hover 对比，不再各自按底色亮起；检索命中按政策组淡彩着色，未命中变暗 `#191d20`。
+- **装饰性 HUD**：球体外圈缓慢旋转的轨道线、四角括号、彩色微光点和品牌渐变点，均为纯 CSS/pointer-events:none，不遮挡地图交互。
 - 点击国家：地球飞行聚焦（大国有上下文、小国适当放大），国家变黄并打开底部签证抽屉。
-- 微国家：14 个无多边形国家以可点击圆点呈现，圆点同样带分类色；hover/选中放大并显示对应类别色。
-- 搜索/预置词生效时：未命中目的地变暗 `#191d20`；命中国家按分类色淡彩显示，边框保留分类色，便于一次看到同类政策的分布。
+- 微国家：14 个无多边形国家以可点击圆点呈现，圆点同样带政策组语义色；hover/选中放大。
+- **拖动地球后悬停失效已修复**：在空白/球体外/UI 上松开拖拽都会清空按下状态，不需要再点击一次唤醒悬停。
 - **极区修复**：移除原经纬网装饰；对跨 ±180° 的国家多边形做反经线切分（RFC 7946 §3.1.9），避免 MapLibre globe 把跨日界线长边渲染成南北极同心环带，极区国家不再被“假国境线”遮挡。
 - 点击空白关闭抽屉并清除选中；`/` 聚焦搜索。
 
@@ -67,14 +69,19 @@ SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mys
 
 - 顶部玻璃搜索胶囊 + 8 个预置词：`免签` `落地签` `电子签` `申根` `商务签` `日本` `美国` `欧洲`；点击立即筛选，再次点击取消。
 - **本地模糊国家建议**：250 国中英文名/ISO/别名，忽略大小写、子串、英文编辑距离 ≤1、中文包含/字序容忍（例如 `Japn` → 日本）。
-- 300ms 防抖调用后端 `/api/v1/search`：显示「命中 N 个目的地」结果行（国家/类别/停留期/重点候选）；行内类别徽章带**分类色点**，与地球 hover 颜色一致。
-- **搜索结果行 hover 同步高亮地球**：命中国家按分类色显示、未命中变暗；搜索到明确国家时地球自动飞过去。
+- **知识图谱优先检索**：后端把国家/地区/政策组/类别/签证类型建成节点，把政策、类型线索、别名与同义词建成边；查询先解析成图谱实体再取精确国家集合：
+  - `美国` → 国家节点，**只返回美国**（不再返回摘要中提到美国签证的其他国家）；
+  - `欧洲` → 地区节点，返回欧洲国家；`申根` → 申根签证类别；
+  - `免签`/`落地签`/`电子签` → 对应政策组；`商务签` → BUSINESS 类型线索；
+  - 未命中实体才回退全文检索。
+- 300ms 防抖调用后端 `/api/v1/search`：显示「命中 N 个目的地」结果行与**「知识图谱 · 国家·美国」解释**；行内类别徽章带政策组语义色点。
+- **搜索结果行 hover 同步高亮地球**：命中国家按语义色显示、未命中变暗；搜索到明确国家时地球自动飞过去。
 - ↑↓ 选择、Enter 打开档案、Esc 关闭；结果行 hover 时出现固定悬浮卡，可直接点击打开抽屉。
 - 无结果/模糊输入时给出相近国家建议与预置词快捷入口。
 
 ### 3.3 国家签证抽屉（Bottom Sheet，精简版）
 
-- 只展示**本轮可规模化采集**的字段：国家中英文名 + 分类色类别 chip + 停留期 + 入境次数 + 一句话结论 + 原文摘要 + 其他签证类型 chips + 来源/路线编号/免责声明。
+- 只展示**本轮可规模化采集**的字段：国家中英文名 + **政策组语义色类别 chip** + 停留期 + 入境次数 + 一句话结论 + 原文摘要 + 其他签证类型 chips + 来源/路线编号/免责声明。
 - 不再预留费用、材料、审核时间、完整度、演示明细等空位——这些字段属于未来可选扩展，不增加本轮数据收集尺度；未来补采时后端可升级 `data_status`，前端只需按需扩展。
 - 类型线索 chips 可点击，切换为该用途（商务/留学/工作…）检索。
 - 目录内未采集国家（`XK`）显示明确空态；无资料不伪造。
@@ -82,7 +89,8 @@ SQLite 与 MySQL 结构同构（见 `database/schema.sql` / `database/schema.mys
 ### 3.4 数据与数据库
 
 - 真实数据：**249 条旅游签政策**（250 国目录中仅 `XK` 未采集）；CSV 原始 76 种分类归一化为 **16 个可筛选类别 / 5 个政策组**；抽取停留期（132/249）、入境次数；**569 条**其他签证类型线索；**351 条**检索同义词。
-- 演示明细：**22 条**明确虚构（商务/留学/工作等 10 类），只作为未来字段/data_status 的回归夹具保留在后端，**v3 界面不再展示**。
+- **知识图谱**：后端在数据库字典/政策/线索/同义词上构建国家—地区—政策组—类别—签证类型图，`/api/v1/search` 优先走图谱精确解析，并在响应中返回可解释的 `graph` 元数据。
+- 演示明细：**22 条**明确虚构（商务/留学/工作等 10 类），只作为未来字段/data_status 的回归夹具保留后端，v4 UI 不展示。
 - 数据库：15 张表 + 2 个视图 + 完整外键/CHECK/索引；SQLite（默认，零安装）与 MySQL 8（同构）。
 - 数据链路：`CSV → scripts/etl.ts → data/generated/dataset.json → scripts/db-seed.ts → SQLite/MySQL`，可重放、可校验、可 diff。
 - 地球几何：`world-atlas` 1:50m → `scripts/build-globe-geo.ts` → `public/geo/*.geo.json`（236 多边形 + 14 微国家点 + 中心/bbox；跨反经线国家在 ±180° 切分；无经纬网），构建期完成，无运行时外部请求。
@@ -133,8 +141,8 @@ search_synonyms / app_meta
 |---|---|---|
 | GET | `/api/health` | 存活、数据库模式、数据集版本 |
 | GET | `/api/v1/overview` | 元信息 + 统计 + 地图着色 + 字典（首屏一次） |
-| GET | `/api/v1/search` | 关键词 + 地区/政策组/类别/用途/停留期/资料状态/重点候选/演示 + 分面 + 分页 + 排序 |
-| GET | `/api/v1/suggest?q=` | 搜索联想（后端保留；v2 前端优先本地模糊） |
+| GET | `/api/v1/search` | 关键词 + 地区/政策组/类别/用途/停留期/资料状态/重点候选/演示 + 分面 + 分页 + 排序；**知识图谱优先解析**，响应含 `graph` 命中解释 |
+| GET | `/api/v1/suggest?q=` | 搜索联想（后端保留；v4 前端优先本地模糊） |
 | GET | `/api/v1/countries/:iso2?demo=1` | 国家档案（真实政策、类型线索、演示明细、来源） |
 | GET | `/api/v1/route/:routeCode` | 单条路线（深链） |
 
@@ -143,7 +151,7 @@ search_synonyms / app_meta
 ## 7. 测试与验收
 
 ```powershell
-npm test             # 78 tests / 76 pass / 0 fail / 2 skip（MySQL 连接类用例未配置环境时跳过）
+npm test             # 86 tests / 84 pass / 0 fail / 2 skip（MySQL 连接类用例未配置环境时跳过）
 npm run test:mysql   # 需要可用 MySQL（读取 .env 或环境变量），5/5 pass
 npm run e2e          # Playwright + 系统 Chrome 浏览器验收（需先 npm run dev）
 npm run screenshots  # 生成 docs/screenshots 截图
@@ -154,12 +162,12 @@ npm run screenshots  # 生成 docs/screenshots 截图
 ## 8. 项目结构
 
 ```
-client/                 React 19 前端（极简 v2）
-  features/map/         MapLibre GL globe（大洲灰底/分类色 hover/参考黄选中/反经线切分）
+client/                 React 19 前端（极简 v4）
+  features/map/         MapLibre GL globe（政策组语义色/hover/参考黄选中/focus静默/反经线切分）
   features/search/      搜索胶囊、预置词、本地模糊匹配、结果下拉
   features/details/     国家签证抽屉（精简版，仅可规模化采集字段）
   components/           ⓘ 数据说明弹层、className 工具
-  styles.css            v2 设计系统（深黑 + 低饱和灰 + 黄）
+  styles.css            v4 设计系统（深黑 + 政策组语义色 + 装饰 HUD）
 server/                 Fastify API（SQLite / MySQL 仓储、服务层、路由）
 shared/                 前后端共享类型 + ETL 产物类型
 database/               SQLite / MySQL 建表 SQL
@@ -181,7 +189,7 @@ docs/                   架构、审计、设计规范、API、数据字典、�
 
 ## 10. 已知限制与免责声明
 
-- 本轮真实数据为**摘要级**：没有逐国官方 URL、费用、材料、审核时间与完整个人条件规则；v3 界面只展示可规模化采集的字段，不再预留这些空位。
+- 本轮真实数据为**摘要级**：没有逐国官方 URL、费用、材料、审核时间与完整个人条件规则；v4 界面只展示可规模化采集的字段，不再预留这些空位。
 - 政策分类归一化存在解释空间；复合路线（如「落地签/电子签」）按来源顺序归入主类别，次选方式保留原文。
 - 停留期由中文文本规则抽取（132/249 条可解析），可能与最新政策有出入。
 - 演示明细为完全虚构样本，仅保留在后端作为未来字段回归夹具，界面不展示，不可用于申请。
@@ -197,7 +205,7 @@ docs/                   架构、审计、设计规范、API、数据字典、�
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)：系统架构、数据链路、扩展点
 - [docs/API.md](docs/API.md)：接口约定与检索语义
 - [docs/DATA-DICTIONARY.md](docs/DATA-DICTIONARY.md)：数据库字段、视图、索引、成熟度
-- [docs/DESIGN-SYSTEM-V2.md](docs/DESIGN-SYSTEM-V2.md)：v2 极简地球界面视觉与交互规范
-- [docs/IMPLEMENTATION-REPORT.md](docs/IMPLEMENTATION-REPORT.md)：前后端代码实现摘录（地图样式、搜索、抽屉、API、ETL、数据库）
+- [docs/DESIGN-SYSTEM-V2.md](docs/DESIGN-SYSTEM-V2.md)：极简地球界面视觉与交互规范（v4 内容）
+- [docs/IMPLEMENTATION-REPORT.md](docs/IMPLEMENTATION-REPORT.md)：前后端技术栈与架构分工说明（语言/框架/数据流）
 - [data/geo/REPORT.md](data/geo/REPORT.md)：地球几何覆盖与生成说明
 - [data/generated/report.md](data/generated/report.md)：ETL 数据质量报告

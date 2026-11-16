@@ -2,7 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from 'react';
 import { Loader2, Search, X } from 'lucide-react';
 import { categoryColor } from '../../../shared/contracts.ts';
-import type { MapCountry, SearchItem, SearchResponse } from '../../../shared/contracts.ts';
+import type { GraphEntityType, MapCountry, SearchItem, SearchResponse } from '../../../shared/contracts.ts';
 import type { ApiError } from '../../api';
 import { cx } from '../../components/cx';
 import { suggestCountries } from './fuzzy';
@@ -11,6 +11,14 @@ export interface PresetDefinition {
   id: string;
   label: string;
 }
+
+const GRAPH_TYPE_LABEL: Record<GraphEntityType, string> = {
+  COUNTRY: '国家',
+  REGION: '地区',
+  GROUP: '政策组',
+  CATEGORY: '签证类别',
+  VISA_TYPE: '签证类型',
+};
 
 interface SearchRow {
   rowId: string;
@@ -328,6 +336,14 @@ export function SearchOverlay({
                 <span>命中 {searchResponse.total} 个目的地</span>
                 <span>用时 {searchResponse.tookMs} ms</span>
               </div>
+              {searchResponse.graph?.used ? (
+                <div className="va-search__graph" data-testid="graph-hint">
+                  <span className="va-search__graph-label">知识图谱</span>
+                  {searchResponse.graph.matched
+                    .map(entity => `${GRAPH_TYPE_LABEL[entity.type]}·${entity.label}`)
+                    .join(' + ')}
+                </div>
+              ) : null}
               <div className="va-search__rows">{resultRows.map(renderRow)}</div>
             </>
           ) : null}

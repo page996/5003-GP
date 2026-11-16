@@ -16,6 +16,11 @@
   --va-yellow-bright: #e3c31c;
   --va-yellow-line: #f6dd55;
   --va-yellow-dim: rgba(223, 193, 29, 0.12);
+  /* 用户提供的语义色板：免签绿 / 电子签青 / 预办珊瑚 / 落地签沙黄 */
+  --va-green: #a0da26;
+  --va-teal: #1dc5ce;
+  --va-coral: #ff633d;
+  --va-sand: #dfc11d;
 
   --va-text: #e8eaec;
   --va-text-2: #8b949a;
@@ -222,8 +227,8 @@ kbd {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--va-yellow);
-  box-shadow: 0 0 12px rgba(223, 193, 29, 0.6);
+  background: conic-gradient(from 140deg, var(--va-green), var(--va-teal), var(--va-sand), var(--va-coral), var(--va-green));
+  box-shadow: 0 0 14px rgba(29, 197, 206, 0.5);
 }
 
 .va-brand__text {
@@ -500,6 +505,29 @@ kbd {
   font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: none;
+}
+
+.va-search__graph {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 14px 4px;
+  padding: 6px 9px;
+  border: 1px solid rgba(29, 197, 206, 0.2);
+  border-radius: 8px;
+  background: rgba(29, 197, 206, 0.055);
+  color: var(--va-text-2);
+  font-size: 9.5px;
+  line-height: 1.35;
+}
+
+.va-search__graph-label {
+  flex: none;
+  color: var(--va-teal);
+  font-family: var(--va-font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .va-search__rows {
@@ -801,7 +829,174 @@ kbd {
   height: 7px;
   flex: none;
   border-radius: 50%;
-  box-shadow: 0 0 8px currentColor;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+/* ------------------------------------------------------------------ */
+/* 装饰性轨道 / 角标 / 政策图例                                         */
+/* ------------------------------------------------------------------ */
+
+.va-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.va-deco::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(34% 30% at 12% 18%, rgba(29, 197, 206, 0.07), transparent 70%),
+    radial-gradient(30% 26% at 88% 76%, rgba(255, 99, 61, 0.055), transparent 70%),
+    radial-gradient(24% 22% at 76% 14%, rgba(160, 218, 38, 0.045), transparent 70%);
+}
+
+.va-deco__orbit {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 320ms var(--va-ease);
+}
+
+/* 选中国家/放大查看时收起宏观轨道装饰，避免与地图边界混淆 */
+.va-app.is-focused .va-deco__orbit {
+  opacity: 0;
+}
+
+.va-app.is-focused .va-deco__spark {
+  opacity: 0.18;
+}
+
+.va-deco__orbit--outer {
+  width: 1040px;
+  height: 1040px;
+  margin: -520px 0 0 -520px;
+  border: 1px solid rgba(29, 197, 206, 0.16);
+  box-shadow: 0 0 70px rgba(29, 197, 206, 0.05);
+  animation: va-orbit 90s linear infinite;
+}
+
+.va-deco__orbit--outer::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--va-teal);
+  box-shadow: 0 0 14px rgba(29, 197, 206, 0.75);
+}
+
+.va-deco__orbit--inner {
+  width: 800px;
+  height: 800px;
+  margin: -400px 0 0 -400px;
+  border: 1px dashed rgba(160, 218, 38, 0.13);
+  animation: va-orbit-reverse 120s linear infinite;
+}
+
+.va-deco__orbit--inner::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 22%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--va-green);
+  box-shadow: 0 0 12px rgba(160, 218, 38, 0.65);
+}
+
+.va-deco__corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  opacity: 0.55;
+}
+
+.va-deco__corner--tl { top: 92px; left: 26px; border-top: 1px solid var(--va-teal); border-left: 1px solid var(--va-teal); }
+.va-deco__corner--tr { top: 92px; right: 26px; border-top: 1px solid var(--va-green); border-right: 1px solid var(--va-green); }
+.va-deco__corner--bl { bottom: 92px; left: 26px; border-bottom: 1px solid var(--va-coral); border-left: 1px solid var(--va-coral); }
+.va-deco__corner--br { bottom: 92px; right: 26px; border-right: 1px solid var(--va-sand); border-bottom: 1px solid var(--va-sand); }
+
+.va-deco__spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: va-spark 7s var(--va-ease) infinite;
+}
+
+.va-deco__spark--teal { top: 22%; left: 15%; background: var(--va-teal); box-shadow: 0 0 12px rgba(29, 197, 206, 0.7); }
+.va-deco__spark--green { top: 68%; left: 84%; background: var(--va-green); box-shadow: 0 0 12px rgba(160, 218, 38, 0.6); animation-delay: -2.5s; }
+.va-deco__spark--coral { top: 80%; left: 20%; background: var(--va-coral); box-shadow: 0 0 12px rgba(255, 99, 61, 0.6); animation-delay: -4.5s; }
+
+.va-legend {
+  position: absolute;
+  bottom: 58px;
+  left: 26px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 11px;
+  max-width: 470px;
+  padding: 7px 11px;
+  border: 1px solid var(--va-line-soft);
+  border-radius: 10px;
+  background: rgba(9, 13, 16, 0.48);
+  color: var(--va-text-2);
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.va-legend__title {
+  margin-right: 1px;
+  color: var(--va-text-3);
+  font-family: var(--va-font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.va-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--va-text-2);
+  font-size: 9.5px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.va-legend__item i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.22);
+}
+
+@keyframes va-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes va-orbit-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes va-spark {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
 }
 
 .va-hover-card__demo {
@@ -1745,6 +1940,16 @@ kbd {
   .va-hints {
     bottom: 18px;
     left: 20px;
+  }
+
+  .va-legend {
+    bottom: 54px;
+    left: 20px;
+    max-width: 420px;
+  }
+
+  .va-deco__orbit--inner {
+    display: none;
   }
 
   .va-sheet {

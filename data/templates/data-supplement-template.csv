@@ -1,0 +1,2 @@
+country_code,visa_type,route_code,category_code,stay_days,stay_unit,stay_rule,entry_scope,validity_note,application_channel,summary,conditions_text,fee_name,fee_amount,fee_currency,fee_unit,fee_notes,document_name,document_requirement,document_required,document_notes,timing_type,timing_min_days,timing_max_days,timing_notes,rule_field,rule_operator,rule_value,source_title,source_publisher,source_url,source_accessed_at,verified_at,data_status
+XX,TOURISM,XX-TOURISM-CN-ORD,MUTUAL_FREE,30,DAY,PER_ENTRY,MULTIPLE,,,,,,,,,,,,,,,,,,,,,,,,,,,
